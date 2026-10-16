@@ -12,6 +12,9 @@ description='''
 ${mod_description}
 '''
 
+[[mixins]]
+config="hungergames.mixins.json"
+
 [[dependencies.${mod_id}]]
     modId="neoforge"
     type="required"

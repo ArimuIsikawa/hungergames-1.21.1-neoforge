@@ -1,8 +1,12 @@
 # Hunger Games
 
-Основа мода Hunger Games для **Minecraft 1.21.1 / NeoForge 21.1.259**.
+Серверный мод Hunger Games для **Minecraft 1.21.1 / NeoForge 21.1.259**.
 Пакет и Maven group: `ru.studhub.hungergames`, идентификатор мода: `hungergames`.
-Точка входа подготовлена для разработки игровой логики.
+Ежедневные бои на отдельной карте: набор, ожидание, сундуки с лутом, сужение границы,
+наблюдение, возврат игроков и случайные награды. Установка Hunger Games на клиент не требуется.
+
+Перед первым событием установите карту и заполните JSON-пулы по [инструкции настройки](docs/CONFIGURATION.md).
+Состояние выполнения работ отмечено в [плане реализации](IMPLEMENTATION_PLAN.md).
 
 ## Требования
 
@@ -21,6 +25,7 @@
 .\gradlew.bat runClient
 .\gradlew.bat runServer
 .\gradlew.bat runData
+.\gradlew.bat runGameTestServer
 ```
 
 - `build` — собирает мод в `build/libs/hungergames-1.0.0.jar`.
@@ -29,6 +34,7 @@
   Для первого запуска ознакомьтесь с EULA Minecraft и при согласии примите её в `run/eula.txt`.
 - `runData` — запускает генераторы данных; результаты сохраняются в `src/generated/resources`.
   Собственные генераторы пока не зарегистрированы.
+- `runGameTestServer` — проверяет игровой цикл на отдельном тестовом сервере в `build/gametest`.
 
 В Linux/macOS используйте `./gradlew` вместо `.\gradlew.bat`.
 Рабочая папка запусков — `run/`. Игровые файлы и результаты сборки исключены из Git.
@@ -39,10 +45,15 @@
 gradle.properties                              версии и свойства мода
 build.gradle                                   сборка и конфигурации запуска
 src/main/java/ru/studhub/hungergames/
-    HungerGames.java                           общая точка входа @Mod
+    HungerGames.java                           точка входа @Mod
+    event/, arena/, player/                    события, карта и состояние игроков
+    command/, config/, loot/, reward/           команды, настройки, лут и награды
+    storage/, compat/, mixin/                   журнал возвратов, Curios и защита карты
 src/main/templates/META-INF/neoforge.mods.toml   шаблон метаданных
 src/main/resources/assets/hungergames/          клиентские ресурсы и переводы
 src/generated/resources/                       результаты генерации данных
+src/test/java/                                 модульные тесты
+src/gameTest/                                  отдельный мод интеграционных тестов
 ```
 
 Имя, версия, автор, описание и лицензия задаются в `gradle.properties` и автоматически
@@ -54,5 +65,6 @@ src/generated/resources/                       результаты генера
 
 ## Документация
 
+- [Настройка карты, команды и JSON-пулы](docs/CONFIGURATION.md)
 - [NeoForge](https://docs.neoforged.net/)
 - [Parchment](https://parchmentmc.org/docs/getting-started)

@@ -1,0 +1,9 @@
+modLoader="javafml"
+loaderVersion="[4,)"
+license="All Rights Reserved"
+[[mods]]
+modId="hungergames_tests"
+version="1.0.0"
+displayName="Hunger Games integration tests"
+[[mixins]]
+config="hungergames-tests.mixins.json"

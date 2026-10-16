@@ -1,0 +1,7 @@
+{
+  "required": true,
+  "package": "ru.studhub.hungergames.test.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": ["TestProfileCacheMixin"],
+  "injectors": {"defaultRequire": 1}
+}

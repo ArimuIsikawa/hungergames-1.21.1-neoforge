@@ -20,17 +20,33 @@ sourceSets.main.resources {
 
     // Exclude common development only resources from finalized outputs
     exclude("**/*.bbmodel") // BlockBench project files
-    exclude("src/generated/**/.cache") // datagen cache files
+    exclude("**/.cache/**") // datagen cache files
     exclude("**/.gitkeep") // empty folder placeholders
 }
 
 repositories {
+    mavenCentral()
     // Add here additional repositories if required by some of the dependencies below.
+}
+
+sourceSets {
+    gameTest {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
 }
 
 base {
     archivesName = mod_id
 }
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4'
+    testImplementation 'com.google.code.gson:gson:2.10.1'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+tasks.named('test', Test) { useJUnitPlatform() }
+tasks.named('jar', Jar) { includeEmptyDirs = false }
 
 // Mojang ships Java 21 to end users in 1.21.1, so mods should target Java 21.
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
@@ -98,6 +114,20 @@ neoForge {
             sourceSet(sourceSets.main)
         }
     }
+}
+
+neoForge.addModdingDependenciesTo(sourceSets.gameTest)
+neoForge.mods {
+    hungergames_tests { sourceSet(sourceSets.gameTest) }
+}
+neoForge.runs.configureEach {
+    loadedMods = [neoForge.mods.hungergames]
+}
+neoForge.runs.gameTestServer {
+    loadedMods = [neoForge.mods.hungergames, neoForge.mods.hungergames_tests]
+    sourceSet = sourceSets.gameTest
+    gameDirectory = layout.buildDirectory.dir(providers.gradleProperty('hgFullPack').isPresent() ? 'gametest-fullpack' : 'gametest')
+    logLevel = org.slf4j.event.Level.INFO
 }
 
 // 'localRuntime' declares a dependency that is present for runtime testing but

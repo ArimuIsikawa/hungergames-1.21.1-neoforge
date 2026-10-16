@@ -1,0 +1,34 @@
+{
+  "dimensions": {
+    "minecraft:overworld": {
+      "type": "minecraft:overworld",
+      "generator": {
+        "type": "minecraft:flat",
+        "settings": {
+          "biome": "minecraft:plains",
+          "layers": [
+            {"block": "minecraft:bedrock", "height": 1},
+            {"block": "minecraft:dirt", "height": 2},
+            {"block": "minecraft:grass_block", "height": 1}
+          ],
+          "lakes": false,
+          "features": false,
+          "structure_overrides": []
+        }
+      }
+    },
+    "hungergames:arena": {
+      "type": "minecraft:overworld",
+      "generator": {
+        "type": "minecraft:flat",
+        "settings": {
+          "biome": "minecraft:the_void",
+          "layers": [],
+          "lakes": false,
+          "features": false,
+          "structure_overrides": []
+        }
+      }
+    }
+  }
+}
