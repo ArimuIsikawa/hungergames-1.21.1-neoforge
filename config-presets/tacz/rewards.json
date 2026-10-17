@@ -1,0 +1,1440 @@
+{
+  "schemaVersion": 1,
+  "minRolls": 1,
+  "maxRolls": 1,
+  "entries": [],
+  "guaranteed": [
+    {
+      "stack": {
+        "id": "minecraft:iron_ingot",
+        "count": 1
+      },
+      "minCount": 16,
+      "maxCount": 32
+    },
+    {
+      "stack": {
+        "id": "minecraft:gold_ingot",
+        "count": 1
+      },
+      "minCount": 8,
+      "maxCount": 16
+    },
+    {
+      "stack": {
+        "id": "minecraft:diamond",
+        "count": 1
+      },
+      "minCount": 2,
+      "maxCount": 5
+    },
+    {
+      "stack": {
+        "id": "minecraft:enchanted_golden_apple",
+        "count": 1
+      },
+      "minCount": 1,
+      "maxCount": 1
+    }
+  ],
+  "pools": [
+    {
+      "minRolls": 1,
+      "maxRolls": 1,
+      "entries": [
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:glock_17",
+                "GunFireMode": "SEMI",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:9mm"
+                  }
+                }
+              },
+              "minCount": 24,
+              "maxCount": 48
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:9mm"
+                  }
+                }
+              },
+              "minCount": 24,
+              "maxCount": 48
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:m1911",
+                "GunFireMode": "SEMI",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:45acp"
+                  }
+                }
+              },
+              "minCount": 20,
+              "maxCount": 40
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:45acp"
+                  }
+                }
+              },
+              "minCount": 20,
+              "maxCount": 40
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:m9a4",
+                "GunFireMode": "SEMI",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:9mm"
+                  }
+                }
+              },
+              "minCount": 24,
+              "maxCount": 48
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:9mm"
+                  }
+                }
+              },
+              "minCount": 24,
+              "maxCount": 48
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:deagle",
+                "GunFireMode": "SEMI",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:50ae"
+                  }
+                }
+              },
+              "minCount": 7,
+              "maxCount": 21
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:50ae"
+                  }
+                }
+              },
+              "minCount": 7,
+              "maxCount": 21
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:rhino357",
+                "GunFireMode": "SEMI",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:357mag"
+                  }
+                }
+              },
+              "minCount": 12,
+              "maxCount": 24
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:357mag"
+                  }
+                }
+              },
+              "minCount": 12,
+              "maxCount": 24
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:hk_mp5a5",
+                "GunFireMode": "AUTO",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:9mm"
+                  }
+                }
+              },
+              "minCount": 24,
+              "maxCount": 48
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:9mm"
+                  }
+                }
+              },
+              "minCount": 24,
+              "maxCount": 48
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:ump45",
+                "GunFireMode": "AUTO",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:45acp"
+                  }
+                }
+              },
+              "minCount": 20,
+              "maxCount": 40
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:45acp"
+                  }
+                }
+              },
+              "minCount": 20,
+              "maxCount": 40
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:uzi",
+                "GunFireMode": "AUTO",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:9mm"
+                  }
+                }
+              },
+              "minCount": 24,
+              "maxCount": 48
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:9mm"
+                  }
+                }
+              },
+              "minCount": 24,
+              "maxCount": 48
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:vector45",
+                "GunFireMode": "AUTO",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:45acp"
+                  }
+                }
+              },
+              "minCount": 20,
+              "maxCount": 40
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:45acp"
+                  }
+                }
+              },
+              "minCount": 20,
+              "maxCount": 40
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:p90",
+                "GunFireMode": "AUTO",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:57x28"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:57x28"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:ak47",
+                "GunFireMode": "AUTO",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:762x39"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:762x39"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:m4a1",
+                "GunFireMode": "AUTO",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:m16a4",
+                "GunFireMode": "BURST",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:hk416d",
+                "GunFireMode": "AUTO",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:aug",
+                "GunFireMode": "AUTO",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:scar_l",
+                "GunFireMode": "AUTO",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:scar_h",
+                "GunFireMode": "SEMI",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:308"
+                  }
+                }
+              },
+              "minCount": 20,
+              "maxCount": 40
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:308"
+                  }
+                }
+              },
+              "minCount": 20,
+              "maxCount": 40
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:qbz_95",
+                "GunFireMode": "AUTO",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:58x42"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:58x42"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:m870",
+                "GunFireMode": "SEMI",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:12g"
+                  }
+                }
+              },
+              "minCount": 8,
+              "maxCount": 16
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:12g"
+                  }
+                }
+              },
+              "minCount": 8,
+              "maxCount": 16
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:m1014",
+                "GunFireMode": "SEMI",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:12g"
+                  }
+                }
+              },
+              "minCount": 8,
+              "maxCount": 16
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:12g"
+                  }
+                }
+              },
+              "minCount": 8,
+              "maxCount": 16
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:spas_12",
+                "GunFireMode": "SEMI",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:12g"
+                  }
+                }
+              },
+              "minCount": 8,
+              "maxCount": 16
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:12g"
+                  }
+                }
+              },
+              "minCount": 8,
+              "maxCount": 16
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:db_long",
+                "GunFireMode": "SEMI",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:12g"
+                  }
+                }
+              },
+              "minCount": 8,
+              "maxCount": 16
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:12g"
+                  }
+                }
+              },
+              "minCount": 8,
+              "maxCount": 16
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:sks_tactical",
+                "GunFireMode": "SEMI",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:762x39"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:762x39"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:mk14",
+                "GunFireMode": "SEMI",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:308"
+                  }
+                }
+              },
+              "minCount": 20,
+              "maxCount": 40
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:308"
+                  }
+                }
+              },
+              "minCount": 20,
+              "maxCount": 40
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:kar98",
+                "GunFireMode": "SEMI",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:792x57"
+                  }
+                }
+              },
+              "minCount": 8,
+              "maxCount": 16
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:792x57"
+                  }
+                }
+              },
+              "minCount": 8,
+              "maxCount": 16
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:m700",
+                "GunFireMode": "SEMI",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:30_06"
+                  }
+                }
+              },
+              "minCount": 10,
+              "maxCount": 20
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:30_06"
+                  }
+                }
+              },
+              "minCount": 10,
+              "maxCount": 20
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:m249",
+                "GunFireMode": "AUTO",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:rpk",
+                "GunFireMode": "AUTO",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:762x39"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:762x39"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "minRolls": 1,
+      "maxRolls": 1,
+      "entries": [
+        {
+          "stack": {
+            "id": "minecraft:iron_helmet",
+            "count": 1
+          },
+          "weight": 3,
+          "minCount": 1,
+          "maxCount": 1
+        },
+        {
+          "stack": {
+            "id": "minecraft:diamond_helmet",
+            "count": 1
+          },
+          "weight": 2,
+          "minCount": 1,
+          "maxCount": 1
+        },
+        {
+          "stack": {
+            "id": "minecraft:netherite_helmet",
+            "count": 1
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1
+        }
+      ]
+    },
+    {
+      "minRolls": 1,
+      "maxRolls": 1,
+      "entries": [
+        {
+          "stack": {
+            "id": "minecraft:iron_chestplate",
+            "count": 1
+          },
+          "weight": 3,
+          "minCount": 1,
+          "maxCount": 1
+        },
+        {
+          "stack": {
+            "id": "minecraft:diamond_chestplate",
+            "count": 1
+          },
+          "weight": 2,
+          "minCount": 1,
+          "maxCount": 1
+        },
+        {
+          "stack": {
+            "id": "minecraft:netherite_chestplate",
+            "count": 1
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1
+        }
+      ]
+    },
+    {
+      "minRolls": 1,
+      "maxRolls": 1,
+      "entries": [
+        {
+          "stack": {
+            "id": "minecraft:iron_leggings",
+            "count": 1
+          },
+          "weight": 3,
+          "minCount": 1,
+          "maxCount": 1
+        },
+        {
+          "stack": {
+            "id": "minecraft:diamond_leggings",
+            "count": 1
+          },
+          "weight": 2,
+          "minCount": 1,
+          "maxCount": 1
+        },
+        {
+          "stack": {
+            "id": "minecraft:netherite_leggings",
+            "count": 1
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1
+        }
+      ]
+    },
+    {
+      "minRolls": 1,
+      "maxRolls": 1,
+      "entries": [
+        {
+          "stack": {
+            "id": "minecraft:iron_boots",
+            "count": 1
+          },
+          "weight": 3,
+          "minCount": 1,
+          "maxCount": 1
+        },
+        {
+          "stack": {
+            "id": "minecraft:diamond_boots",
+            "count": 1
+          },
+          "weight": 2,
+          "minCount": 1,
+          "maxCount": 1
+        },
+        {
+          "stack": {
+            "id": "minecraft:netherite_boots",
+            "count": 1
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1
+        }
+      ]
+    }
+  ]
+}

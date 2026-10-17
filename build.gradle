@@ -34,6 +34,9 @@ sourceSets {
         compileClasspath += sourceSets.main.output
         runtimeClasspath += sourceSets.main.output
     }
+    dedicatedTest {
+        compileClasspath += sourceSets.main.output
+    }
 }
 
 base {
@@ -117,6 +120,12 @@ neoForge {
 }
 
 neoForge.addModdingDependenciesTo(sourceSets.gameTest)
+neoForge.addModdingDependenciesTo(sourceSets.dedicatedTest)
+tasks.register('dedicatedTestJar', Jar) {
+    description = 'Builds the opt-in acceptance fixture for a backed-up dedicated test server.'
+    archiveClassifier = 'server-tests'
+    from sourceSets.dedicatedTest.output
+}
 neoForge.mods {
     hungergames_tests { sourceSet(sourceSets.gameTest) }
 }
@@ -126,7 +135,8 @@ neoForge.runs.configureEach {
 neoForge.runs.gameTestServer {
     loadedMods = [neoForge.mods.hungergames, neoForge.mods.hungergames_tests]
     sourceSet = sourceSets.gameTest
-    gameDirectory = layout.buildDirectory.dir(providers.gradleProperty('hgFullPack').isPresent() ? 'gametest-fullpack' : 'gametest')
+    gameDirectory = layout.buildDirectory.dir(providers.gradleProperty('hgTestDirectory')
+            .getOrElse(providers.gradleProperty('hgFullPack').isPresent() ? 'gametest-fullpack' : 'gametest'))
     logLevel = org.slf4j.event.Level.INFO
 }
 
@@ -151,6 +161,7 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             minecraft_version      : minecraft_version,
             minecraft_version_range: minecraft_version_range,
             neo_version            : neo_version,
+            neo_version_range      : neo_version_range,
             loader_version_range   : loader_version_range,
             mod_id                 : mod_id,
             mod_name               : mod_name,

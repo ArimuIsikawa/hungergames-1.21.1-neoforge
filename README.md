@@ -1,11 +1,13 @@
 # Hunger Games
 
-Серверный мод Hunger Games для **Minecraft 1.21.1 / NeoForge 21.1.259**.
+Серверный мод Hunger Games для **Minecraft 1.21.1 / NeoForge 21.1.244+**.
+Сборка использует API NeoForge 21.1.250.
 Пакет и Maven group: `ru.studhub.hungergames`, идентификатор мода: `hungergames`.
 Ежедневные бои на отдельной карте: набор, ожидание, сундуки с лутом, сужение границы,
 наблюдение, возврат игроков и случайные награды. Установка Hunger Games на клиент не требуется.
 
 Перед первым событием установите карту и заполните JSON-пулы по [инструкции настройки](docs/CONFIGURATION.md).
+Для сборки с TaCZ подготовлен [пул оружия с патронами, брони и еды](config-presets/tacz/README.md).
 Состояние выполнения работ отмечено в [плане реализации](IMPLEMENTATION_PLAN.md).
 
 ## Требования
@@ -54,6 +56,7 @@ src/main/resources/assets/hungergames/          клиентские ресур�
 src/generated/resources/                       результаты генерации данных
 src/test/java/                                 модульные тесты
 src/gameTest/                                  отдельный мод интеграционных тестов
+src/dedicatedTest/                             проверка на готовой карте выделенного сервера
 ```
 
 Имя, версия, автор, описание и лицензия задаются в `gradle.properties` и автоматически
@@ -66,5 +69,6 @@ src/gameTest/                                  отдельный мод инт�
 ## Документация
 
 - [Настройка карты, команды и JSON-пулы](docs/CONFIGURATION.md)
+- [Проверка на предоставленном тестовом сервере](docs/TEST_SERVER.md)
 - [NeoForge](https://docs.neoforged.net/)
 - [Parchment](https://parchmentmc.org/docs/getting-started)

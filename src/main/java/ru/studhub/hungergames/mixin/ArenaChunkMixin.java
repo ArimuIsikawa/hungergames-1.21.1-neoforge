@@ -26,7 +26,8 @@ public abstract class ArenaChunkMixin {
         if (getLevel() instanceof ServerLevel && HungerGames.controller() != null
                 && HungerGames.controller().protectedLevel(getLevel())) {
             var block = state.getBlock();
-            if (getLevel().getBlockState(pos).getBlock() == block && (block instanceof DoorBlock || block instanceof TrapDoorBlock
+            var previous = getLevel().getBlockState(pos);
+            if (previous.getBlock() == block && (previous.hasBlockEntity() || block instanceof DoorBlock || block instanceof TrapDoorBlock
                     || block instanceof ButtonBlock || block instanceof LeverBlock)) return;
             callback.setReturnValue(null);
         }

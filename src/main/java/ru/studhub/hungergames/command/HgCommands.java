@@ -56,6 +56,8 @@ public final class HgCommands {
                             c.scanChests();
                             ctx.getSource().sendSuccess(() -> EventController.message("Поиск сундуков запущен."), true);
                         })))
+                .then(Commands.literal("convert_minecarts").requires(source -> source.hasPermission(2))
+                        .executes(action((ctx, c) -> c.migrateContainers())))
                 .then(Commands.literal("set_lobby").requires(source -> source.hasPermission(2))
                         .executes(action((ctx, c) -> {
                             c.requireIdle();

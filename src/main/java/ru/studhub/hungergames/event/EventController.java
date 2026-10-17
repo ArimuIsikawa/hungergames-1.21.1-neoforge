@@ -6,6 +6,8 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.util.random.RandomGenerator;
 import net.minecraft.core.BlockPos;
@@ -15,11 +17,18 @@ import net.minecraft.network.protocol.game.ServerboundClientCommandPacket;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.level.ServerBossEvent;
+import net.minecraft.world.BossEvent;
+import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
+import net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket;
+import net.minecraft.network.protocol.game.ClientboundSetTitlesAnimationPacket;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import ru.studhub.hungergames.HungerGames;
 import ru.studhub.hungergames.arena.ArenaService;
+import ru.studhub.hungergames.arena.ArenaEnvironment;
 import ru.studhub.hungergames.arena.BorderService;
 import ru.studhub.hungergames.config.ConfigManager;
 import ru.studhub.hungergames.config.HgSettings;
@@ -34,12 +43,14 @@ import com.mojang.serialization.JsonOps;
 import net.minecraft.world.effect.MobEffectInstance;
 
 public final class EventController {
-    public enum Phase { IDLE, RECRUITING, COUNTDOWN, PREPARING, BATTLE, FINISHING }
+    public enum Phase { IDLE, RECRUITING, COUNTDOWN, PREPARING, WARMUP, BATTLE, FINISHING }
+    private static final int TRANSITION_TICKS = 100;
     private static final String RECEIPT = "hungergames_return_receipt";
     private final MinecraftServer server;
     private final ConfigManager configs = new ConfigManager();
     private final EventJournal journal;
     private final ArenaService arena;
+    private final ArenaEnvironment environment;
     private final BorderService border = new BorderService();
     private final RandomGenerator random = RandomGenerator.getDefault();
     private volatile ConfigManager.Snapshot active;
@@ -49,6 +60,10 @@ public final class EventController {
     private long registrationDeadline;
     private long countdownDeadline = -1;
     private long battleStarted;
+    private long warmupDeadline;
+    private long finishDeadline = -1;
+    private final Map<UUID, Position> frozenSpawns = new HashMap<>();
+    private final ServerBossEvent lobbyTimer = new ServerBossEvent(Component.empty(), BossEvent.BossBarColor.YELLOW, BossEvent.BossBarOverlay.PROGRESS);
     private String configError;
     private boolean stopped;
     private boolean forcedStart;
@@ -64,6 +79,7 @@ public final class EventController {
         this.server = server;
         journal = new EventJournal(server);
         arena = new ArenaService(server);
+        environment = new ArenaEnvironment(server);
         try { reload(); }
         catch (IOException | RuntimeException e) {
             configError = e.getMessage();
@@ -75,7 +91,8 @@ public final class EventController {
     public HgSettings settings() { return active == null ? configs.snapshot().settings() : active.settings(); }
     public PlayerRecord record(ServerPlayer player) { return journal.data.players.get(player.getStringUUID()); }
     public boolean engaged(ServerPlayer player) { PlayerRecord r = record(player); return r != null && r.role != Role.RETURNING; }
-    public boolean live(ServerPlayer player) { PlayerRecord r = record(player); return r != null && r.role == Role.ALIVE; }
+    public boolean live(ServerPlayer player) { PlayerRecord r = record(player); return phase == Phase.BATTLE && r != null && r.role == Role.ALIVE; }
+    public Position frozenPosition(ServerPlayer player) { return phase == Phase.WARMUP ? frozenSpawns.get(player.getUUID()) : null; }
     public boolean protectedLevel(Level level) {
         return phase != Phase.IDLE && active != null && level.dimension().location().toString().equals(active.settings().arenaDimension);
     }
@@ -87,6 +104,7 @@ public final class EventController {
     public void reload() throws IOException {
         requireIdle();
         configs.reload(server);
+        environment.configure(arena.level(configs.snapshot().settings()));
         configError = null;
     }
 
@@ -131,6 +149,7 @@ public final class EventController {
         player.sendSystemMessage(message("Вы в очереди. Выйти: /hg leave"));
         announceCount();
         updateCountdown();
+        updateLobbyTimer();
     }
 
     private List<PlayerRecord> queued() { return journal.data.players.values().stream().filter(r -> r.role == Role.QUEUED).toList(); }
@@ -158,7 +177,7 @@ public final class EventController {
         int count = queued().size();
         if (!forced && count < candidate.settings().minPlayers) throw new IllegalStateException("Недостаточно участников.");
         arena.validate(candidate.settings(), count);
-        if (candidate.chests().entries().isEmpty() || candidate.rewards().entries().isEmpty()) {
+        if (candidate.chests().isEmpty() || candidate.rewards().isEmpty()) {
             throw new IllegalStateException("Заполните chest_loot.json и rewards.json, затем /hg reload (вне события).");
         }
         for (PlayerRecord record : queued()) {
@@ -176,12 +195,12 @@ public final class EventController {
         broadcast("Подготовка арены. Участников: " + count + (forced ? " (принудительный старт)." : "."));
         arena.scan(settings(), active.chests(), random, error -> {
             if (error != null) { cancel(error); return; }
-            try { beginBattle(); }
+            try { beginWarmup(); }
             catch (RuntimeException e) { HungerGames.LOGGER.error("Cannot start battle", e); cancel(e.getMessage()); }
         });
     }
 
-    private void beginBattle() {
+    private void beginWarmup() {
         List<PlayerRecord> players = queued();
         if (!forcedStart && players.size() < settings().minPlayers) throw new IllegalStateException("Участников стало меньше минимума во время подготовки");
         // Revalidate after the incremental scan: players may have left while it was running.
@@ -199,13 +218,14 @@ public final class EventController {
             record.enteredBattle = true;
         }
         journal.save();
-        phase = Phase.BATTLE;
-        battleStarted = seconds;
-        border.start(arena.level(settings()), settings().border, seconds);
+        phase = Phase.WARMUP;
+        warmupDeadline = ticks + TRANSITION_TICKS;
         int slot = 1;
         for (PlayerRecord record : players) {
             ServerPlayer player = online(record);
-            settings().spawns.get(slot++).teleport(player);
+            Position spawn = settings().spawns.get(slot++);
+            frozenSpawns.put(player.getUUID(), spawn);
+            spawn.teleport(player);
             player.setGameMode(GameType.ADVENTURE);
             player.setHealth(player.getMaxHealth());
             player.getFoodData().setFoodLevel(20);
@@ -214,8 +234,27 @@ public final class EventController {
             player.clearFire();
             player.invulnerableTime = 0;
             ((ServerPlayerAccess) player).hungergames$setSpawnInvulnerableTime(0);
-            border.sync(player);
         }
+        showWarmup(5);
+        updateLobbyTimer();
+    }
+
+    private void beginBattle() {
+        frozenSpawns.clear();
+        journal.data.startingPlayers = alive().size();
+        journal.save();
+        phase = Phase.BATTLE;
+        battleStarted = seconds;
+        border.start(arena.level(settings()), settings().border, seconds);
+        for (PlayerRecord record : alive()) {
+            ServerPlayer player = online(record);
+            if (player != null) {
+                player.invulnerableTime = 0;
+                ((ServerPlayerAccess) player).hungergames$setSpawnInvulnerableTime(0);
+                title(player, "Бой начался!", "Удачи!", 30);
+            }
+        }
+        updateLobbyTimer();
         broadcast(settings().battleMessage);
     }
 
@@ -245,12 +284,14 @@ public final class EventController {
             restore(player);
         }
         if (phase == Phase.RECRUITING || phase == Phase.COUNTDOWN) { updateCountdown(); announceCount(); }
+        updateLobbyTimer();
     }
 
     public void eliminate(ServerPlayer player, boolean leave) {
         PlayerRecord record = record(player);
         if (record == null || record.role != Role.ALIVE) return;
         PlayerInventory.drop(player);
+        frozenSpawns.remove(player.getUUID());
         record.role = leave ? Role.RETURNING : Role.ELIMINATED;
         journal.save();
         broadcast(record.name + " выбывает. Осталось: " + alive().size());
@@ -267,6 +308,7 @@ public final class EventController {
             if (player.isAlive()) restore(player);
         }
         if (phase == Phase.RECRUITING || phase == Phase.COUNTDOWN) updateCountdown();
+        updateLobbyTimer();
     }
 
     public void respawn(ServerPlayer player) {
@@ -284,9 +326,28 @@ public final class EventController {
     public void tick() {
         if (stopped) return;
         ticks++;
+        if (ticks % 20 == 0) environment.tick();
         arena.tick();
+        if (phase == Phase.WARMUP) {
+            for (PlayerRecord record : alive()) {
+                ServerPlayer player = online(record);
+                Position spawn = player == null ? null : frozenPosition(player);
+                if (spawn == null) continue;
+                player.setDeltaMovement(Vec3.ZERO);
+                player.fallDistance = 0;
+                if (player.position().distanceToSqr(spawn.vector()) > 1.0E-8) {
+                    player.connection.teleport(spawn.x(), spawn.y(), spawn.z(), player.getYRot(), player.getXRot());
+                }
+            }
+            long remaining = warmupDeadline - ticks;
+            if (remaining <= 0) beginBattle();
+            else if (remaining % 20 == 0) showWarmup((int) (remaining / 20));
+        }
+        if (phase == Phase.BATTLE && alive().size() <= 1) finish();
+        if (phase == Phase.FINISHING && finishDeadline >= 0 && ticks >= finishDeadline) cleanup();
         if (ticks % 20 != 0) return;
         seconds++;
+        updateLobbyTimer();
         for (PlayerRecord record : List.copyOf(journal.data.players.values())) {
             ServerPlayer player = online(record);
             if (player == null) continue;
@@ -319,8 +380,7 @@ public final class EventController {
             }
         } else if (phase == Phase.BATTLE) {
             border.update(seconds);
-            if (alive().size() <= 1) finish();
-            else if (settings.maxMatchSeconds > 0 && seconds - battleStarted >= settings.maxMatchSeconds) cancel("Истекло время матча. Победителя нет.");
+            if (settings.maxMatchSeconds > 0 && seconds - battleStarted >= settings.maxMatchSeconds) cancel("Истекло время матча. Победителя нет.");
         }
     }
 
@@ -329,15 +389,22 @@ public final class EventController {
         PlayerRecord winner = survivors.isEmpty() ? null : survivors.getFirst();
         if (winner != null) winner.reward = RewardService.prepare(server, active, journal.data.startingPlayers, random);
         phase = Phase.FINISHING;
+        finishDeadline = winner == null ? ticks : ticks + TRANSITION_TICKS;
         for (PlayerRecord record : journal.data.players.values()) record.role = Role.RETURNING;
         journal.save();
         broadcast(winner == null ? "Бой завершён без победителя." : settings().winnerMessage.replace("{player}", winner.name));
-        cleanup();
+        if (winner != null) {
+            for (PlayerRecord record : journal.data.players.values()) {
+                ServerPlayer player = online(record);
+                if (player != null) title(player, "Поздравляем, " + winner.name + "!", "Возвращение через 5 секунд", 100);
+            }
+        } else cleanup();
     }
 
     public void cancel(String reason) {
         if (phase == Phase.IDLE && !arena.busy()) throw new IllegalStateException("Активного события нет.");
         phase = Phase.FINISHING;
+        finishDeadline = -1;
         for (PlayerRecord record : journal.data.players.values()) record.role = Role.RETURNING;
         journal.save();
         broadcast(reason == null ? "Событие отменено администратором." : reason);
@@ -345,6 +412,9 @@ public final class EventController {
     }
 
     private void cleanup() {
+        finishDeadline = -1;
+        frozenSpawns.clear();
+        lobbyTimer.removeAllPlayers();
         arena.release();
         border.reset();
         for (PlayerRecord record : List.copyOf(journal.data.players.values())) {
@@ -362,6 +432,7 @@ public final class EventController {
     public void restore(ServerPlayer player) {
         PlayerRecord record = record(player);
         if (record == null || record.role != Role.RETURNING || !player.isAlive()) return;
+        if (phase == Phase.FINISHING && finishDeadline > ticks) return;
         if (!record.token.equals(player.getPersistentData().getString(RECEIPT))) {
             Position destination = record.origin;
             ServerLevel target = destination.level(server);
@@ -403,6 +474,55 @@ public final class EventController {
 
     public void syncBorder(ServerPlayer player) { border.sync(player); }
 
+    private void showWarmup(int seconds) {
+        for (PlayerRecord record : alive()) {
+            ServerPlayer player = online(record);
+            if (player != null) title(player, Integer.toString(seconds), "Приготовьтесь к бою", 25);
+        }
+    }
+
+    private static void title(ServerPlayer player, String text, String subtitle, int stay) {
+        player.connection.send(new ClientboundSetTitlesAnimationPacket(0, stay, 0));
+        player.connection.send(new ClientboundSetSubtitleTextPacket(Component.literal(subtitle)));
+        player.connection.send(new ClientboundSetTitleTextPacket(Component.literal(text)));
+    }
+
+    private static String duration(long seconds) {
+        return String.format(java.util.Locale.ROOT, "%02d:%02d", Math.max(0, seconds) / 60, Math.max(0, seconds) % 60);
+    }
+
+    private void updateLobbyTimer() {
+        boolean visible = phase == Phase.RECRUITING || phase == Phase.COUNTDOWN || phase == Phase.PREPARING || phase == Phase.WARMUP;
+        for (ServerPlayer player : List.copyOf(lobbyTimer.getPlayers())) {
+            PlayerRecord record = record(player);
+            if (!visible || record == null || (record.role != Role.QUEUED && !(phase == Phase.WARMUP && record.role == Role.ALIVE))) lobbyTimer.removePlayer(player);
+        }
+        if (!visible) return;
+        List<PlayerRecord> players = phase == Phase.WARMUP ? alive() : queued();
+        for (PlayerRecord record : players) {
+            ServerPlayer player = online(record);
+            if (player != null) lobbyTimer.addPlayer(player);
+        }
+        long remaining;
+        String text;
+        if (phase == Phase.WARMUP) {
+            remaining = Math.max(0, (warmupDeadline - ticks + 19) / 20);
+            text = "Начало боя через " + remaining;
+        } else if (phase == Phase.PREPARING) {
+            remaining = 0;
+            text = "Подготовка карты…";
+        } else if (countdownDeadline >= 0) {
+            remaining = Math.max(0, countdownDeadline - seconds);
+            text = "До начала игры: " + duration(remaining) + " | Участников: " + players.size() + "/" + settings().maxPlayers;
+        } else {
+            remaining = Math.max(0, registrationDeadline - seconds);
+            text = "Ожидание игроков: " + players.size() + "/" + settings().minPlayers + " | До закрытия набора: " + duration(remaining);
+        }
+        lobbyTimer.setName(Component.literal(text));
+        int total = phase == Phase.WARMUP ? 5 : countdownDeadline >= 0 ? settings().countdownSeconds : settings().registrationSeconds;
+        lobbyTimer.setProgress(Math.clamp((float) remaining / Math.max(1, total), 0, 1));
+    }
+
     public void scanChests() {
         requireIdle();
         arena.scan(settings(), null, random, error -> {
@@ -411,11 +531,23 @@ public final class EventController {
         });
     }
 
+    public void migrateContainers() {
+        requireIdle();
+        if (!arena.level(settings()).players().isEmpty()) throw new IllegalStateException("Выведите игроков из арены перед заменой контейнеров.");
+        arena.migrateContainers(settings(), error -> {
+            arena.release();
+            broadcast(error == null ? "Вагонетки заменены сундуками, бочки очищены и исключены из заполнения." : error);
+        });
+    }
+
     public void stop() {
         if (phase != Phase.IDLE || arena.busy()) cancel("Событие завершено: сервер останавливается.");
         journal.save();
         stopped = true;
+        environment.close();
     }
+
+    public void syncEnvironment(ServerPlayer player) { environment.sync(player); }
 
     public String status() {
         String readiness = "готово";
@@ -423,7 +555,7 @@ public final class EventController {
             try {
                 arena.validate(settings(), settings().maxPlayers);
                 var snapshot = active == null ? configs.snapshot() : active;
-                if (snapshot.chests().entries().isEmpty() || snapshot.rewards().entries().isEmpty()) readiness = "заполните JSON-пулы";
+                if (snapshot.chests().isEmpty() || snapshot.rewards().isEmpty()) readiness = "заполните JSON-пулы";
             } catch (RuntimeException e) { readiness = e.getMessage(); }
         } else readiness = configError;
         return "Состояние: " + phase + "; в очереди: " + queued().size() + "; живых: " + alive().size()

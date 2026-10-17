@@ -1,0 +1,12 @@
+modLoader="javafml"
+loaderVersion="[1,)"
+license="All Rights Reserved"
+[[mods]]
+modId="hungergames_acceptance"
+version="1.0.0"
+displayName="Hunger Games Dedicated Server Acceptance Tests"
+[[dependencies.hungergames_acceptance]]
+modId="hungergames"
+type="required"
+versionRange="[1.0.0,)"
+side="SERVER"

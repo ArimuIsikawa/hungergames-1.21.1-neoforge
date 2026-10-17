@@ -2,16 +2,15 @@ package ru.studhub.hungergames.event;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.block.ButtonBlock;
-import net.minecraft.world.level.block.DoorBlock;
-import net.minecraft.world.level.block.LeverBlock;
-import net.minecraft.world.level.block.TrapDoorBlock;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.vehicle.MinecartChest;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.CommandEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.EntityTravelToDimensionEvent;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
@@ -24,7 +23,6 @@ import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.event.server.ServerStoppingEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import ru.studhub.hungergames.HungerGames;
-import ru.studhub.hungergames.arena.ArenaService;
 import ru.studhub.hungergames.command.HgCommands;
 
 public final class ServerEvents {
@@ -36,16 +34,31 @@ public final class ServerEvents {
         if (c != null) c.tick();
     }
     @SubscribeEvent public void login(PlayerEvent.PlayerLoggedInEvent event) {
-        if (event.getEntity() instanceof ServerPlayer player && HungerGames.controller() != null) HungerGames.controller().restore(player);
+        if (event.getEntity() instanceof ServerPlayer player && HungerGames.controller() != null) {
+            HungerGames.controller().restore(player);
+            HungerGames.controller().syncEnvironment(player);
+        }
     }
     @SubscribeEvent public void logout(PlayerEvent.PlayerLoggedOutEvent event) {
         if (event.getEntity() instanceof ServerPlayer player && HungerGames.controller() != null) HungerGames.controller().logout(player);
     }
     @SubscribeEvent public void respawn(PlayerEvent.PlayerRespawnEvent event) {
-        if (event.getEntity() instanceof ServerPlayer player && HungerGames.controller() != null) HungerGames.controller().respawn(player);
+        if (event.getEntity() instanceof ServerPlayer player && HungerGames.controller() != null) {
+            HungerGames.controller().respawn(player);
+            HungerGames.controller().syncEnvironment(player);
+        }
     }
     @SubscribeEvent public void dimension(PlayerEvent.PlayerChangedDimensionEvent event) {
-        if (event.getEntity() instanceof ServerPlayer player && HungerGames.controller() != null) HungerGames.controller().syncBorder(player);
+        if (event.getEntity() instanceof ServerPlayer player && HungerGames.controller() != null) {
+            HungerGames.controller().syncBorder(player);
+            HungerGames.controller().syncEnvironment(player);
+        }
+    }
+    @SubscribeEvent public void mobJoin(EntityJoinLevelEvent event) {
+        EventController c = HungerGames.controller();
+        if (!event.getLevel().isClientSide() && c != null && c.arenaLevel(event.getLevel()) && event.getEntity() instanceof Mob) {
+            event.setCanceled(true);
+        }
     }
     @SubscribeEvent public void clonePlayer(PlayerEvent.Clone event) {
         String token = event.getOriginal().getPersistentData().getString("hungergames_return_receipt");
@@ -91,10 +104,11 @@ public final class ServerEvents {
         EventController c = HungerGames.controller();
         if (c == null || !c.protectedLevel(player.level())) return;
         if (!c.live(player)) { event.setCanceled(true); return; }
-        var block = player.level().getBlockState(event.getPos()).getBlock();
-        if (!ArenaService.allowed(player.serverLevel(), event.getPos(), c.settings())
-                && !(block instanceof DoorBlock) && !(block instanceof TrapDoorBlock)
-                && !(block instanceof ButtonBlock) && !(block instanceof LeverBlock)) event.setUseBlock(TriState.FALSE);
+        if (!player.isSecondaryUseActive()
+                && player.level().getBlockState(event.getPos()).getMenuProvider(player.level(), event.getPos()) != null) {
+            // Open the block's menu before a held weapon/item can consume the interaction.
+            event.setUseItem(TriState.FALSE);
+        }
     }
     @SubscribeEvent public void rightClickItem(PlayerInteractEvent.RightClickItem event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
@@ -102,10 +116,14 @@ public final class ServerEvents {
         if (c != null && c.protectedLevel(player.level()) && !c.live(player)) event.setCanceled(true);
     }
     @SubscribeEvent public void interactEntity(PlayerInteractEvent.EntityInteract event) {
-        if (HungerGames.controller() != null && HungerGames.controller().protectedLevel(event.getLevel())) event.setCanceled(true);
+        EventController c = HungerGames.controller();
+        if (c != null && c.protectedLevel(event.getLevel()) && (!(event.getEntity() instanceof ServerPlayer player)
+                || !c.live(player) || !(event.getTarget() instanceof MinecartChest))) event.setCanceled(true);
     }
     @SubscribeEvent public void interactSpecific(PlayerInteractEvent.EntityInteractSpecific event) {
-        if (HungerGames.controller() != null && HungerGames.controller().protectedLevel(event.getLevel())) event.setCanceled(true);
+        EventController c = HungerGames.controller();
+        if (c != null && c.protectedLevel(event.getLevel()) && (!(event.getEntity() instanceof ServerPlayer player)
+                || !c.live(player) || !(event.getTarget() instanceof MinecartChest))) event.setCanceled(true);
     }
     @SubscribeEvent public void travel(EntityTravelToDimensionEvent event) {
         EventController c = HungerGames.controller();
