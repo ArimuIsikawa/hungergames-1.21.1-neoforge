@@ -40,6 +40,8 @@ public final class HgCommands {
                 .then(Commands.literal("leave").executes(action((ctx, c) -> c.leave(ctx.getSource().getPlayerOrException()))))
                 .then(Commands.literal("spectator").executes(action((ctx, c) -> c.spectator(ctx.getSource().getPlayerOrException()))))
                 .then(Commands.literal("status").executes(action((ctx, c) -> ctx.getSource().sendSuccess(() -> EventController.message(c.status()), false))))
+                .then(Commands.literal("tp_center").requires(source -> source.hasPermission(2))
+                        .executes(action((ctx, c) -> c.teleportCenter(ctx.getSource().getPlayerOrException()))))
                 .then(Commands.literal("create_event").requires(source -> source.hasPermission(2))
                         .executes(action((ctx, c) -> c.open(false))))
                 .then(Commands.literal("start_event").requires(source -> source.hasPermission(2))

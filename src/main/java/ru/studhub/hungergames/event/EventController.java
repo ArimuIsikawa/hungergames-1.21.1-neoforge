@@ -474,6 +474,15 @@ public final class EventController {
 
     public void syncBorder(ServerPlayer player) { border.sync(player); }
 
+    public void teleportCenter(ServerPlayer player) {
+        Position destination = arena.center(settings(), player.getYRot(), player.getXRot());
+        destination.teleport(player);
+        if (frozenSpawns.containsKey(player.getUUID())) frozenSpawns.put(player.getUUID(), destination);
+        border.sync(player);
+        environment.sync(player);
+        player.sendSystemMessage(message("Вы перемещены в центр арены."));
+    }
+
     private void showWarmup(int seconds) {
         for (PlayerRecord record : alive()) {
             ServerPlayer player = online(record);

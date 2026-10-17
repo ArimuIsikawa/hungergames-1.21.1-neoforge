@@ -80,6 +80,7 @@ public final class EventGameTests {
     public static void eventLifecycle(GameTestHelper helper) throws Exception {
         EventController controller = HungerGames.controller();
         helper.assertTrue(controller != null, "Controller did not start");
+        if (controller.phase() != EventController.Phase.IDLE) controller.cancel(null);
         ServerLevel arena = helper.getLevel().getServer().getLevel(ResourceKey.create(Registries.DIMENSION,
                 ResourceLocation.parse("hungergames:arena")));
         helper.assertTrue(arena != null, "Server-only arena dimension is missing");
@@ -111,7 +112,8 @@ public final class EventGameTests {
         settings.border.delaySeconds = 0;
         settings.border.shrinkSeconds = 60;
         // Keep real-clock scheduling out of deterministic lifecycle tests.
-        settings.scheduleTime = "00:00";
+        settings.scheduleTime = java.time.LocalTime.now(java.time.ZoneId.of(settings.scheduleZone))
+                .plusHours(12).withSecond(0).withNano(0).toString();
         for (int i = 1; i <= 8; i++) settings.spawns.put(i, new Position("hungergames:arena", i + .5, 80, .5, 0, 0));
         controller.saveSettings();
         var directory = FMLPaths.CONFIGDIR.get().resolve("hungergames");
@@ -127,6 +129,7 @@ public final class EventGameTests {
                     helper.assertTrue(ArenaService.container(arena, BARREL).isEmpty(), "Migration did not clear excluded barrels");
                     ArenaService.container(arena, BARREL).setItem(0, new ItemStack(Items.EMERALD, 17));
                     helper.assertTrue(!ArenaService.allowed(arena, BARREL, settings), "Barrels are included in event loot");
+                    verifyCenterCommand(helper, controller, arena);
                     helper.getLevel().getServer().getCommands().performPrefixedCommand(
                             helper.getLevel().getServer().createCommandSourceStack(), "hg start_event");
                     helper.assertTrue(controller.phase() == EventController.Phase.PREPARING, "Zero-player forced start was rejected");
@@ -157,6 +160,46 @@ public final class EventGameTests {
         player.getInventory().clearContent();
         player.hasChangedDimension();
         return player;
+    }
+
+    private static void verifyCenterCommand(GameTestHelper helper, EventController controller, ServerLevel arena) {
+        ServerPlayer admin = player(helper);
+        Position origin = Position.of(admin);
+        admin.setGameMode(GameType.CREATIVE);
+        admin.setYRot(135);
+        admin.setXRot(25);
+        admin.getInventory().setItem(0, new ItemStack(Items.EMERALD, 11));
+        var dispatcher = admin.server.getCommands().getDispatcher();
+        try {
+            boolean denied = false;
+            try { dispatcher.execute("hg tp_center", admin.createCommandSourceStack().withPermission(1)); }
+            catch (com.mojang.brigadier.exceptions.CommandSyntaxException expected) { denied = true; }
+            helper.assertTrue(denied && admin.serverLevel() == helper.getLevel(), "Non-operator used tp_center");
+            helper.assertTrue(dispatcher.execute("hg tp_center", admin.createCommandSourceStack().withPermission(2)) == 1,
+                    "Operator could not use tp_center from another dimension");
+            assertAtCenter(helper, controller, admin, arena);
+            helper.assertTrue(admin.getYRot() == 135 && admin.getXRot() == 25, "Center teleport changed looking direction");
+            new Position("hungergames:arena", 9.5, 80, 9.5, 135, 25).teleport(admin);
+            dispatcher.execute("hg tp_center", admin.createCommandSourceStack().withPermission(2));
+            assertAtCenter(helper, controller, admin, arena);
+            controller.open(false);
+            origin.teleport(admin);
+            dispatcher.execute("hg tp_center", admin.createCommandSourceStack().withPermission(2));
+            assertAtCenter(helper, controller, admin, arena);
+            helper.assertTrue(controller.phase() == EventController.Phase.RECRUITING, "Admin teleport changed event phase");
+            controller.cancel(null);
+            helper.assertTrue(admin.getInventory().countItem(Items.EMERALD) == 11 && admin.gameMode.getGameModeForPlayer() == GameType.CREATIVE,
+                    "Admin teleport changed inventory or game mode");
+            helper.assertTrue(controller.record(admin) == null, "Admin teleport registered the player in the event");
+            origin.teleport(admin);
+        } catch (com.mojang.brigadier.exceptions.CommandSyntaxException error) { throw new IllegalStateException(error); }
+        finally { admin.server.getPlayerList().remove(admin); }
+    }
+
+    private static void assertAtCenter(GameTestHelper helper, EventController controller, ServerPlayer player, ServerLevel arena) {
+        helper.assertTrue(player.serverLevel() == arena && player.getX() == controller.settings().border.centerX
+                && player.getZ() == controller.settings().border.centerZ, "Admin did not arrive at the arena center");
+        helper.assertTrue(arena.noCollision(player.getBoundingBox()) && player.getY() < 90, "Center teleport chose an obstructed or unrelated surface");
     }
 
     private static void solo(GameTestHelper helper, EventController controller, ServerLevel arena) {
@@ -302,7 +345,11 @@ public final class EventGameTests {
             helper.assertTrue(player.position().distanceToSqr(spawn.vector()) < 1.0E-8 && player.getYRot() == 90 && player.getXRot() == 25,
                     "Warmup packet either moved the player or blocked looking around");
             helper.assertTrue(!player.hurt(player.damageSources().generic(), 1), "Warmup player can take damage");
-        } catch (ReflectiveOperationException error) { throw new IllegalStateException(error); }
+            player.server.getCommands().getDispatcher().execute("hg tp_center", player.createCommandSourceStack().withPermission(2));
+            helper.assertTrue(player.getX() == controller.settings().border.centerX && player.getZ() == controller.settings().border.centerZ
+                    && controller.frozenPosition(player).vector().distanceToSqr(player.position()) < 1.0E-8,
+                    "Center teleport during warmup did not update the frozen position");
+        } catch (ReflectiveOperationException | com.mojang.brigadier.exceptions.CommandSyntaxException error) { throw new IllegalStateException(error); }
     }
 
     private static void verifyHunger(GameTestHelper helper, ServerPlayer player) {

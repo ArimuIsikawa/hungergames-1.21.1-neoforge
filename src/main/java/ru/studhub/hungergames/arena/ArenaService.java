@@ -3,6 +3,7 @@ package ru.studhub.hungergames.arena;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.LinkedHashMap;
@@ -35,6 +36,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.properties.ChestType;
 import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
@@ -66,6 +68,34 @@ public final class ArenaService {
 
     public ServerLevel level(HgSettings settings) {
         return server.getLevel(ResourceKey.create(Registries.DIMENSION, ResourceLocation.parse(settings.arenaDimension)));
+    }
+
+    public Position center(HgSettings settings, float yaw, float pitch) {
+        ServerLevel arena = level(settings);
+        if (arena == null) throw new IllegalStateException("Измерение арены не загружено: " + settings.arenaDimension);
+        double x = settings.border.centerX, z = settings.border.centerZ;
+        BlockPos column = BlockPos.containing(x, 0, z);
+        arena.getChunkAt(column);
+        // Prefer the playing surface to the roof or lobby platform above the same column.
+        double preferredY = settings.spawns.values().stream().filter(p -> p.dimension().equals(settings.arenaDimension))
+                .min(Comparator.comparingDouble(p -> Math.pow(p.x() - x, 2) + Math.pow(p.z() - z, 2)))
+                .map(Position::y).orElseGet(() -> (double) arena.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, column.getX(), column.getZ()));
+        Position best = null;
+        for (int y = arena.getMinBuildHeight() + 1; y + 1.8 < arena.getMaxBuildHeight(); y++) {
+            BlockPos feet = new BlockPos(column.getX(), y, column.getZ()), floor = feet.below();
+            var support = arena.getBlockState(floor);
+            if (support.getCollisionShape(arena, floor).isEmpty() || support.is(Blocks.MAGMA_BLOCK)
+                    || support.is(Blocks.CACTUS) || support.is(Blocks.CAMPFIRE) || support.is(Blocks.SOUL_CAMPFIRE)
+                    || !arena.getFluidState(feet).isEmpty() || !arena.getFluidState(feet.above()).isEmpty()
+                    || arena.getBlockState(feet).is(BlockTags.FIRE) || arena.getBlockState(feet).is(Blocks.POWDER_SNOW)
+                    || arena.getBlockState(feet).is(Blocks.SWEET_BERRY_BUSH)
+                    || !arena.noCollision(new AABB(x - .3, y, z - .3, x + .3, y + 1.8, z + .3))) continue;
+            if (best == null || Math.abs(y - preferredY) < Math.abs(best.y() - preferredY)) {
+                best = new Position(settings.arenaDimension, x, y, z, yaw, pitch);
+            }
+        }
+        if (best == null) throw new IllegalStateException("В центре арены нет безопасного места для появления.");
+        return best;
     }
 
     public void validate(HgSettings settings, int players) {
