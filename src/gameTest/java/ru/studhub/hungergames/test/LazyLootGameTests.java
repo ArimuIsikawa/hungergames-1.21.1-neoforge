@@ -56,10 +56,12 @@ public final class LazyLootGameTests {
     }
 
     @GameTest(template = "empty")
-    public static void untouchedChestsSurviveRounds(GameTestHelper helper) throws Exception {
+    public static void untouchedBarrelsSurviveRounds(GameTestHelper helper) throws Exception {
         ServerLevel level = helper.getLevel();
         BlockPos touched = new BlockPos(40004, 80, 40004), untouched = touched.east(4);
         HgSettings settings = fixture(level, touched, untouched);
+        level.setBlock(touched, Blocks.BARREL.defaultBlockState(), 3);
+        level.setBlock(untouched, Blocks.BARREL.defaultBlockState(), 3);
         LazyArenaLoot loot = service(helper);
         helper.assertTrue(ArenaService.container(level, untouched).isEmpty(), "Loot generated before the match");
         loot.begin(level, settings, pool(helper, "diamond"), "first", new Random(1));

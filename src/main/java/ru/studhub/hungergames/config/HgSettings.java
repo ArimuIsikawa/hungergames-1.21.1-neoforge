@@ -30,7 +30,7 @@ public final class HgSettings {
     public Corner corner1;
     public Corner corner2;
     public Border border = new Border();
-    public List<String> containerBlocks = new ArrayList<>(List.of("minecraft:chest", "minecraft:trapped_chest", "ironchest:*"));
+    public List<String> containerBlocks = new ArrayList<>(List.of("minecraft:chest", "minecraft:trapped_chest", "minecraft:barrel", "ironchest:*"));
     public Bonus bonus = new Bonus();
     public String announcement = "Уважаемые игроки, скоро начнётся королевская битва за награды! "
             + "Освободите инвентарь, броню и аксессуары и напишите /hg invite. Набор открыт на 15 минут, мест: {max_players}.";

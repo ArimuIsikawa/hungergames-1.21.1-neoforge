@@ -106,6 +106,7 @@ public final class EventGameTests {
         HgSettings settings = controller.settings();
         settings.minPlayers = 16;
         settings.maxPlayers = 32;
+        settings.containerBlocks = new HgSettings().containerBlocks;
         settings.bonus.chances.clear();
         settings.corner1 = new HgSettings.Corner(-12, 79, -12);
         settings.corner2 = new HgSettings.Corner(12, 90, 12);
@@ -136,9 +137,9 @@ public final class EventGameTests {
                 })
                 .thenExecute(() -> {
                     helper.assertTrue(ArenaService.container(arena, CONVERTED).countItem(Items.DIRT) == 64, "Migration lost minecart contents");
-                    helper.assertTrue(ArenaService.container(arena, BARREL).isEmpty(), "Migration did not clear excluded barrels");
+                    helper.assertTrue(ArenaService.container(arena, BARREL).countItem(Items.DIRT) == 9, "Minecart conversion modified barrel contents");
                     ArenaService.container(arena, BARREL).setItem(0, new ItemStack(Items.EMERALD, 17));
-                    helper.assertTrue(!ArenaService.allowed(arena, BARREL, settings), "Barrels are included in event loot");
+                    helper.assertTrue(ArenaService.allowed(arena, BARREL, settings), "Barrels are excluded from event loot");
                     verifyCenterCommand(helper, controller, arena);
                     helper.getLevel().getServer().getCommands().performPrefixedCommand(
                             helper.getLevel().getServer().createCommandSourceStack(), "hg start_event");
@@ -297,7 +298,7 @@ public final class EventGameTests {
             helper.assertTrue(arena.getBlockState(new BlockPos(2, 79, 2)).is(Blocks.STONE), "Arena block was lost");
             helper.assertTrue(ArenaService.container(arena, CHEST).countItem(Items.DIAMOND) == 1, "Chest not refilled");
             helper.assertTrue(ArenaService.container(arena, CONVERTED).countItem(Items.DIAMOND) == 1, "Converted chest not filled");
-            helper.assertTrue(ArenaService.container(arena, BARREL).countItem(Items.EMERALD) == 17, "Excluded barrel was refilled");
+            helper.assertTrue(ArenaService.container(arena, BARREL).countItem(Items.DIAMOND) == 1, "Barrel was not filled from the common pool");
             if (ModList.get().isLoaded("ironchest")) {
                 var iron = ArenaService.container(arena, new BlockPos(0, 80, 3));
                 helper.assertTrue(iron != null && iron.countItem(Items.DIAMOND) == 1, "Iron Chest not refilled");
@@ -431,7 +432,7 @@ public final class EventGameTests {
                 player.connection.handleUseItemOn(new ServerboundUseItemOnPacket(InteractionHand.MAIN_HAND,
                         new BlockHitResult(Vec3.atCenterOf(pos), Direction.UP, pos, false), 0));
                 helper.assertTrue(player.containerMenu != player.inventoryMenu, "Block menu did not open: " + pos + ", held=" + held);
-                if (pos.equals(CHEST) || pos.equals(CONVERTED)) {
+                if (pos.equals(CHEST) || pos.equals(CONVERTED) || pos.equals(BARREL)) {
                     helper.assertTrue(!arena.getBlockEntity(pos).getPersistentData().getString(
                             ru.studhub.hungergames.arena.LazyArenaLoot.OPENED_EVENT).isEmpty(), "Actual menu opening did not mark the chest");
                 }

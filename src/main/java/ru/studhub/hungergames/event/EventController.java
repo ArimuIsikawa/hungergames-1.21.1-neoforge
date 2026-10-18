@@ -591,7 +591,7 @@ public final class EventController {
         if (!arena.level(settings()).players().isEmpty()) throw new IllegalStateException("Выведите игроков из арены перед заменой контейнеров.");
         arena.migrateContainers(settings(), error -> {
             arena.release();
-            broadcast(error == null ? "Вагонетки заменены сундуками, бочки очищены и исключены из заполнения." : error);
+            broadcast(error == null ? "Вагонетки заменены сундуками с сохранением содержимого." : error);
         });
     }
 

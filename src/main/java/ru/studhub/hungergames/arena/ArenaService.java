@@ -62,7 +62,6 @@ public final class ArenaService {
     private boolean migrating;
     private record CartConversion(UUID uuid, HgSettings.Corner from, HgSettings.Corner to) {}
     private final List<CartConversion> conversions = new ArrayList<>();
-    private int emptiedBarrels;
     private Consumer<String> completion;
     private LootPool fillPool;
     private RandomGenerator random;
@@ -150,7 +149,6 @@ public final class ArenaService {
         scanTicks = 0;
         migrating = false;
         conversions.clear();
-        emptiedBarrels = 0;
         scanChunks.clear();
         cursor = 0;
         for (int x = minX(settings) >> 4; x <= maxX(settings) >> 4; x++) {
@@ -205,10 +203,8 @@ public final class ArenaService {
 
     private void processChunk(ChunkPos pos) {
         LevelChunk chunk = level.getChunk(pos.x, pos.z);
-        List<BlockPos> barrels = new ArrayList<>();
         for (BlockPos block : List.copyOf(chunk.getBlockEntitiesPos())) {
             if (!contains(settings, block)) continue;
-            if (migrating && level.getBlockState(block).is(Blocks.BARREL)) barrels.add(block.immutable());
             if (!allowed(level, block, settings)) continue;
             if (level.getBlockState(block).getBlock() instanceof ChestBlock
                     && level.getBlockState(block).getValue(ChestBlock.TYPE) == ChestType.RIGHT) continue;
@@ -232,7 +228,7 @@ public final class ArenaService {
                 if (contains(settings, entity.blockPosition())) entity.discard();
             }
         }
-        if (migrating) convertContainers(carts, barrels);
+        if (migrating) convertContainers(carts);
     }
 
     private void fill(BlockPos pos) {
@@ -293,7 +289,7 @@ public final class ArenaService {
                 if (migrating) {
                     minecartChests.clear();
                     JsonFiles.write(server.getWorldPath(net.minecraft.world.level.storage.LevelResource.ROOT)
-                            .resolve("data/hungergames/container_migration.json"), Map.of("converted", conversions, "emptiedBarrels", emptiedBarrels));
+                            .resolve("data/hungergames/container_migration.json"), Map.of("converted", conversions, "emptiedBarrels", 0));
                 }
                 JsonFiles.write(server.getWorldPath(net.minecraft.world.level.storage.LevelResource.ROOT)
                         .resolve("data/hungergames/chests.json"), chests.stream().map(p -> new HgSettings.Corner(p.getX(), p.getY(), p.getZ())).toList());
@@ -328,13 +324,12 @@ public final class ArenaService {
     }
 
     public static boolean allowed(ServerLevel level, BlockPos pos, HgSettings settings) {
-        if (level.getBlockState(pos).is(Blocks.BARREL)) return false;
         ResourceLocation id = BuiltInRegistries.BLOCK.getKey(level.getBlockState(pos).getBlock());
         return settings.containerBlocks.stream().anyMatch(value -> value.equals(id.toString())
                 || value.equals(id.getNamespace() + ":*"));
     }
 
-    private void convertContainers(List<MinecartChest> carts, List<BlockPos> barrels) {
+    private void convertContainers(List<MinecartChest> carts) {
         Map<MinecartChest, BlockPos> plan = new LinkedHashMap<>();
         Set<BlockPos> reserved = new HashSet<>();
         // Resolve the current chunk's destinations before changing it; release it after conversion.
@@ -375,12 +370,6 @@ public final class ArenaService {
             chests.add(pos);
             conversions.add(new CartConversion(cart.getUUID(), new HgSettings.Corner(from.getX(), from.getY(), from.getZ()),
                     new HgSettings.Corner(pos.getX(), pos.getY(), pos.getZ())));
-        }
-        for (BlockPos pos : barrels) if (level.getBlockEntity(pos) instanceof RandomizableContainerBlockEntity barrel) {
-            barrel.setLootTable(null);
-            barrel.clearContent();
-            barrel.setChanged();
-            emptiedBarrels++;
         }
     }
 
