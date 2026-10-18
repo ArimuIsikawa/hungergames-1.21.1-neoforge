@@ -122,8 +122,13 @@ public final class EventGameTests {
         JsonFiles.write(directory.resolve("rewards.json"), JsonParser.parseString(pool));
         controller.reload();
         controller.migrateContainers();
-        helper.startSequence().thenWaitUntil(() -> helper.assertTrue(arena.getEntity(cart.getUUID()) == null
-                && arena.getBlockState(CONVERTED).is(Blocks.CHEST), "Minecart conversion has not completed"))
+        helper.startSequence().thenWaitUntil(() -> {
+                    boolean idle;
+                    try { controller.requireIdle(); idle = true; }
+                    catch (IllegalStateException waiting) { idle = false; }
+                    helper.assertTrue(idle && arena.getEntity(cart.getUUID()) == null
+                            && arena.getBlockState(CONVERTED).is(Blocks.CHEST), "Minecart conversion has not completed");
+                })
                 .thenExecute(() -> {
                     helper.assertTrue(ArenaService.container(arena, CONVERTED).countItem(Items.DIRT) == 64, "Migration lost minecart contents");
                     helper.assertTrue(ArenaService.container(arena, BARREL).isEmpty(), "Migration did not clear excluded barrels");

@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -46,20 +47,22 @@ import ru.studhub.hungergames.player.Position;
 import ru.studhub.hungergames.storage.JsonFiles;
 
 public final class ArenaService {
+    private static final TicketType<ChunkPos> SCAN_TICKET = TicketType.create("hungergames_scan", Comparator.comparingLong(ChunkPos::toLong));
+    private static final int ENTITY_LOAD_TIMEOUT_TICKS = 1200;
     private final MinecraftServer server;
     private HgSettings settings;
     private ServerLevel level;
     private final List<ChunkPos> scanChunks = new ArrayList<>();
     private final Set<ChunkPos> tickets = new HashSet<>();
-    private final List<BlockPos> chests = new ArrayList<>();
+    private final Set<BlockPos> chests = new LinkedHashSet<>();
     private final Map<UUID, HgSettings.Corner> minecartChests = new LinkedHashMap<>();
-    private final Set<ChunkPos> pendingEntities = new HashSet<>();
+    private final Map<ChunkPos, Integer> pendingChunks = new LinkedHashMap<>();
     private int cursor;
-    private int entityWaitTicks;
+    private int scanTicks;
     private boolean migrating;
-    private final List<MinecartChest> migrationCarts = new ArrayList<>();
-    private final List<BlockPos> migrationBarrels = new ArrayList<>();
     private record CartConversion(UUID uuid, HgSettings.Corner from, HgSettings.Corner to) {}
+    private final List<CartConversion> conversions = new ArrayList<>();
+    private int emptiedBarrels;
     private Consumer<String> completion;
     private LootPool fillPool;
     private RandomGenerator random;
@@ -144,11 +147,10 @@ public final class ArenaService {
         this.completion = completion;
         chests.clear();
         minecartChests.clear();
-        pendingEntities.clear();
-        entityWaitTicks = 0;
+        scanTicks = 0;
         migrating = false;
-        migrationCarts.clear();
-        migrationBarrels.clear();
+        conversions.clear();
+        emptiedBarrels = 0;
         scanChunks.clear();
         cursor = 0;
         for (int x = minX(settings) >> 4; x <= maxX(settings) >> 4; x++) {
@@ -164,52 +166,73 @@ public final class ArenaService {
     public void tick() {
         if (!busy()) return;
         try {
-            for (int i = 0; i < settings.chunksPerTick && cursor < scanChunks.size(); i++) {
+            scanTicks++;
+            int processed = processPendingChunks(settings.chunksPerTick);
+            for (int i = 0; i < settings.chunksPerTick && tickets.size() < settings.chunksPerTick && cursor < scanChunks.size(); i++) {
                 ChunkPos pos = scanChunks.get(cursor++);
-                level.getChunkSource().addRegionTicket(TicketType.FORCED, pos, 2, pos);
+                level.getChunkSource().addRegionTicket(SCAN_TICKET, pos, 2, pos);
                 tickets.add(pos);
-                LevelChunk chunk = level.getChunk(pos.x, pos.z);
-                pendingEntities.add(pos);
-                for (BlockPos block : List.copyOf(chunk.getBlockEntitiesPos())) {
-                    if (migrating && contains(settings, block) && level.getBlockState(block).is(Blocks.BARREL)) migrationBarrels.add(block.immutable());
-                    if (contains(settings, block) && allowed(level, block, settings)) {
-                        if (level.getBlockState(block).getBlock() instanceof ChestBlock
-                                && level.getBlockState(block).getValue(ChestBlock.TYPE) == ChestType.RIGHT) continue;
-                        chests.add(block.immutable());
-                        if (fillPool != null) fill(block);
-                    }
-                }
+                level.getChunk(pos.x, pos.z);
+                pendingChunks.put(pos, scanTicks);
             }
-            // Entity NBT arrives asynchronously, after the block chunk. Do not finish before it is available.
-            for (var iterator = pendingEntities.iterator(); iterator.hasNext();) {
-                ChunkPos pos = iterator.next();
-                if (!level.areEntitiesLoaded(pos.toLong())) continue;
-                iterator.remove();
-                AABB bounds = new AABB(pos.getMinBlockX(), level.getMinBuildHeight(), pos.getMinBlockZ(),
-                        pos.getMaxBlockX() + 1, level.getMaxBuildHeight(), pos.getMaxBlockZ() + 1);
-                for (MinecartChest cart : level.getEntitiesOfClass(MinecartChest.class, bounds)) {
-                    BlockPos block = cart.blockPosition();
-                    if (contains(settings, block) && minecartChests.putIfAbsent(cart.getUUID(),
-                            new HgSettings.Corner(block.getX(), block.getY(), block.getZ())) == null) {
-                        if (migrating) migrationCarts.add(cart);
-                        else if (fillPool != null) fill(cart);
-                    }
-                }
-                if (fillPool != null) {
-                    for (Entity entity : level.getEntities((Entity) null, bounds,
-                            e -> e instanceof ItemEntity || e instanceof Projectile || e instanceof net.minecraft.world.entity.item.PrimedTnt)) {
-                        if (contains(settings, entity.blockPosition())) entity.discard();
-                    }
-                }
-            }
-            if (cursor == scanChunks.size()) {
-                if (pendingEntities.isEmpty()) finish(null);
-                else if (++entityWaitTicks > 1200) finish("Не удалось дождаться загрузки сущностей арены");
-            }
+            processPendingChunks(settings.chunksPerTick - processed);
+            if (cursor == scanChunks.size() && pendingChunks.isEmpty()) finish(null);
         } catch (Exception e) {
             if (completion != null) finish("Ошибка подготовки арены: " + e.getMessage());
             else throw new IllegalStateException("Ошибка завершения подготовки арены", e);
         }
+    }
+
+    private int processPendingChunks(int limit) {
+        int processed = 0;
+        for (var iterator = pendingChunks.entrySet().iterator(); iterator.hasNext() && processed < limit;) {
+            var entry = iterator.next();
+            ChunkPos pos = entry.getKey();
+            // Entity NBT arrives asynchronously. Hold only this small batch until it is ready.
+            if (!level.areEntitiesLoaded(pos.toLong())) {
+                if (scanTicks - entry.getValue() > ENTITY_LOAD_TIMEOUT_TICKS) {
+                    throw new IllegalStateException("Не удалось дождаться загрузки сущностей чанка " + pos);
+                }
+                continue;
+            }
+            processChunk(pos);
+            iterator.remove();
+            releaseChunk(pos);
+            processed++;
+        }
+        return processed;
+    }
+
+    private void processChunk(ChunkPos pos) {
+        LevelChunk chunk = level.getChunk(pos.x, pos.z);
+        List<BlockPos> barrels = new ArrayList<>();
+        for (BlockPos block : List.copyOf(chunk.getBlockEntitiesPos())) {
+            if (!contains(settings, block)) continue;
+            if (migrating && level.getBlockState(block).is(Blocks.BARREL)) barrels.add(block.immutable());
+            if (!allowed(level, block, settings)) continue;
+            if (level.getBlockState(block).getBlock() instanceof ChestBlock
+                    && level.getBlockState(block).getValue(ChestBlock.TYPE) == ChestType.RIGHT) continue;
+            chests.add(block.immutable());
+            if (fillPool != null) fill(block);
+        }
+        AABB bounds = new AABB(pos.getMinBlockX(), level.getMinBuildHeight(), pos.getMinBlockZ(),
+                pos.getMaxBlockX() + 1, level.getMaxBuildHeight(), pos.getMaxBlockZ() + 1);
+        List<MinecartChest> carts = new ArrayList<>();
+        for (MinecartChest cart : level.getEntitiesOfClass(MinecartChest.class, bounds)) {
+            BlockPos block = cart.blockPosition();
+            if (contains(settings, block) && minecartChests.putIfAbsent(cart.getUUID(),
+                    new HgSettings.Corner(block.getX(), block.getY(), block.getZ())) == null) {
+                if (migrating) carts.add(cart);
+                else if (fillPool != null) fill(cart);
+            }
+        }
+        if (fillPool != null) {
+            for (Entity entity : level.getEntities((Entity) null, bounds,
+                    e -> e instanceof ItemEntity || e instanceof Projectile || e instanceof net.minecraft.world.entity.item.PrimedTnt)) {
+                if (contains(settings, entity.blockPosition())) entity.discard();
+            }
+        }
+        if (migrating) convertContainers(carts, barrels);
     }
 
     private void fill(BlockPos pos) {
@@ -263,7 +286,11 @@ public final class ArenaService {
         completion = null;
         if (error == null) {
             try {
-                if (migrating) convertContainers();
+                if (migrating) {
+                    minecartChests.clear();
+                    JsonFiles.write(server.getWorldPath(net.minecraft.world.level.storage.LevelResource.ROOT)
+                            .resolve("data/hungergames/container_migration.json"), Map.of("converted", conversions, "emptiedBarrels", emptiedBarrels));
+                }
                 JsonFiles.write(server.getWorldPath(net.minecraft.world.level.storage.LevelResource.ROOT)
                         .resolve("data/hungergames/chests.json"), chests.stream().map(p -> new HgSettings.Corner(p.getX(), p.getY(), p.getZ())).toList());
                 JsonFiles.write(server.getWorldPath(net.minecraft.world.level.storage.LevelResource.ROOT)
@@ -271,13 +298,20 @@ public final class ArenaService {
             } catch (IOException | RuntimeException e) { error = "Не удалось подготовить контейнеры: " + e.getMessage(); }
         }
         if (error == null && fillPool != null && chestCount() == 0) error = "В области арены нет разрешённых сундуков";
+        release();
         callback.accept(error);
+    }
+
+    private void releaseChunk(ChunkPos pos) {
+        level.getChunkSource().removeRegionTicket(SCAN_TICKET, pos, 2, pos);
+        tickets.remove(pos);
     }
 
     public void release() {
         completion = null;
-        if (level != null) for (ChunkPos pos : tickets) level.getChunkSource().removeRegionTicket(TicketType.FORCED, pos, 2, pos);
-        tickets.clear();
+        for (ChunkPos pos : List.copyOf(tickets)) releaseChunk(pos);
+        pendingChunks.clear();
+        scanChunks.clear();
     }
 
     public boolean busy() { return completion != null; }
@@ -296,11 +330,11 @@ public final class ArenaService {
                 || value.equals(id.getNamespace() + ":*"));
     }
 
-    private void convertContainers() throws IOException {
+    private void convertContainers(List<MinecartChest> carts, List<BlockPos> barrels) {
         Map<MinecartChest, BlockPos> plan = new LinkedHashMap<>();
         Set<BlockPos> reserved = new HashSet<>();
-        // Resolve every destination before changing the map. Keep replacements close and openable.
-        for (MinecartChest cart : migrationCarts) {
+        // Resolve the current chunk's destinations before changing it; release it after conversion.
+        for (MinecartChest cart : carts) {
             BlockPos origin = cart.blockPosition();
             BlockPos destination = null;
             search: for (int radius = 0; radius <= 3; radius++) for (int dy : new int[] {0, 1, -1, 2, -2}) {
@@ -319,7 +353,6 @@ public final class ArenaService {
             reserved.add(destination);
             plan.put(cart, destination);
         }
-        List<CartConversion> report = new ArrayList<>();
         for (var entry : plan.entrySet()) {
             MinecartChest cart = entry.getKey();
             BlockPos pos = entry.getValue(), from = cart.blockPosition();
@@ -336,17 +369,15 @@ public final class ArenaService {
             cart.clearContent();
             cart.discard();
             chests.add(pos);
-            report.add(new CartConversion(cart.getUUID(), new HgSettings.Corner(from.getX(), from.getY(), from.getZ()),
+            conversions.add(new CartConversion(cart.getUUID(), new HgSettings.Corner(from.getX(), from.getY(), from.getZ()),
                     new HgSettings.Corner(pos.getX(), pos.getY(), pos.getZ())));
         }
-        for (BlockPos pos : migrationBarrels) if (level.getBlockEntity(pos) instanceof RandomizableContainerBlockEntity barrel) {
+        for (BlockPos pos : barrels) if (level.getBlockEntity(pos) instanceof RandomizableContainerBlockEntity barrel) {
             barrel.setLootTable(null);
             barrel.clearContent();
             barrel.setChanged();
+            emptiedBarrels++;
         }
-        minecartChests.clear();
-        JsonFiles.write(server.getWorldPath(net.minecraft.world.level.storage.LevelResource.ROOT)
-                .resolve("data/hungergames/container_migration.json"), Map.of("converted", report, "emptiedBarrels", migrationBarrels.size()));
     }
 
     public static boolean contains(HgSettings settings, BlockPos pos) {
