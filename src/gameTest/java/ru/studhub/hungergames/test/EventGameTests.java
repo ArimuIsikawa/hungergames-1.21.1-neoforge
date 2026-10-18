@@ -104,6 +104,9 @@ public final class EventGameTests {
         if (ModList.get().isLoaded("ironchest")) arena.setBlock(new BlockPos(0, 80, 3),
                 BuiltInRegistries.BLOCK.get(ResourceLocation.parse("ironchest:iron_chest")).defaultBlockState(), 3);
         HgSettings settings = controller.settings();
+        settings.minPlayers = 16;
+        settings.maxPlayers = 32;
+        settings.bonus.chances.clear();
         settings.corner1 = new HgSettings.Corner(-12, 79, -12);
         settings.corner2 = new HgSettings.Corner(12, 90, 12);
         settings.lobby = new Position("hungergames:arena", 0.5, 80, 5.5, 0, 0);
@@ -114,7 +117,9 @@ public final class EventGameTests {
         // Keep real-clock scheduling out of deterministic lifecycle tests.
         settings.scheduleTime = java.time.LocalTime.now(java.time.ZoneId.of(settings.scheduleZone))
                 .plusHours(12).withSecond(0).withNano(0).toString();
-        for (int i = 1; i <= 8; i++) settings.spawns.put(i, new Position("hungergames:arena", i + .5, 80, .5, 0, 0));
+        settings.spawns.clear();
+        for (int i = 1; i <= 32; i++) settings.spawns.put(i,
+                new Position("hungergames:arena", -9.5 + ((i - 1) % 8) * 3, 80, -9.5 + ((i - 1) / 8) * 3, 0, 0));
         controller.saveSettings();
         var directory = FMLPaths.CONFIGDIR.get().resolve("hungergames");
         String pool = "{\"schemaVersion\":1,\"minRolls\":1,\"maxRolls\":1,\"entries\":[{\"stack\":{\"id\":\"minecraft:diamond\",\"count\":1},\"weight\":1,\"minCount\":1,\"maxCount\":1}]}";
@@ -327,7 +332,7 @@ public final class EventGameTests {
                     helper.getLevel().getServer().getPlayerList().remove(player);
                 }
                 if (count == 2) multiple(helper, controller, arena, 3);
-                else eightPlayers(helper, controller, arena);
+                else thirtyTwoPlayers(helper, controller, arena);
             });
         });
     }
@@ -426,6 +431,10 @@ public final class EventGameTests {
                 player.connection.handleUseItemOn(new ServerboundUseItemOnPacket(InteractionHand.MAIN_HAND,
                         new BlockHitResult(Vec3.atCenterOf(pos), Direction.UP, pos, false), 0));
                 helper.assertTrue(player.containerMenu != player.inventoryMenu, "Block menu did not open: " + pos + ", held=" + held);
+                if (pos.equals(CHEST) || pos.equals(CONVERTED)) {
+                    helper.assertTrue(!arena.getBlockEntity(pos).getPersistentData().getString(
+                            ru.studhub.hungergames.arena.LazyArenaLoot.OPENED_EVENT).isEmpty(), "Actual menu opening did not mark the chest");
+                }
                 if (pos.equals(CHEST) || pos.equals(CONVERTED) || pos.equals(BARREL)) helper.assertTrue(player.containerMenu instanceof ChestMenu, "Wrong storage menu");
                 if (pos.equals(BARREL)) helper.assertTrue(arena.getBlockState(pos).getValue(BarrelBlock.OPEN), "Barrel OPEN state update blocked");
                 if (pos.equals(FURNACE)) helper.assertTrue(player.containerMenu instanceof FurnaceMenu, "Furnace menu did not open");
@@ -443,12 +452,12 @@ public final class EventGameTests {
         } catch (ReflectiveOperationException e) { throw new IllegalStateException(e); }
     }
 
-    private static void eightPlayers(GameTestHelper helper, EventController controller, ServerLevel arena) {
+    private static void thirtyTwoPlayers(GameTestHelper helper, EventController controller, ServerLevel arena) {
         List<ServerPlayer> players = new ArrayList<>();
         controller.settings().countdownSeconds = 3;
         controller.settings().fullCountdownSeconds = 1;
         controller.open(false);
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 32; i++) {
             ServerPlayer player = player(helper);
             players.add(player);
             if (i == 0 && ModList.get().isLoaded("curios")) {
@@ -461,8 +470,19 @@ public final class EventGameTests {
                 cosmetic.setStackInSlot(0, ItemStack.EMPTY);
             }
             controller.invite(player);
-            if (i == 3) helper.assertTrue(controller.phase() == EventController.Phase.COUNTDOWN, "Four players did not start countdown");
+            if (i == 14) helper.assertTrue(controller.phase() == EventController.Phase.RECRUITING, "Fifteen players started countdown");
+            if (i == 15) {
+                helper.assertTrue(controller.phase() == EventController.Phase.COUNTDOWN, "Sixteen players did not start countdown");
+                controller.leave(player);
+                helper.assertTrue(controller.phase() == EventController.Phase.RECRUITING, "Falling below sixteen did not reset countdown");
+                controller.invite(player);
+            }
         }
+        ServerPlayer extra = player(helper);
+        boolean full = false;
+        try { controller.invite(extra); } catch (IllegalStateException expected) { full = true; }
+        helper.assertTrue(full && controller.record(extra) == null, "Thirty-third participant was admitted");
+        helper.getLevel().getServer().getPlayerList().remove(extra);
         prepared(helper, controller, EventController.Phase.BATTLE, () -> {
             helper.assertTrue(controller.phase() == EventController.Phase.BATTLE, "Full lobby did not automatically start");
             // Embedded test connections have no client to acknowledge dimension teleports.
@@ -473,14 +493,14 @@ public final class EventGameTests {
             helper.runAfterDelay(40, () -> {
                 ServerPlayer dead = helper.getLevel().getServer().getPlayerList().getPlayer(players.getFirst().getUUID());
                 helper.assertTrue(dead != null && dead.gameMode.getGameModeForPlayer() == GameType.SPECTATOR, "Death did not respawn player as spectator");
-                helper.assertTrue(controller.phase() == EventController.Phase.BATTLE, "Death prematurely ended eight-player match");
+                helper.assertTrue(controller.phase() == EventController.Phase.BATTLE, "Death prematurely ended thirty-two-player match");
                 controller.leave(dead);
-                for (int i = 1; i < 7; i++) controller.leave(players.get(i));
+                for (int i = 1; i < 31; i++) controller.leave(players.get(i));
                 prepared(helper, controller, EventController.Phase.IDLE, () -> {
-                    ServerPlayer winner = players.get(7);
-                    helper.assertTrue(controller.phase() == EventController.Phase.IDLE, "Eight-player match did not finish");
+                    ServerPlayer winner = players.get(31);
+                    helper.assertTrue(controller.phase() == EventController.Phase.IDLE, "Thirty-two-player match did not finish");
                     helper.assertTrue(winner.getInventory().countItem(Items.DIAMOND) == 1, "Main reward missing");
-                    helper.assertTrue(winner.getInventory().countItem(Items.NETHER_STAR) == 1, "Guaranteed eight-player bonus missing");
+                    helper.assertTrue(winner.getInventory().countItem(Items.NETHER_STAR) == 1, "Guaranteed thirty-two-player bonus missing");
                     for (ServerPlayer player : players) {
                         ServerPlayer current = helper.getLevel().getServer().getPlayerList().getPlayer(player.getUUID());
                         if (current != null) helper.getLevel().getServer().getPlayerList().remove(current);

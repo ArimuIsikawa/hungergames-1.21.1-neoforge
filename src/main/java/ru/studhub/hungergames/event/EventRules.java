@@ -20,6 +20,6 @@ public final class EventRules {
     }
 
     public static double bonusChance(int startingPlayers) {
-        return Math.clamp((startingPlayers - 3) * .2, 0.0, 1.0);
+        return startingPlayers < 16 ? 0.0 : Math.clamp(.2 + (startingPlayers - 16) * .05, 0.0, 1.0);
     }
 }

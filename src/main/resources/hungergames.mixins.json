@@ -3,6 +3,6 @@
   "minVersion": "0.8",
   "package": "ru.studhub.hungergames.mixin",
   "compatibilityLevel": "JAVA_21",
-  "mixins": ["ArenaChunkMixin", "ArenaPlayerMixin", "ArenaHungerMixin", "ArenaFoodDataMixin", "ArenaMinecartMixin", "ArenaMovementMixin", "ArenaEntityMovementMixin", "ServerPlayerAccess", "LevelDataAccess", "ServerLevelDataAccess"],
+  "mixins": ["ArenaChunkMixin", "ArenaPlayerMixin", "ArenaHungerMixin", "ArenaFoodDataMixin", "ArenaMinecartMixin", "ArenaMovementMixin", "ArenaEntityMovementMixin", "ServerPlayerAccess", "LevelDataAccess", "ServerLevelDataAccess", "ChunkMapAccess"],
   "injectors": {"defaultRequire": 1}
 }

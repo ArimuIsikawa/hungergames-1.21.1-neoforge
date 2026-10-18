@@ -236,11 +236,15 @@ public final class ArenaService {
     }
 
     private void fill(BlockPos pos) {
+        fill(level, pos, fillPool, random);
+    }
+
+    public static void fill(ServerLevel level, BlockPos pos, LootPool pool, RandomGenerator random) {
         Container container = container(level, pos);
         IItemHandler handler = container == null ? level.getCapability(Capabilities.ItemHandler.BLOCK, pos, (Direction) null) : null;
         int size = container != null ? container.getContainerSize() : handler == null ? 0 : handler.getSlots();
         if (size < 1) throw new IllegalStateException("Нет доступа к сундуку " + pos.toShortString());
-        List<ItemStack> loot = fillPool.roll(random);
+        List<ItemStack> loot = pool.roll(random);
         // Validate the complete selection before clearing; never truncate a weapon's ammunition bundle.
         if (loot.size() > size) throw new IllegalStateException("Слишком много предметов для сундука " + pos);
         if (level.getBlockEntity(pos) instanceof RandomizableContainerBlockEntity randomizable) randomizable.setLootTable(null);

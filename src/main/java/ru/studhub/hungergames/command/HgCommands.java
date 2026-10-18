@@ -71,7 +71,7 @@ public final class HgCommands {
                             ctx.getSource().sendSuccess(() -> EventController.message("Точка ожидания сохранена."), true);
                         })))
                 .then(Commands.literal("set_spawn").requires(source -> source.hasPermission(2))
-                        .then(Commands.argument("player_num", IntegerArgumentType.integer(1, 8))
+                        .then(Commands.argument("player_num", IntegerArgumentType.integer(1, HgSettings.PLAYER_LIMIT))
                                 .executes(action((ctx, c) -> {
                                     c.requireIdle();
                                     ServerPlayer player = arenaPlayer(ctx, c);

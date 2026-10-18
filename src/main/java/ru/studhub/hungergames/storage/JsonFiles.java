@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.AtomicMoveNotSupportedException;
+import java.nio.file.AccessDeniedException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -36,10 +37,17 @@ public final class JsonFiles {
             while (buffer.hasRemaining()) channel.write(buffer);
             channel.force(true);
         }
-        try {
-            Files.move(temporary, path, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
-        } catch (AtomicMoveNotSupportedException e) {
-            Files.move(temporary, path, StandardCopyOption.REPLACE_EXISTING);
+        for (int attempt = 0; ; attempt++) {
+            try {
+                try { Files.move(temporary, path, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING); }
+                catch (AtomicMoveNotSupportedException e) { Files.move(temporary, path, StandardCopyOption.REPLACE_EXISTING); }
+                return;
+            } catch (AccessDeniedException e) {
+                // Windows virus scanners/indexers can briefly hold the destination during replacement.
+                if (attempt >= 4) throw e;
+                try { Thread.sleep(5L << attempt); }
+                catch (InterruptedException interrupted) { Thread.currentThread().interrupt(); throw new IOException("Journal replacement interrupted", interrupted); }
+            }
         }
     }
 }

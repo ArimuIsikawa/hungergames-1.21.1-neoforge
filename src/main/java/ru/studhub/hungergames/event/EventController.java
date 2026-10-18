@@ -10,26 +10,28 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.random.RandomGenerator;
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.game.ClientboundInitializeBorderPacket;
-import net.minecraft.network.protocol.game.ServerboundClientCommandPacket;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.PlayerRespawnLogic;
 import net.minecraft.server.level.ServerBossEvent;
-import net.minecraft.world.BossEvent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundInitializeBorderPacket;
+import net.minecraft.network.protocol.game.ServerboundClientCommandPacket;
 import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
 import net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket;
 import net.minecraft.network.protocol.game.ClientboundSetTitlesAnimationPacket;
+import net.minecraft.world.BossEvent;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.phys.AABB;
+import net.minecraft.world.effect.MobEffectInstance;
 import ru.studhub.hungergames.HungerGames;
 import ru.studhub.hungergames.arena.ArenaService;
+import ru.studhub.hungergames.arena.LazyArenaLoot;
 import ru.studhub.hungergames.arena.ArenaEnvironment;
 import ru.studhub.hungergames.arena.BorderService;
 import ru.studhub.hungergames.config.ConfigManager;
@@ -42,7 +44,6 @@ import ru.studhub.hungergames.reward.RewardService;
 import ru.studhub.hungergames.storage.EventJournal;
 import ru.studhub.hungergames.mixin.ServerPlayerAccess;
 import com.mojang.serialization.JsonOps;
-import net.minecraft.world.effect.MobEffectInstance;
 
 public final class EventController {
     public enum Phase { IDLE, RECRUITING, COUNTDOWN, PREPARING, WARMUP, BATTLE, FINISHING }
@@ -52,6 +53,7 @@ public final class EventController {
     private final ConfigManager configs = new ConfigManager();
     private final EventJournal journal;
     private final ArenaService arena;
+    private final LazyArenaLoot loot;
     private final ArenaEnvironment environment;
     private final BorderService border = new BorderService();
     private final RandomGenerator random = RandomGenerator.getDefault();
@@ -81,6 +83,7 @@ public final class EventController {
         this.server = server;
         journal = new EventJournal(server);
         arena = new ArenaService(server);
+        loot = new LazyArenaLoot(error -> { HungerGames.LOGGER.error(error); if (phase != Phase.IDLE) cancel(error); });
         environment = new ArenaEnvironment(server);
         try { reload(); }
         catch (IOException | RuntimeException e) {
@@ -90,6 +93,7 @@ public final class EventController {
     }
 
     public Phase phase() { return phase; }
+    public LazyArenaLoot loot() { return loot; }
     public HgSettings settings() { return active == null ? configs.snapshot().settings() : active.settings(); }
     public PlayerRecord record(ServerPlayer player) { return journal.data.players.get(player.getStringUUID()); }
     public boolean engaged(ServerPlayer player) { PlayerRecord r = record(player); return r != null && r.role != Role.RETURNING; }
@@ -130,7 +134,7 @@ public final class EventController {
         registrationDeadline = seconds + settings().registrationSeconds;
         countdownDeadline = -1;
         phase = Phase.RECRUITING;
-        broadcast(settings().announcement);
+        broadcast(settings().announcement.replace("{max_players}", Integer.toString(settings().maxPlayers)));
     }
 
     public void invite(ServerPlayer player) {
@@ -195,17 +199,13 @@ public final class EventController {
         forcedStart = forced;
         phase = Phase.PREPARING;
         broadcast("Подготовка арены. Участников: " + count + (forced ? " (принудительный старт)." : "."));
-        arena.scan(settings(), active.chests(), random, error -> {
-            if (error != null) { cancel(error); return; }
-            try { beginWarmup(); }
-            catch (RuntimeException e) { HungerGames.LOGGER.error("Cannot start battle", e); cancel(e.getMessage()); }
-        });
+        loot.begin(arena.level(settings()), settings(), active.chests(), journal.data.eventId, random);
     }
 
     private void beginWarmup() {
         List<PlayerRecord> players = queued();
         if (!forcedStart && players.size() < settings().minPlayers) throw new IllegalStateException("Участников стало меньше минимума во время подготовки");
-        // Revalidate after the incremental scan: players may have left while it was running.
+        // Players may have left since the start command was queued.
         for (PlayerRecord record : players) {
             ServerPlayer player = online(record);
             if (player == null) throw new IllegalStateException("Участник покинул подготовку: " + record.name);
@@ -330,6 +330,11 @@ public final class EventController {
         ticks++;
         if (ticks % 20 == 0) environment.tick();
         arena.tick();
+        if (phase == Phase.PREPARING) {
+            try { beginWarmup(); }
+            catch (RuntimeException e) { HungerGames.LOGGER.error("Cannot start battle", e); cancel(e.getMessage()); }
+        }
+        loot.tick();
         if (phase == Phase.WARMUP) {
             for (PlayerRecord record : alive()) {
                 ServerPlayer player = online(record);
@@ -391,6 +396,7 @@ public final class EventController {
         PlayerRecord winner = survivors.isEmpty() ? null : survivors.getFirst();
         if (winner != null) winner.reward = RewardService.prepare(server, active, journal.data.startingPlayers, random);
         phase = Phase.FINISHING;
+        loot.end();
         finishDeadline = winner == null ? ticks : ticks + TRANSITION_TICKS;
         for (PlayerRecord record : journal.data.players.values()) record.role = Role.RETURNING;
         journal.save();
@@ -418,6 +424,7 @@ public final class EventController {
         frozenSpawns.clear();
         lobbyTimer.removeAllPlayers();
         arena.release();
+        loot.end();
         border.reset();
         for (PlayerRecord record : List.copyOf(journal.data.players.values())) {
             ServerPlayer player = online(record);

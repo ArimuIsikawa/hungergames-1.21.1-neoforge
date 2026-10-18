@@ -8,21 +8,21 @@ import org.junit.jupiter.api.Test;
 
 class EventRulesTest {
     private long update(long deadline, long now, int players) {
-        return EventRules.countdown(deadline, now, players, 4, 8, 180, 15);
+        return EventRules.countdown(deadline, now, players, 16, 32, 180, 15);
     }
 
     @Test void countdownResetsOnlyBelowMinimum() {
-        assertEquals(-1, update(-1, 100, 3));
-        assertEquals(280, update(-1, 100, 4));
-        assertEquals(280, update(280, 120, 7));
-        assertEquals(-1, update(280, 130, 3));
-        assertEquals(320, update(-1, 140, 4));
+        assertEquals(-1, update(-1, 100, 15));
+        assertEquals(280, update(-1, 100, 16));
+        assertEquals(280, update(280, 120, 31));
+        assertEquals(-1, update(280, 130, 15));
+        assertEquals(320, update(-1, 140, 16));
     }
 
-    @Test void eighthPlayerShortensButNeverExtendsTheDeadline() {
-        assertEquals(135, update(280, 120, 8));
-        assertEquals(135, update(135, 122, 7));
-        assertEquals(130, update(130, 128, 8));
+    @Test void thirtySecondPlayerShortensButNeverExtendsTheDeadline() {
+        assertEquals(135, update(280, 120, 32));
+        assertEquals(135, update(135, 122, 31));
+        assertEquals(130, update(130, 128, 32));
     }
 
     @Test void scheduleHonoursMoscowWindowAndPersistentDate() {
@@ -37,9 +37,10 @@ class EventRulesTest {
 
     @Test void forcedSmallMatchesDoNotInventABonusChance() {
         assertEquals(0, EventRules.bonusChance(0));
-        assertEquals(0, EventRules.bonusChance(3));
-        for (int players = 4; players <= 8; players++) assertEquals((players - 3) * .2,
+        assertEquals(0, EventRules.bonusChance(15));
+        for (int players = 16; players <= 32; players++) assertEquals(.2 + (players - 16) * .05,
                 EventRules.bonusChance(players), .000001);
-        assertEquals(1, EventRules.bonusChance(8));
+        assertEquals(1, EventRules.bonusChance(32));
+        assertEquals(1, EventRules.bonusChance(40));
     }
 }

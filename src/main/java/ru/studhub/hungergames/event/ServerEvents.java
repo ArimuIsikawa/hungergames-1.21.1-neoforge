@@ -16,8 +16,10 @@ import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerContainerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
+import net.neoforged.neoforge.event.level.ChunkEvent;
 import net.neoforged.neoforge.event.level.ExplosionEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.event.server.ServerStoppingEvent;
@@ -55,8 +57,33 @@ public final class ServerEvents {
     }
     @SubscribeEvent public void mobJoin(EntityJoinLevelEvent event) {
         EventController c = HungerGames.controller();
-        if (!event.getLevel().isClientSide() && c != null && c.arenaLevel(event.getLevel()) && event.getEntity() instanceof Mob) {
-            event.setCanceled(true);
+        if (!event.getLevel().isClientSide() && c != null && c.arenaLevel(event.getLevel())) {
+            if (event.getEntity() instanceof Mob || !c.loot().entityJoined(event.getEntity(), event.loadedFromDisk())) event.setCanceled(true);
+        }
+    }
+    @SubscribeEvent public void chunkLoad(ChunkEvent.Load event) {
+        if (event.getLevel() instanceof net.minecraft.server.level.ServerLevel level) {
+            EventController c = HungerGames.controller();
+            if (c != null && c.arenaLevel(level)) {
+                var pos = event.getChunk().getPos();
+                level.getServer().execute(() -> { if (HungerGames.controller() == c) c.loot().loaded(level, pos); });
+            }
+        }
+    }
+    @SubscribeEvent public void chunkUnload(ChunkEvent.Unload event) {
+        if (event.getLevel() instanceof net.minecraft.server.level.ServerLevel level) {
+            EventController c = HungerGames.controller();
+            if (c != null && c.arenaLevel(level)) {
+                var pos = event.getChunk().getPos();
+                level.getServer().execute(() -> { if (HungerGames.controller() == c) c.loot().unloaded(level, pos); });
+            }
+        }
+    }
+    @SubscribeEvent public void menuOpened(PlayerContainerEvent.Open event) {
+        EventController c = HungerGames.controller();
+        if (c != null && event.getEntity() instanceof ServerPlayer player && c.live(player)) {
+            try { c.loot().menuOpened(player, event.getContainer()); }
+            catch (RuntimeException e) { player.closeContainer(); c.cancel("Ошибка заполнения сундука: " + e.getMessage()); }
         }
     }
     @SubscribeEvent public void clonePlayer(PlayerEvent.Clone event) {
@@ -103,6 +130,13 @@ public final class ServerEvents {
         EventController c = HungerGames.controller();
         if (c == null || !c.protectedLevel(player.level())) return;
         if (!c.live(player)) { event.setCanceled(true); return; }
+        try {
+            if (!c.loot().beforeOpen(player, event.getPos())) { event.setCanceled(true); return; }
+        } catch (RuntimeException e) {
+            event.setCanceled(true);
+            c.cancel("Ошибка заполнения сундука: " + e.getMessage());
+            return;
+        }
         if (!player.isSecondaryUseActive()
                 && player.level().getBlockState(event.getPos()).getMenuProvider(player.level(), event.getPos()) != null) {
             // Open the block's menu before a held weapon/item can consume the interaction.

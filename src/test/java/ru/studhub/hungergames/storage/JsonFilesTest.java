@@ -25,4 +25,20 @@ class JsonFilesTest {
         Files.writeString(path, "null");
         assertThrows(java.io.IOException.class, () -> JsonFiles.read(path, Value.class));
     }
+
+    @Test
+    @org.junit.jupiter.api.condition.EnabledOnOs(org.junit.jupiter.api.condition.OS.WINDOWS)
+    void retriesBriefWindowsReplacementLock() throws Exception {
+        Path path = directory.resolve("locked.json");
+        JsonFiles.write(path, new Value("before", 1));
+        var lock = java.nio.channels.FileChannel.open(path, java.nio.file.StandardOpenOption.READ,
+                com.sun.nio.file.ExtendedOpenOption.NOSHARE_DELETE);
+        Thread release = Thread.ofPlatform().start(() -> {
+            try { Thread.sleep(10); lock.close(); }
+            catch (Exception e) { throw new RuntimeException(e); }
+        });
+        try { JsonFiles.write(path, new Value("after", 2)); }
+        finally { lock.close(); release.join(); }
+        assertEquals(new Value("after", 2), JsonFiles.read(path, Value.class));
+    }
 }
