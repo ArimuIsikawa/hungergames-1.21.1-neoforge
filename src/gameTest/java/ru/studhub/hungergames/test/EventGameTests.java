@@ -187,6 +187,17 @@ public final class EventGameTests {
             dispatcher.execute("hg tp_center", admin.createCommandSourceStack().withPermission(2));
             assertAtCenter(helper, controller, admin, arena);
             helper.assertTrue(controller.phase() == EventController.Phase.RECRUITING, "Admin teleport changed event phase");
+            boolean returnDenied = false;
+            try { dispatcher.execute("hg tp_world", admin.createCommandSourceStack().withPermission(1)); }
+            catch (com.mojang.brigadier.exceptions.CommandSyntaxException expected) { returnDenied = true; }
+            helper.assertTrue(returnDenied && admin.serverLevel() == arena, "Non-operator used tp_world");
+            helper.assertTrue(dispatcher.execute("hg tp_world", admin.createCommandSourceStack().withPermission(2)) == 1
+                    && admin.serverLevel() == helper.getLevel(), "Return command did not reach the overworld during an event");
+            dispatcher.execute("hg tp_center", admin.createCommandSourceStack().withPermission(2));
+            var profile = admin.getGameProfile();
+            admin.server.getPlayerList().remove(admin);
+            admin = reconnect(helper, profile);
+            helper.assertTrue(admin.serverLevel() == helper.getLevel(), "Login from saved arena position did not force overworld return");
             controller.cancel(null);
             helper.assertTrue(admin.getInventory().countItem(Items.EMERALD) == 11 && admin.gameMode.getGameModeForPlayer() == GameType.CREATIVE,
                     "Admin teleport changed inventory or game mode");
@@ -194,6 +205,16 @@ public final class EventGameTests {
             origin.teleport(admin);
         } catch (com.mojang.brigadier.exceptions.CommandSyntaxException error) { throw new IllegalStateException(error); }
         finally { admin.server.getPlayerList().remove(admin); }
+    }
+
+    private static ServerPlayer reconnect(GameTestHelper helper, GameProfile profile) {
+        var cookie = CommonListenerCookie.createInitial(profile, false);
+        var player = new ServerPlayer(helper.getLevel().getServer(), helper.getLevel(), profile, cookie.clientInformation());
+        Connection connection = new Connection(PacketFlow.SERVERBOUND);
+        new EmbeddedChannel(connection);
+        NetworkRegistry.configureMockConnection(connection);
+        helper.getLevel().getServer().getPlayerList().placeNewPlayer(connection, player, cookie);
+        return player;
     }
 
     private static void assertAtCenter(GameTestHelper helper, EventController controller, ServerPlayer player, ServerLevel arena) {
@@ -280,12 +301,14 @@ public final class EventGameTests {
             ServerPlayer observer = player(helper);
             observer.getInventory().setItem(0, new ItemStack(Items.EMERALD, 17));
             controller.spectator(observer);
-            controller.leave(observer);
+            helper.getLevel().getServer().getCommands().performPrefixedCommand(observer.createCommandSourceStack().withPermission(2), "hg tp_world");
             helper.assertTrue(observer.getInventory().countItem(Items.EMERALD) == 17, "Observer lost personal items");
+            helper.assertTrue(observer.serverLevel() == helper.getLevel(), "Observer return command left player in arena");
             helper.getLevel().getServer().getPlayerList().remove(observer);
             players.getFirst().getInventory().setItem(0, new ItemStack(Items.GOLD_INGOT, 2));
             if (count == 2) helper.getLevel().getServer().getPlayerList().remove(players.getFirst());
-            else controller.leave(players.getFirst());
+            else helper.getLevel().getServer().getCommands().performPrefixedCommand(
+                    players.getFirst().createCommandSourceStack().withPermission(2), "hg tp_world");
             prepared(helper, controller, count == 2 ? EventController.Phase.IDLE : EventController.Phase.BATTLE, () -> {
                 if (count == 2) {
                     helper.assertTrue(controller.phase() == EventController.Phase.IDLE, "Disconnect did not eliminate participant");
@@ -479,12 +502,31 @@ public final class EventGameTests {
             HungerGames.start(helper.getLevel().getServer());
             EventController restarted = HungerGames.controller();
             helper.assertTrue(restarted.record(observer).role == PlayerRecord.Role.RETURNING, "Restart did not schedule recovery");
-            restarted.restore(observer);
+            restarted.login(observer);
             restarted.restore(observer);
             helper.assertTrue(observer.serverLevel() == helper.getLevel(), "Journal recovery left player in arena");
             helper.assertTrue(observer.getInventory().countItem(Items.EMERALD) == 23, "Journal recovery lost or duplicated spectator items");
             helper.getLevel().getServer().getPlayerList().remove(observer);
-            helper.succeed();
+            reconnectWinner(helper, restarted, arena);
         } catch (Exception e) { throw new RuntimeException(e); }
+    }
+
+    private static void reconnectWinner(GameTestHelper helper, EventController controller, ServerLevel arena) {
+        ServerPlayer winner = player(helper);
+        controller.open(false);
+        controller.invite(winner);
+        controller.start(true);
+        prepared(helper, controller, EventController.Phase.FINISHING, () -> {
+            helper.assertTrue(winner.serverLevel() == arena, "Winner did not enter return delay");
+            var profile = winner.getGameProfile();
+            winner.server.getPlayerList().remove(winner);
+            ServerPlayer reconnected = reconnect(helper, profile);
+            helper.assertTrue(reconnected.serverLevel() == helper.getLevel(), "Reconnecting winner remained in arena until the delay ended");
+            helper.assertTrue(reconnected.getInventory().countItem(Items.DIAMOND) == 1 && controller.record(reconnected) == null,
+                    "Winner login lost or duplicated reward");
+            controller.cancel(null);
+            helper.getLevel().getServer().getPlayerList().remove(reconnected);
+            helper.succeed();
+        });
     }
 }

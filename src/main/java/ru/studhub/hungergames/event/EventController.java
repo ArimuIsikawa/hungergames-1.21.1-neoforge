@@ -17,6 +17,7 @@ import net.minecraft.network.protocol.game.ServerboundClientCommandPacket;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.level.PlayerRespawnLogic;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.world.BossEvent;
 import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
@@ -25,6 +26,7 @@ import net.minecraft.network.protocol.game.ClientboundSetTitlesAnimationPacket;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.phys.AABB;
 import ru.studhub.hungergames.HungerGames;
 import ru.studhub.hungergames.arena.ArenaService;
@@ -430,17 +432,20 @@ public final class EventController {
     }
 
     public void restore(ServerPlayer player) {
+        restore(player, false);
+    }
+
+    private void restore(ServerPlayer player, boolean immediate) {
         PlayerRecord record = record(player);
         if (record == null || record.role != Role.RETURNING || !player.isAlive()) return;
-        if (phase == Phase.FINISHING && finishDeadline > ticks) return;
+        if (!immediate && phase == Phase.FINISHING && finishDeadline > ticks) return;
         if (!record.token.equals(player.getPersistentData().getString(RECEIPT))) {
             Position destination = record.origin;
             ServerLevel target = destination.level(server);
             if (target != null) target.getChunkAt(destination.block());
             if (target == null || arenaLevel(target) || !target.noCollision(new AABB(destination.x() - .3, destination.y(), destination.z() - .3,
                     destination.x() + .3, destination.y() + 1.8, destination.z() + .3))) {
-                BlockPos spawn = server.overworld().getSharedSpawnPos();
-                destination = new Position(Level.OVERWORLD.location().toString(), spawn.getX() + .5, spawn.getY() + .1, spawn.getZ() + .5, 0, 0);
+                destination = worldSpawn(player);
             }
             if (record.participant) {
                 if (record.enteredBattle) PlayerInventory.clear(player);
@@ -481,6 +486,40 @@ public final class EventController {
         border.sync(player);
         environment.sync(player);
         player.sendSystemMessage(message("Вы перемещены в центр арены."));
+    }
+
+    public void login(ServerPlayer player) {
+        if (arenaLevel(player.level())) teleportWorld(player);
+        else restore(player);
+        environment.sync(player);
+    }
+
+    public void teleportWorld(ServerPlayer player) {
+        PlayerRecord record = record(player);
+        if (record != null) {
+            // Complete inventory restoration and receipt handling before leaving the arena.
+            if (!record.origin.dimension().equals(Level.OVERWORLD.location().toString())) {
+                record.origin = worldSpawn(player);
+                journal.save();
+            }
+            leave(player);
+            restore(player, true);
+        }
+        frozenSpawns.remove(player.getUUID());
+        if (player.serverLevel() != server.overworld()) worldSpawn(player).teleport(player);
+        player.connection.send(new ClientboundInitializeBorderPacket(server.overworld().getWorldBorder()));
+        environment.sync(player);
+        player.sendSystemMessage(message("Вы возвращены в обычный мир."));
+    }
+
+    private Position worldSpawn(ServerPlayer player) {
+        ServerLevel world = server.overworld();
+        BlockPos spawn = world.getSharedSpawnPos();
+        world.getChunkAt(spawn);
+        BlockPos safe = PlayerRespawnLogic.getSpawnPosInChunk(world, new ChunkPos(spawn));
+        if (safe == null) safe = spawn;
+        return new Position(Level.OVERWORLD.location().toString(), safe.getX() + .5, safe.getY(), safe.getZ() + .5,
+                player.getYRot(), player.getXRot());
     }
 
     private void showWarmup(int seconds) {

@@ -33,10 +33,9 @@ public final class ServerEvents {
         EventController c = HungerGames.controller();
         if (c != null) c.tick();
     }
-    @SubscribeEvent public void login(PlayerEvent.PlayerLoggedInEvent event) {
+    @SubscribeEvent(priority = EventPriority.LOWEST) public void login(PlayerEvent.PlayerLoggedInEvent event) {
         if (event.getEntity() instanceof ServerPlayer player && HungerGames.controller() != null) {
-            HungerGames.controller().restore(player);
-            HungerGames.controller().syncEnvironment(player);
+            HungerGames.controller().login(player);
         }
     }
     @SubscribeEvent public void logout(PlayerEvent.PlayerLoggedOutEvent event) {
