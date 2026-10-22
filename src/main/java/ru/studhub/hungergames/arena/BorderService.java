@@ -30,7 +30,7 @@ public final class BorderService {
     public void update(long now) {
         if (level == null) return;
         if (!shrinking && now - startedAt >= settings.delaySeconds) {
-            border.lerpSizeBetween(settings.initialSize, settings.finalSize, settings.shrinkSeconds * 1000L);
+            border.lerpSizeBetween(settings.initialSize, settings.finalSize, settings.shrinkDurationMillis());
             shrinking = true;
         }
         border.tick();

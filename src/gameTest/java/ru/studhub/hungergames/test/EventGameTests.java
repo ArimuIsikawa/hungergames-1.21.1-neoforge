@@ -115,6 +115,7 @@ public final class EventGameTests {
         settings.border.finalSize = 8;
         settings.border.delaySeconds = 0;
         settings.border.shrinkSeconds = 60;
+        settings.border.shrinkBlocksPerSecond = 0;
         // Keep real-clock scheduling out of deterministic lifecycle tests.
         settings.scheduleTime = java.time.LocalTime.now(java.time.ZoneId.of(settings.scheduleZone))
                 .plusHours(12).withSecond(0).withNano(0).toString();
@@ -190,6 +191,8 @@ public final class EventGameTests {
                     "Operator could not use tp_center from another dimension");
             assertAtCenter(helper, controller, admin, arena);
             helper.assertTrue(admin.getYRot() == 135 && admin.getXRot() == 25, "Center teleport changed looking direction");
+            verifyZonaCommands(helper, controller, admin, arena);
+            verifyEventLimitCommands(helper, controller, admin);
             new Position("hungergames:arena", 9.5, 80, 9.5, 135, 25).teleport(admin);
             dispatcher.execute("hg tp_center", admin.createCommandSourceStack().withPermission(2));
             assertAtCenter(helper, controller, admin, arena);
@@ -214,8 +217,160 @@ public final class EventGameTests {
                     "Admin teleport changed inventory or game mode");
             helper.assertTrue(controller.record(admin) == null, "Admin teleport registered the player in the event");
             origin.teleport(admin);
-        } catch (com.mojang.brigadier.exceptions.CommandSyntaxException error) { throw new IllegalStateException(error); }
+        } catch (Exception error) { throw new IllegalStateException(error); }
         finally { admin.server.getPlayerList().remove(admin); }
+    }
+
+    private static boolean commandRejected(com.mojang.brigadier.CommandDispatcher<net.minecraft.commands.CommandSourceStack> dispatcher,
+                                           String command, net.minecraft.commands.CommandSourceStack source) {
+        try { return dispatcher.execute(command, source) == 0; }
+        catch (com.mojang.brigadier.exceptions.CommandSyntaxException expected) { return true; }
+    }
+
+    private static void verifyEventLimitCommands(GameTestHelper helper, EventController controller, ServerPlayer admin) throws Exception {
+        var dispatcher = admin.server.getCommands().getDispatcher();
+        var console = admin.server.createCommandSourceStack();
+        var settingsFile = FMLPaths.CONFIGDIR.get().resolve("hungergames/settings.json");
+        String originalSettings = java.nio.file.Files.readString(settingsFile);
+        HgSettings defaults = controller.settings();
+        List<ServerPlayer> players = new ArrayList<>();
+        try {
+            helper.assertTrue(commandRejected(dispatcher, "hg create_event 2 3", admin.createCommandSourceStack().withPermission(1)),
+                    "Non-operator opened an event with custom limits");
+            for (String command : List.of("hg create_event 1 2", "hg create_event 0 32", "hg create_event 2 33",
+                    "hg create_event 33 33", "hg create_event 4 3", "hg create_event 2 1", "hg create_event 2",
+                    "hg create_event 2.5 3")) {
+                helper.assertTrue(commandRejected(dispatcher, command, console), "Invalid event limits accepted: " + command);
+                helper.assertTrue(controller.phase() == EventController.Phase.IDLE && controller.settings() == defaults,
+                        "Invalid command changed event state or default settings");
+            }
+            for (String command : List.of("hg create_event 2 2", "hg create_event 32 32")) {
+                helper.assertTrue(dispatcher.execute(command, console) == 1, "Valid boundary limits rejected");
+                controller.cancel(null);
+            }
+            helper.assertTrue(dispatcher.execute("hg create_event 2 3", admin.createCommandSourceStack().withPermission(2)) == 1,
+                    "Operator could not create an event with custom limits");
+            helper.assertTrue(controller.settings().minPlayers == 2 && controller.settings().maxPlayers == 3
+                    && defaults.minPlayers == 16 && defaults.maxPlayers == 32, "Event limits modified global defaults");
+            helper.assertTrue(commandRejected(dispatcher, "hg create_event 4 5", console)
+                    && controller.settings().minPlayers == 2 && controller.settings().maxPlayers == 3,
+                    "Opening another event replaced active limits");
+            for (int i = 0; i < 4; i++) players.add(player(helper));
+            controller.invite(players.get(0));
+            helper.assertTrue(controller.phase() == EventController.Phase.RECRUITING, "One player triggered a two-player countdown");
+            controller.invite(players.get(1));
+            helper.assertTrue(controller.phase() == EventController.Phase.COUNTDOWN, "Custom minimum did not start the countdown");
+            controller.leave(players.get(1));
+            helper.assertTrue(controller.phase() == EventController.Phase.RECRUITING, "Countdown did not reset below the custom minimum");
+            controller.invite(players.get(1));
+            controller.invite(players.get(2));
+            helper.assertTrue(commandRejected(dispatcher, "hg invite", players.get(3).createCommandSourceStack())
+                    && controller.record(players.get(3)) == null, "Custom maximum admitted an extra player");
+            controller.leave(players.get(2));
+            helper.assertTrue(controller.phase() == EventController.Phase.COUNTDOWN, "Leaving above the custom minimum reset the countdown");
+            controller.start(false);
+            helper.assertTrue(controller.phase() == EventController.Phase.PREPARING && controller.settings().minPlayers == 2
+                    && controller.settings().maxPlayers == 3, "Battle preparation lost custom limits or rejected two participants");
+            controller.cancel(null);
+            for (ServerPlayer player : players) helper.assertTrue(controller.record(player) == null && !controller.arenaLevel(player.level()),
+                    "Cancellation did not return custom-event participants");
+            helper.assertTrue(controller.settings() == defaults, "Cancellation did not restore global defaults");
+            helper.assertTrue(dispatcher.execute("hg create_event", console) == 1 && controller.settings() == defaults,
+                    "The original no-argument command lost global defaults");
+            controller.cancel(null);
+            controller.open(true);
+            helper.assertTrue(controller.settings() == defaults, "Scheduled events inherited custom limits");
+            controller.cancel(null);
+            helper.assertTrue(originalSettings.equals(java.nio.file.Files.readString(settingsFile)), "Custom limits changed settings.json");
+            admin.server.sendSystemMessage(net.minecraft.network.chat.Component.literal(
+                    "HG_EVENT_LIMITS PASS: bounds, permissions, per-event settings, countdown, capacity, two-player start, cancellation, default/scheduled events"));
+        } finally {
+            if (controller.phase() != EventController.Phase.IDLE) controller.cancel(null);
+            for (ServerPlayer player : players) admin.server.getPlayerList().remove(player);
+        }
+    }
+
+    private static void verifyZonaCommands(GameTestHelper helper, EventController controller, ServerPlayer admin, ServerLevel arena) throws Exception {
+        var dispatcher = admin.server.getCommands().getDispatcher();
+        var console = admin.server.createCommandSourceStack();
+        var operator = admin.createCommandSourceStack().withPermission(2);
+        var settingsFile = FMLPaths.CONFIGDIR.get().resolve("hungergames/settings.json");
+        var originalBorder = JsonFiles.GSON.fromJson(JsonFiles.GSON.toJsonTree(controller.settings().border), HgSettings.Border.class);
+        Position originalPosition = Position.of(admin);
+        try {
+            for (String command : List.of("hg zona set center", "hg zona set speed 2", "hg zona set size 128")) {
+                helper.assertTrue(commandRejected(dispatcher, command, admin.createCommandSourceStack().withPermission(1)),
+                        "Non-operator changed the zone: " + command);
+            }
+            helper.assertTrue(dispatcher.execute("hg zona set size 128", console) == 1
+                    && dispatcher.execute("hg zona set speed 2", console) == 1, "Console cannot set the zone");
+            helper.assertTrue(controller.settings().border.shrinkDurationMillis() == 60_000, "Zone speed has incorrect units");
+            helper.assertTrue(dispatcher.execute("hg zona set speed 2.5", operator) == 1
+                    && controller.settings().border.shrinkDurationMillis() == 48_000, "Fractional speed was rounded");
+            dispatcher.execute("hg zona set size 256", operator);
+            helper.assertTrue(controller.settings().border.shrinkBlocksPerSecond == 2.5
+                    && controller.settings().border.shrinkDurationMillis() == 99_200, "Changing size changed the configured speed");
+            String beforeInvalid = java.nio.file.Files.readString(settingsFile);
+            var beforeInvalidBorder = JsonFiles.GSON.toJsonTree(controller.settings().border);
+            for (String command : List.of("hg zona set speed 0", "hg zona set speed -1", "hg zona set speed NaN",
+                    "hg zona set size 0", "hg zona set size 4", "hg zona set size 60000000", "hg zona set center 30000000 0")) {
+                helper.assertTrue(commandRejected(dispatcher, command, operator), "Invalid zone command was accepted: " + command);
+            }
+            helper.assertTrue(beforeInvalid.equals(java.nio.file.Files.readString(settingsFile))
+                    && beforeInvalidBorder.equals(JsonFiles.GSON.toJsonTree(controller.settings().border)), "Invalid input changed the saved or live settings");
+            new Position(controller.settings().arenaDimension, 6.5, 80, -3.5, 0, 0).teleport(admin);
+            dispatcher.execute("hg zona set center", admin.createCommandSourceStack().withPermission(2));
+            helper.assertTrue(controller.settings().border.centerX == 6.5 && controller.settings().border.centerZ == -3.5,
+                    "Zone center did not use the current position");
+            dispatcher.execute("hg border set_center", admin.createCommandSourceStack().withPermission(2));
+            helper.assertTrue(controller.settings().border.centerX == 6.5, "Legacy center command stopped working");
+            new Position(helper.getLevel().dimension().location().toString(), 0.5, 80, 0.5, 0, 0).teleport(admin);
+            helper.assertTrue(commandRejected(dispatcher, "hg zona set center", admin.createCommandSourceStack().withPermission(2)),
+                    "Position-based center accepted the wrong dimension");
+            dispatcher.execute("hg zona set center 8.5 -2.5", console);
+            controller.reload();
+            var saved = controller.settings().border;
+            helper.assertTrue(saved.centerX == 8.5 && saved.centerZ == -2.5 && saved.initialSize == 256
+                    && saved.shrinkBlocksPerSecond == 2.5, "Zone settings did not survive reload");
+            for (double invalid : new double[] {Double.NaN, Double.POSITIVE_INFINITY, -1, .0001, 59_000_001}) {
+                var copy = JsonFiles.GSON.fromJson(JsonFiles.GSON.toJsonTree(controller.settings()), HgSettings.class);
+                copy.border.shrinkBlocksPerSecond = invalid;
+                boolean rejected = false;
+                try { copy.validate(); } catch (IllegalArgumentException expected) { rejected = true; }
+                helper.assertTrue(rejected, "Invalid speed in JSON accepted: " + invalid);
+            }
+            var legacy = new HgSettings.Border();
+            helper.assertTrue(legacy.shrinkDurationMillis() == 600_000, "Legacy shrinkSeconds was ignored");
+            legacy.initialSize = legacy.finalSize;
+            legacy.shrinkBlocksPerSecond = 1;
+            helper.assertTrue(legacy.shrinkDurationMillis() == 1, "Equal sizes produced an invalid transition duration");
+            var service = new ru.studhub.hungergames.arena.BorderService();
+            double overworldSize = helper.getLevel().getWorldBorder().getSize();
+            try {
+                service.start(arena, saved, 0);
+                service.update(saved.delaySeconds);
+                var borderField = service.getClass().getDeclaredField("border");
+                borderField.setAccessible(true);
+                var actual = (net.minecraft.world.level.border.WorldBorder) borderField.get(service);
+                helper.assertTrue(Math.abs(actual.getLerpSpeed() - .0025) < .000000001 && actual.getLerpTarget() == saved.finalSize,
+                        "World border did not use the configured speed");
+                helper.assertTrue(helper.getLevel().getWorldBorder().getSize() == overworldSize, "Zone commands changed the overworld border");
+            } finally { service.reset(); }
+            controller.open(false);
+            String duringEvent = java.nio.file.Files.readString(settingsFile);
+            for (String command : List.of("hg zona set center 0 0", "hg zona set speed 10", "hg zona set size 1000")) {
+                helper.assertTrue(commandRejected(dispatcher, command, console), "Changed zone settings during an event");
+            }
+            helper.assertTrue(duringEvent.equals(java.nio.file.Files.readString(settingsFile)), "Event changed stored zone settings");
+            controller.cancel(null);
+            helper.getLevel().getServer().sendSystemMessage(net.minecraft.network.chat.Component.literal(
+                    "HG_ZONA_COMMANDS PASS: permissions, center/alias/dimension, square size, fractional speed, persistence, validation, legacy duration, native border, event guard"));
+        } finally {
+            if (controller.phase() != EventController.Phase.IDLE) controller.cancel(null);
+            controller.settings().border = originalBorder;
+            controller.saveSettings();
+            originalPosition.teleport(admin);
+        }
     }
 
     private static ServerPlayer reconnect(GameTestHelper helper, GameProfile profile) {

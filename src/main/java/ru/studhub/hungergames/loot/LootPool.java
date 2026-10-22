@@ -13,9 +13,13 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
 import ru.studhub.hungergames.storage.JsonFiles;
 
-public record LootPool(int minRolls, int maxRolls, List<Entry> entries, List<StackRoll> guaranteed, List<LootPool> pools) {
+public record LootPool(int minRolls, int maxRolls, List<Entry> entries, List<StackRoll> guaranteed, List<LootPool> pools,
+                       double chance) {
     public LootPool(int minRolls, int maxRolls, List<Entry> entries) {
         this(minRolls, maxRolls, entries, List.of(), List.of());
+    }
+    public LootPool(int minRolls, int maxRolls, List<Entry> entries, List<StackRoll> guaranteed, List<LootPool> pools) {
+        this(minRolls, maxRolls, entries, guaranteed, pools, 1);
     }
     public record StackRoll(ItemStack stack, int minCount, int maxCount) {
         private ItemStack roll(RandomGenerator random) {
@@ -53,6 +57,10 @@ public record LootPool(int minRolls, int maxRolls, List<Entry> entries, List<Sta
 
     private static LootPool readPool(JsonObject json, HolderLookup.Provider registries, int depth) {
         if (depth > 8) throw new IllegalArgumentException("Too many nested pools");
+        double poolChance = json.has("chance") ? json.get("chance").getAsDouble() : 1;
+        if (!Double.isFinite(poolChance) || poolChance < 0 || poolChance > 1) {
+            throw new IllegalArgumentException("Pool chance must be between 0 and 1");
+        }
         int min = json.get("minRolls").getAsInt(), max = json.get("maxRolls").getAsInt();
         if (min < 1 || max < min || max > 27) throw new IllegalArgumentException("rolls must be between 1 and 27");
         List<Entry> entries = new ArrayList<>();
@@ -97,14 +105,15 @@ public record LootPool(int minRolls, int maxRolls, List<Entry> entries, List<Sta
         if (json.has("pools")) for (JsonElement pool : json.getAsJsonArray("pools")) {
             pools.add(readPool(pool.getAsJsonObject(), registries, depth + 1));
         }
-        LootPool result = new LootPool(min, max, List.copyOf(entries), List.copyOf(guaranteed), List.copyOf(pools));
+        LootPool result = new LootPool(min, max, List.copyOf(entries), List.copyOf(guaranteed), List.copyOf(pools), poolChance);
         if (result.maxStacks() > 27) throw new IllegalArgumentException("Combined loot must not exceed 27 container slots");
         return result;
     }
 
-    public boolean isEmpty() { return entries.isEmpty() && guaranteed.isEmpty() && pools.stream().allMatch(LootPool::isEmpty); }
+    public boolean isEmpty() { return chance == 0 || entries.isEmpty() && guaranteed.isEmpty() && pools.stream().allMatch(LootPool::isEmpty); }
 
     public int maxStacks() {
+        if (chance == 0) return 0;
         return maxRolls * entries.stream().mapToInt(e -> 1 + e.companions.size()
                         + (int) e.optionalCompanions.stream().filter(p -> p.chance > 0).count()).max().orElse(0)
                 + guaranteed.size() + pools.stream().mapToInt(LootPool::maxStacks).sum();
@@ -127,6 +136,7 @@ public record LootPool(int minRolls, int maxRolls, List<Entry> entries, List<Sta
     }
 
     public List<ItemStack> roll(RandomGenerator random) {
+        if (chance == 0 || chance < 1 && random.nextDouble() >= chance) return List.of();
         List<ItemStack> stacks = new ArrayList<>();
         for (StackRoll item : guaranteed) stacks.add(item.roll(random));
         int count = entries.isEmpty() ? 0 : random.nextInt(minRolls, maxRolls + 1);

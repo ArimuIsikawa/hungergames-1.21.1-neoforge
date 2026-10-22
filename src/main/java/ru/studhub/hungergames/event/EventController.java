@@ -42,6 +42,7 @@ import ru.studhub.hungergames.player.PlayerRecord.Role;
 import ru.studhub.hungergames.player.Position;
 import ru.studhub.hungergames.reward.RewardService;
 import ru.studhub.hungergames.storage.EventJournal;
+import ru.studhub.hungergames.storage.JsonFiles;
 import ru.studhub.hungergames.mixin.ServerPlayerAccess;
 import com.mojang.serialization.JsonOps;
 
@@ -124,8 +125,22 @@ public final class EventController {
     }
 
     public void open(boolean scheduled) {
+        open(configs.snapshot());
+    }
+
+    public void open(int minimum, int maximum) {
+        if (minimum < 2 || maximum < minimum || maximum > HgSettings.PLAYER_LIMIT) {
+            throw new IllegalArgumentException("Лимиты участников: 2 ≤ min ≤ max ≤ " + HgSettings.PLAYER_LIMIT + ".");
+        }
+        ConfigManager.Snapshot defaults = configs.snapshot();
+        HgSettings settings = JsonFiles.GSON.fromJson(JsonFiles.GSON.toJsonTree(defaults.settings()), HgSettings.class);
+        settings.minPlayers = minimum;
+        settings.maxPlayers = maximum;
+        open(new ConfigManager.Snapshot(settings, defaults.chests(), defaults.rewards()));
+    }
+
+    private void open(ConfigManager.Snapshot next) {
         requireIdle();
-        ConfigManager.Snapshot next = configs.snapshot();
         arena.validate(next.settings(), 0);
         active = next;
         journal.data.eventId = UUID.randomUUID().toString();

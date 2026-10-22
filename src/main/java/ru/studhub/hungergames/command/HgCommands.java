@@ -2,7 +2,9 @@ package ru.studhub.hungergames.command;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.context.CommandContext;
+import java.util.function.Consumer;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.server.level.ServerPlayer;
@@ -11,6 +13,7 @@ import ru.studhub.hungergames.HungerGames;
 import ru.studhub.hungergames.config.HgSettings;
 import ru.studhub.hungergames.event.EventController;
 import ru.studhub.hungergames.player.Position;
+import ru.studhub.hungergames.storage.JsonFiles;
 
 public final class HgCommands {
     private HgCommands() {}
@@ -45,7 +48,16 @@ public final class HgCommands {
                 .then(Commands.literal("tp_world").requires(source -> source.hasPermission(2))
                         .executes(action((ctx, c) -> c.teleportWorld(ctx.getSource().getPlayerOrException()))))
                 .then(Commands.literal("create_event").requires(source -> source.hasPermission(2))
-                        .executes(action((ctx, c) -> c.open(false))))
+                        .executes(action((ctx, c) -> c.open(false)))
+                        .then(Commands.argument("min", IntegerArgumentType.integer(2, HgSettings.PLAYER_LIMIT))
+                                .then(Commands.argument("max", IntegerArgumentType.integer(2, HgSettings.PLAYER_LIMIT))
+                                        .executes(action((ctx, c) -> {
+                                            int minimum = IntegerArgumentType.getInteger(ctx, "min");
+                                            int maximum = IntegerArgumentType.getInteger(ctx, "max");
+                                            c.open(minimum, maximum);
+                                            ctx.getSource().sendSuccess(() -> EventController.message(
+                                                    "Набор открыт: от " + minimum + " до " + maximum + " участников."), true);
+                                        })))))
                 .then(Commands.literal("start_event").requires(source -> source.hasPermission(2))
                         .executes(action((ctx, c) -> c.start(true))))
                 .then(Commands.literal("cancel").requires(source -> source.hasPermission(2))
@@ -84,14 +96,56 @@ public final class HgCommands {
                         .then(Commands.literal("pos1").executes(action((ctx, c) -> setCorner(ctx, c, true))))
                         .then(Commands.literal("pos2").executes(action((ctx, c) -> setCorner(ctx, c, false)))))
                 .then(Commands.literal("border").requires(source -> source.hasPermission(2))
-                        .then(Commands.literal("set_center").executes(action((ctx, c) -> {
-                            c.requireIdle();
-                            ServerPlayer player = arenaPlayer(ctx, c);
-                            c.settings().border.centerX = player.getX();
-                            c.settings().border.centerZ = player.getZ();
-                            c.saveSettings();
-                            ctx.getSource().sendSuccess(() -> EventController.message("Центр границы сохранён."), true);
-                        })))));
+                        .then(Commands.literal("set_center").executes(action(HgCommands::setBorderCenter))))
+                .then(Commands.literal("zona").requires(source -> source.hasPermission(2))
+                        .then(Commands.literal("set")
+                                .then(Commands.literal("center").executes(action(HgCommands::setBorderCenter))
+                                        .then(Commands.argument("x", DoubleArgumentType.doubleArg(-29_000_000, 29_000_000))
+                                                .then(Commands.argument("z", DoubleArgumentType.doubleArg(-29_000_000, 29_000_000))
+                                                        .executes(action((ctx, c) -> setBorderCenter(ctx, c,
+                                                                DoubleArgumentType.getDouble(ctx, "x"), DoubleArgumentType.getDouble(ctx, "z")))))))
+                                .then(Commands.literal("speed")
+                                        .then(Commands.argument("blocks_per_second", DoubleArgumentType.doubleArg(.001, 59_000_000))
+                                                .executes(action((ctx, c) -> {
+                                                    double speed = DoubleArgumentType.getDouble(ctx, "blocks_per_second");
+                                                    saveBorder(c, next -> next.shrinkBlocksPerSecond = speed);
+                                                    ctx.getSource().sendSuccess(() -> EventController.message(
+                                                            "Скорость сужения зоны сохранена: сторона уменьшается на " + speed + " блоков/с."), true);
+                                                }))))
+                                .then(Commands.literal("size")
+                                        .then(Commands.argument("blocks", DoubleArgumentType.doubleArg(1, 59_000_000))
+                                                .executes(action((ctx, c) -> {
+                                                    double size = DoubleArgumentType.getDouble(ctx, "blocks");
+                                                    saveBorder(c, next -> {
+                                                        if (size < next.finalSize) throw new IllegalArgumentException(
+                                                                "Размер зоны не может быть меньше конечного размера: " + next.finalSize);
+                                                        next.initialSize = size;
+                                                    });
+                                                    ctx.getSource().sendSuccess(() -> EventController.message(
+                                                            "Начальный размер зоны сохранён: " + size + " × " + size + " блоков."), true);
+                                                })))))));
+    }
+
+    private static void saveBorder(EventController controller, Consumer<HgSettings.Border> edit) throws Exception {
+        controller.requireIdle();
+        HgSettings settings = controller.settings();
+        HgSettings.Border previous = settings.border;
+        HgSettings.Border next = JsonFiles.GSON.fromJson(JsonFiles.GSON.toJsonTree(previous), HgSettings.Border.class);
+        edit.accept(next);
+        settings.border = next;
+        try { controller.saveSettings(); }
+        catch (Exception error) { settings.border = previous; throw error; }
+    }
+
+    private static void setBorderCenter(CommandContext<CommandSourceStack> context, EventController controller) throws Exception {
+        controller.requireIdle();
+        ServerPlayer player = arenaPlayer(context, controller);
+        setBorderCenter(context, controller, player.getX(), player.getZ());
+    }
+
+    private static void setBorderCenter(CommandContext<CommandSourceStack> context, EventController controller, double x, double z) throws Exception {
+        saveBorder(controller, next -> { next.centerX = x; next.centerZ = z; });
+        context.getSource().sendSuccess(() -> EventController.message("Центр зоны сохранён: X=" + x + ", Z=" + z + "."), true);
     }
 
     private static ServerPlayer arenaPlayer(CommandContext<CommandSourceStack> context, EventController controller) throws Exception {

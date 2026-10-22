@@ -46,9 +46,16 @@ public final class HgSettings {
         public double finalSize = 8;
         public int delaySeconds = 60;
         public int shrinkSeconds = 600;
+        // Zero keeps the legacy duration; a positive value reduces the square's side per second.
+        public double shrinkBlocksPerSecond = 0;
         public double damagePerBlock = 1;
         public double safeZone = 0;
         public int warningBlocks = 10;
+
+        public long shrinkDurationMillis() {
+            if (shrinkBlocksPerSecond == 0) return shrinkSeconds * 1000L;
+            return Math.max(1L, (long) Math.ceil((initialSize - finalSize) / shrinkBlocksPerSecond * 1000));
+        }
     }
 
     public static final class Bonus {
@@ -85,11 +92,14 @@ public final class HgSettings {
             else ResourceLocation.parse(block);
         }
         if (!Double.isFinite(border.initialSize) || !Double.isFinite(border.finalSize)
+                || !Double.isFinite(border.shrinkBlocksPerSecond)
                 || !Double.isFinite(border.centerX) || !Double.isFinite(border.centerZ)
                 || !Double.isFinite(border.damagePerBlock) || !Double.isFinite(border.safeZone)
                 || Math.abs(border.centerX) > 29_000_000 || Math.abs(border.centerZ) > 29_000_000
                 || border.initialSize < 1 || border.initialSize > 59_000_000 || border.finalSize < 1
                 || border.finalSize > border.initialSize || border.delaySeconds < 0 || border.shrinkSeconds < 1
+                || border.shrinkBlocksPerSecond < 0 || border.shrinkBlocksPerSecond > 59_000_000
+                || border.shrinkBlocksPerSecond > 0 && border.shrinkBlocksPerSecond < .001
                 || border.damagePerBlock < 0 || border.safeZone < 0 || border.warningBlocks < 0) {
             throw new IllegalArgumentException("Invalid border settings");
         }
