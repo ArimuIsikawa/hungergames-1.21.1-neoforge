@@ -1,0 +1,5237 @@
+{
+  "schemaVersion": 1,
+  "minRolls": 3,
+  "maxRolls": 6,
+  "entries": [
+    {
+      "stack": {
+        "id": "minecraft:iron_helmet",
+        "count": 1
+      },
+      "weight": 7,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "minecraft:iron_chestplate",
+        "count": 1
+      },
+      "weight": 7,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "minecraft:iron_leggings",
+        "count": 1
+      },
+      "weight": 7,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "minecraft:iron_boots",
+        "count": 1
+      },
+      "weight": 7,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "minecraft:bread",
+        "count": 1
+      },
+      "weight": 12,
+      "minCount": 2,
+      "maxCount": 5
+    },
+    {
+      "stack": {
+        "id": "minecraft:cooked_beef",
+        "count": 1
+      },
+      "weight": 10,
+      "minCount": 2,
+      "maxCount": 4
+    },
+    {
+      "stack": {
+        "id": "minecraft:cooked_porkchop",
+        "count": 1
+      },
+      "weight": 10,
+      "minCount": 2,
+      "maxCount": 4
+    },
+    {
+      "stack": {
+        "id": "minecraft:cooked_chicken",
+        "count": 1
+      },
+      "weight": 8,
+      "minCount": 2,
+      "maxCount": 4
+    },
+    {
+      "stack": {
+        "id": "minecraft:baked_potato",
+        "count": 1
+      },
+      "weight": 10,
+      "minCount": 3,
+      "maxCount": 6
+    },
+    {
+      "stack": {
+        "id": "minecraft:golden_carrot",
+        "count": 1
+      },
+      "weight": 4,
+      "minCount": 1,
+      "maxCount": 3
+    },
+    {
+      "stack": {
+        "id": "minecraft:golden_apple",
+        "count": 1
+      },
+      "weight": 3,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:ratnik_helmet",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:ratnik_chestplate",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:ratnik_leggings",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:ratnik_boots",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:beta7_nvg_helmet",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:beta7_chestplate",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:beta7_leggings",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:beta7_boots",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:insurgency_commander_helmet",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:insurgency_commander_chestplate",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:insurgency_commander_leggings",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:insurgency_commander_boots",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:soviet_soldier_helmet",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:soviet_soldier_chestplate",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:soviet_leggings",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:soviet_boots",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:sso_soldier_helmet",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:sso_soldier_chestplate",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:sso_soldier_leggings",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:sso_boots",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:fsb_soldier_helmet",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:fsb_soldier_chestplate",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:fsb_leggings",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:fsb_boots",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:iz_helmet_forest",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:iz_chestplate_forest",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:iz_leggings_forest",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:iz_boots_forest",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:iz_helmet_desert",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:iz_chestplate_desert",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:iz_leggings_desert",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:iz_boots_desert",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:steel_plate_level_iii",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:ceramic_plate_level_iv",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:kevlar_plate_level_iiia",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:composite_plate_level_iv",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:polyethylene_plate_level_iii",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:ratnik_backpack",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:shturmovik_ru_backpack",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:nato_sqad_leader_backpack",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:insurgency_shturmovik_backpack",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:soviet_soldier_backpack",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:sso_soldier_backpack",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:iz_backpack_forest",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    },
+    {
+      "stack": {
+        "id": "fracturepoint:iz_backpack_desert",
+        "count": 1
+      },
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    }
+  ],
+  "pools": [
+    {
+      "minRolls": 1,
+      "maxRolls": 1,
+      "entries": [
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:glock_17",
+                "GunFireMode": "SEMI",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 4,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:9mm"
+                  }
+                }
+              },
+              "minCount": 24,
+              "maxCount": 48
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:9mm"
+                  }
+                }
+              },
+              "minCount": 24,
+              "maxCount": 48
+            }
+          ],
+          "optionalCompanions": [
+            {
+              "chance": 0.1,
+              "entries": [
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:sight_acro_pistol"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:sight_deltapoint_pistol"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_silencer_mirage"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_silencer_ptilopsis"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:light_extended_mag_1"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:light_extended_mag_2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:laser_compact"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:laser_nightstick"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:m1911",
+                "GunFireMode": "SEMI",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 4,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:45acp"
+                  }
+                }
+              },
+              "minCount": 20,
+              "maxCount": 40
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:45acp"
+                  }
+                }
+              },
+              "minCount": 20,
+              "maxCount": 40
+            }
+          ],
+          "optionalCompanions": [
+            {
+              "chance": 0.1,
+              "entries": [
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_silencer_mirage"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_silencer_ptilopsis"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:light_extended_mag_1"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:light_extended_mag_2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:m9a4",
+                "GunFireMode": "SEMI",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 4,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:9mm"
+                  }
+                }
+              },
+              "minCount": 24,
+              "maxCount": 48
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:9mm"
+                  }
+                }
+              },
+              "minCount": 24,
+              "maxCount": 48
+            }
+          ],
+          "optionalCompanions": [
+            {
+              "chance": 0.1,
+              "entries": [
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:sight_acro_pistol"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:sight_deltapoint_pistol"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_silencer_mirage"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_silencer_ptilopsis"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:light_extended_mag_1"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:light_extended_mag_2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:laser_compact"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:laser_nightstick"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:deagle",
+                "GunFireMode": "SEMI",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 4,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:50ae"
+                  }
+                }
+              },
+              "minCount": 7,
+              "maxCount": 21
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:50ae"
+                  }
+                }
+              },
+              "minCount": 7,
+              "maxCount": 21
+            }
+          ],
+          "optionalCompanions": [
+            {
+              "chance": 0.1,
+              "entries": [
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_contender"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:sight_t1"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_silencer_mirage"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_silencer_ptilopsis"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:light_extended_mag_1"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:light_extended_mag_2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:laser_compact"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:laser_nightstick"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:rhino357",
+                "GunFireMode": "SEMI",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 4,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:357mag"
+                  }
+                }
+              },
+              "minCount": 12,
+              "maxCount": 24
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:357mag"
+                  }
+                }
+              },
+              "minCount": 12,
+              "maxCount": 24
+            }
+          ],
+          "optionalCompanions": [
+            {
+              "chance": 0.1,
+              "entries": [
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:sight_acro_rifle"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:sight_deltapoint_rifle"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:ammo_mod_fmj"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:ammo_mod_hp"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:laser_compact"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:laser_nightstick"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:hk_mp5a5",
+                "GunFireMode": "AUTO",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 3,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:9mm"
+                  }
+                }
+              },
+              "minCount": 24,
+              "maxCount": 48
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:9mm"
+                  }
+                }
+              },
+              "minCount": 24,
+              "maxCount": 48
+            }
+          ],
+          "optionalCompanions": [
+            {
+              "chance": 0.1,
+              "entries": [
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_acog_ta31"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_contender"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_cthulhu"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_cyclone_d2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:oem_stock_heavy"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:oem_stock_light"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:grip_cobra"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:grip_cqr"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:light_extended_mag_1"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:light_extended_mag_2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:laser_compact"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:laser_nightstick"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:ump45",
+                "GunFireMode": "AUTO",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 3,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:45acp"
+                  }
+                }
+              },
+              "minCount": 20,
+              "maxCount": 40
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:45acp"
+                  }
+                }
+              },
+              "minCount": 20,
+              "maxCount": 40
+            }
+          ],
+          "optionalCompanions": [
+            {
+              "chance": 0.1,
+              "entries": [
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_acog_ta31"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_contender"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_cthulhu"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_cyclone_d2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:grip_cobra"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:grip_cqr"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:light_extended_mag_1"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:light_extended_mag_2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:laser_compact"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:laser_nightstick"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:uzi",
+                "GunFireMode": "AUTO",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 3,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:9mm"
+                  }
+                }
+              },
+              "minCount": 24,
+              "maxCount": 48
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:9mm"
+                  }
+                }
+              },
+              "minCount": 24,
+              "maxCount": 48
+            }
+          ],
+          "optionalCompanions": [
+            {
+              "chance": 0.1,
+              "entries": [
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_acog_ta31"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_elcan_4x"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_cthulhu"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_cyclone_d2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:light_extended_mag_1"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:light_extended_mag_2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:vector45",
+                "GunFireMode": "AUTO",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 3,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:45acp"
+                  }
+                }
+              },
+              "minCount": 20,
+              "maxCount": 40
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:45acp"
+                  }
+                }
+              },
+              "minCount": 20,
+              "maxCount": 40
+            }
+          ],
+          "optionalCompanions": [
+            {
+              "chance": 0.1,
+              "entries": [
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_acog_ta31"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_contender"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_cthulhu"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_cyclone_d2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:oem_stock_heavy"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:oem_stock_tactical"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:grip_osovets_black"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:grip_rk0"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:light_extended_mag_1"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:light_extended_mag_2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:laser_compact"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:laser_nightstick"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:p90",
+                "GunFireMode": "AUTO",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 3,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:57x28"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:57x28"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            }
+          ],
+          "optionalCompanions": [
+            {
+              "chance": 0.1,
+              "entries": [
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_acog_ta31"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_contender"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_cthulhu"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_cyclone_d2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:laser_compact"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:laser_nightstick"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:ak47",
+                "GunFireMode": "AUTO",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 2,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:762x39"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:762x39"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            }
+          ],
+          "optionalCompanions": [
+            {
+              "chance": 0.1,
+              "entries": [
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_acog_ta31"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_elcan_4x"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:bayonet_6h3"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_cthulhu"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:oem_stock_heavy"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:oem_stock_light"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:extended_mag_1"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:extended_mag_2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:m4a1",
+                "GunFireMode": "AUTO",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 2,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            }
+          ],
+          "optionalCompanions": [
+            {
+              "chance": 0.1,
+              "entries": [
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_acog_ta31"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_elcan_4x"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:bayonet_m9"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_cthulhu"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:stock_ak12"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:stock_carbon_bone_c5"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:grip_cobra"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:grip_cqr"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:extended_mag_1"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:extended_mag_2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:laser_compact"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:laser_lopro"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:m16a4",
+                "GunFireMode": "BURST",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 2,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            }
+          ],
+          "optionalCompanions": [
+            {
+              "chance": 0.1,
+              "entries": [
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_acog_ta31"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_contender"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:bayonet_m9"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_cthulhu"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:stock_ak12"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:stock_carbon_bone_c5"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:grip_cobra"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:grip_cqr"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:extended_mag_1"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:extended_mag_2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:laser_compact"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:laser_lopro"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:hk416d",
+                "GunFireMode": "AUTO",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 2,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            }
+          ],
+          "optionalCompanions": [
+            {
+              "chance": 0.1,
+              "entries": [
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_acog_ta31"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_elcan_4x"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_cthulhu"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_cyclone_d2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:stock_ak12"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:stock_carbon_bone_c5"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:grip_cobra"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:grip_cqr"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:extended_mag_1"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:extended_mag_2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:laser_compact"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:laser_lopro"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:aug",
+                "GunFireMode": "AUTO",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 2,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            }
+          ],
+          "optionalCompanions": [
+            {
+              "chance": 0.1,
+              "entries": [
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_acog_ta31"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_aug_default"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:bayonet_m9"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_cthulhu"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:extended_mag_1"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:extended_mag_2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:laser_lopro"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:laser_peq15"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:scar_l",
+                "GunFireMode": "AUTO",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 2,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            }
+          ],
+          "optionalCompanions": [
+            {
+              "chance": 0.1,
+              "entries": [
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_acog_ta31"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_elcan_4x"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_cthulhu"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_cyclone_d2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:stock_ak12"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:stock_carbon_bone_c5"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:grip_cobra"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:grip_cqr"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:extended_mag_1"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:extended_mag_2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:laser_compact"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:laser_lopro"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:scar_h",
+                "GunFireMode": "SEMI",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 2,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:308"
+                  }
+                }
+              },
+              "minCount": 20,
+              "maxCount": 40
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:308"
+                  }
+                }
+              },
+              "minCount": 20,
+              "maxCount": 40
+            }
+          ],
+          "optionalCompanions": [
+            {
+              "chance": 0.1,
+              "entries": [
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_acog_ta31"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_elcan_4x"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_cthulhu"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_cyclone_d2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:stock_ak12"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:stock_carbon_bone_c5"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:grip_cobra"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:grip_cqr"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:extended_mag_1"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:extended_mag_2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:laser_compact"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:laser_lopro"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:qbz_95",
+                "GunFireMode": "AUTO",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 2,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:58x42"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:58x42"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            }
+          ],
+          "optionalCompanions": [
+            {
+              "chance": 0.1,
+              "entries": [
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_acog_ta31"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_elcan_4x"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_cthulhu"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_cyclone_d2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:grip_cobra"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:grip_cqr"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:extended_mag_1"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:extended_mag_2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:laser_lopro"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:laser_peq15"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:m870",
+                "GunFireMode": "SEMI",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 3,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:12g"
+                  }
+                }
+              },
+              "minCount": 8,
+              "maxCount": 16
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:12g"
+                  }
+                }
+              },
+              "minCount": 8,
+              "maxCount": 16
+            }
+          ],
+          "optionalCompanions": [
+            {
+              "chance": 0.1,
+              "entries": [
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_mastiff_sg"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_choke_sg"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:shotgun_extended_mag_1"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:shotgun_extended_mag_2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:m1014",
+                "GunFireMode": "SEMI",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 3,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:12g"
+                  }
+                }
+              },
+              "minCount": 8,
+              "maxCount": 16
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:12g"
+                  }
+                }
+              },
+              "minCount": 8,
+              "maxCount": 16
+            }
+          ],
+          "optionalCompanions": [
+            {
+              "chance": 0.1,
+              "entries": [
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:sight_552"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:sight_acro_rifle"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_mastiff_sg"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_choke_sg"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:shotgun_extended_mag_1"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:shotgun_extended_mag_2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:spas_12",
+                "GunFireMode": "SEMI",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 3,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:12g"
+                  }
+                }
+              },
+              "minCount": 8,
+              "maxCount": 16
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:12g"
+                  }
+                }
+              },
+              "minCount": 8,
+              "maxCount": 16
+            }
+          ],
+          "optionalCompanions": [
+            {
+              "chance": 0.1,
+              "entries": [
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:sight_552"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:sight_acro_rifle"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_mastiff_sg"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_choke_sg"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:stock_ak12"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:stock_carbon_bone_c5"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:shotgun_extended_mag_1"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:shotgun_extended_mag_2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:db_long",
+                "GunFireMode": "SEMI",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 3,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:12g"
+                  }
+                }
+              },
+              "minCount": 8,
+              "maxCount": 16
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:12g"
+                  }
+                }
+              },
+              "minCount": 8,
+              "maxCount": 16
+            }
+          ],
+          "optionalCompanions": [
+            {
+              "chance": 0.1,
+              "entries": [
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:ammo_mod_fmj"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:ammo_mod_hp"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:sks_tactical",
+                "GunFireMode": "SEMI",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:762x39"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:762x39"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            }
+          ],
+          "optionalCompanions": [
+            {
+              "chance": 0.1,
+              "entries": [
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_acog_ta31"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_contender"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_cthulhu"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_cyclone_d2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:stock_ak12"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:stock_carbon_bone_c5"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:grip_cobra"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:grip_cqr"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:extended_mag_1"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:extended_mag_2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:mk14",
+                "GunFireMode": "SEMI",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:308"
+                  }
+                }
+              },
+              "minCount": 20,
+              "maxCount": 40
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:308"
+                  }
+                }
+              },
+              "minCount": 20,
+              "maxCount": 40
+            }
+          ],
+          "optionalCompanions": [
+            {
+              "chance": 0.1,
+              "entries": [
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_acog_ta31"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_contender"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_cthulhu"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_cyclone_d2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:stock_ak12"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:stock_carbon_bone_c5"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:grip_cobra"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:grip_cqr"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:extended_mag_1"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:extended_mag_2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:laser_compact"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:laser_lopro"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:kar98",
+                "GunFireMode": "SEMI",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:792x57"
+                  }
+                }
+              },
+              "minCount": 8,
+              "maxCount": 16
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:792x57"
+                  }
+                }
+              },
+              "minCount": 8,
+              "maxCount": 16
+            }
+          ],
+          "optionalCompanions": [
+            {
+              "chance": 0.1,
+              "entries": [
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_98k"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:ammo_mod_fmj"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:ammo_mod_hp"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:m700",
+                "GunFireMode": "SEMI",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:30_06"
+                  }
+                }
+              },
+              "minCount": 10,
+              "maxCount": 20
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:30_06"
+                  }
+                }
+              },
+              "minCount": 10,
+              "maxCount": 20
+            }
+          ],
+          "optionalCompanions": [
+            {
+              "chance": 0.1,
+              "entries": [
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_acog_ta31"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_contender"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_cthulhu"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_cyclone_d2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:sniper_extended_mag_1"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:sniper_extended_mag_2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:m249",
+                "GunFireMode": "AUTO",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            }
+          ],
+          "optionalCompanions": [
+            {
+              "chance": 0.1,
+              "entries": [
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_acog_ta31"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_elcan_4x"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_cthulhu"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_cyclone_d2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:grip_cobra"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:grip_cqr"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:extended_mag_1"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:extended_mag_2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "stack": {
+            "id": "tacz:modern_kinetic_gun",
+            "count": 1,
+            "components": {
+              "minecraft:custom_data": {
+                "GunId": "tacz:rpk",
+                "GunFireMode": "AUTO",
+                "GunCurrentAmmoCount": 0,
+                "HasBulletInBarrel": false
+              }
+            }
+          },
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1,
+          "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:762x39"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:762x39"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            }
+          ],
+          "optionalCompanions": [
+            {
+              "chance": 0.1,
+              "entries": [
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_acog_ta31"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:scope_elcan_4x"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_cthulhu"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:muzzle_brake_cyclone_d2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:oem_stock_heavy"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:oem_stock_light"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:extended_mag_1"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                },
+                {
+                  "stack": {
+                    "id": "tacz:attachment",
+                    "count": 1,
+                    "components": {
+                      "minecraft:custom_data": {
+                        "AttachmentId": "tacz:extended_mag_2"
+                      }
+                    }
+                  },
+                  "weight": 1,
+                  "minCount": 1,
+                  "maxCount": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

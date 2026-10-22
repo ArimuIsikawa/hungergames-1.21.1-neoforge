@@ -33,7 +33,7 @@
 .\gradlew.bat runGameTestServer
 ```
 
-- `build` — собирает мод в `build/libs/hungergames-1.0.0.jar`.
+- `build` — собирает мод в `build/libs/hungergames-1.1.0.jar`.
 - `runClient` — запускает клиент Minecraft с модом.
 - `runServer` — запускает выделенный сервер без графического интерфейса.
   Для первого запуска ознакомьтесь с EULA Minecraft и при согласии примите её в `run/eula.txt`.

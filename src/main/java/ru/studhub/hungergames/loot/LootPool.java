@@ -23,7 +23,14 @@ public record LootPool(int minRolls, int maxRolls, List<Entry> entries, List<Sta
         }
     }
 
-    public record Entry(ItemStack stack, int weight, int minCount, int maxCount, List<StackRoll> companions) {}
+    public record CompanionChoice(StackRoll item, int weight) {}
+    public record CompanionPool(double chance, List<CompanionChoice> entries) {}
+    public record Entry(ItemStack stack, int weight, int minCount, int maxCount, List<StackRoll> companions,
+                        List<CompanionPool> optionalCompanions) {
+        public Entry(ItemStack stack, int weight, int minCount, int maxCount, List<StackRoll> companions) {
+            this(stack, weight, minCount, maxCount, companions, List.of());
+        }
+    }
 
     public static JsonObject emptyExample(int minRolls, int maxRolls) {
         JsonObject json = new JsonObject();
@@ -53,8 +60,7 @@ public record LootPool(int minRolls, int maxRolls, List<Entry> entries, List<Sta
             JsonObject entry = element.getAsJsonObject();
             String label = "entries[" + entries.size() + "]";
             StackRoll primary = readStack(entry, registries, label);
-            int weight = entry.get("weight").getAsInt();
-            if (weight < 1 || weight > 1_000_000) throw new IllegalArgumentException("Invalid weight at " + label);
+            int weight = readWeight(entry, label);
             List<StackRoll> companions = new ArrayList<>();
             if (entry.has("companions")) {
                 for (JsonElement companion : entry.getAsJsonArray("companions")) {
@@ -62,7 +68,26 @@ public record LootPool(int minRolls, int maxRolls, List<Entry> entries, List<Sta
                     companions.add(readStack(companion.getAsJsonObject(), registries, label + ".companions[" + companions.size() + "]"));
                 }
             }
-            entries.add(new Entry(primary.stack, weight, primary.minCount, primary.maxCount, List.copyOf(companions)));
+            List<CompanionPool> optional = new ArrayList<>();
+            if (entry.has("optionalCompanions")) for (JsonElement elementPool : entry.getAsJsonArray("optionalCompanions")) {
+                String poolLabel = label + ".optionalCompanions[" + optional.size() + "]";
+                if (optional.size() >= 26) throw new IllegalArgumentException("Too many optional companions at " + label);
+                JsonObject pool = elementPool.getAsJsonObject();
+                double chance = pool.get("chance").getAsDouble();
+                if (!Double.isFinite(chance) || chance < 0 || chance > 1) {
+                    throw new IllegalArgumentException("chance must be between 0 and 1 at " + poolLabel);
+                }
+                List<CompanionChoice> choices = new ArrayList<>();
+                for (JsonElement choiceElement : pool.getAsJsonArray("entries")) {
+                    String choiceLabel = poolLabel + ".entries[" + choices.size() + "]";
+                    JsonObject choice = choiceElement.getAsJsonObject();
+                    choices.add(new CompanionChoice(readStack(choice, registries, choiceLabel), readWeight(choice, choiceLabel)));
+                }
+                if (choices.isEmpty()) throw new IllegalArgumentException("Empty optional companion pool at " + poolLabel);
+                optional.add(new CompanionPool(chance, List.copyOf(choices)));
+            }
+            entries.add(new Entry(primary.stack, weight, primary.minCount, primary.maxCount,
+                    List.copyOf(companions), List.copyOf(optional)));
         }
         List<StackRoll> guaranteed = new ArrayList<>();
         if (json.has("guaranteed")) for (JsonElement item : json.getAsJsonArray("guaranteed")) {
@@ -80,8 +105,15 @@ public record LootPool(int minRolls, int maxRolls, List<Entry> entries, List<Sta
     public boolean isEmpty() { return entries.isEmpty() && guaranteed.isEmpty() && pools.stream().allMatch(LootPool::isEmpty); }
 
     public int maxStacks() {
-        return maxRolls * entries.stream().mapToInt(e -> 1 + e.companions.size()).max().orElse(0)
+        return maxRolls * entries.stream().mapToInt(e -> 1 + e.companions.size()
+                        + (int) e.optionalCompanions.stream().filter(p -> p.chance > 0).count()).max().orElse(0)
                 + guaranteed.size() + pools.stream().mapToInt(LootPool::maxStacks).sum();
+    }
+
+    private static int readWeight(JsonObject json, String label) {
+        int weight = json.get("weight").getAsInt();
+        if (weight < 1 || weight > 1_000_000) throw new IllegalArgumentException("Invalid weight at " + label);
+        return weight;
     }
 
     private static StackRoll readStack(JsonObject json, HolderLookup.Provider registries, String label) {
@@ -103,6 +135,11 @@ public record LootPool(int minRolls, int maxRolls, List<Entry> entries, List<Sta
             stacks.add(entry.stack.copyWithCount(random.nextInt(entry.minCount, entry.maxCount + 1)));
             // Companions belong to this selection and never take part in an independent weighted roll.
             for (StackRoll companion : entry.companions) stacks.add(companion.roll(random));
+            for (CompanionPool pool : entry.optionalCompanions) {
+                if (pool.chance > 0 && random.nextDouble() < pool.chance) {
+                    stacks.add(WeightedPicker.pick(pool.entries, CompanionChoice::weight, random).item.roll(random));
+                }
+            }
         }
         for (LootPool pool : pools) stacks.addAll(pool.roll(random));
         return stacks;

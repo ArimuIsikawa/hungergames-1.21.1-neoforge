@@ -84,6 +84,32 @@
               },
               "minCount": 24,
               "maxCount": 48
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:9mm"
+                  }
+                }
+              },
+              "minCount": 24,
+              "maxCount": 48
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:9mm"
+                  }
+                }
+              },
+              "minCount": 24,
+              "maxCount": 48
             }
           ]
         },
@@ -104,6 +130,32 @@
           "minCount": 1,
           "maxCount": 1,
           "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:45acp"
+                  }
+                }
+              },
+              "minCount": 20,
+              "maxCount": 40
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:45acp"
+                  }
+                }
+              },
+              "minCount": 20,
+              "maxCount": 40
+            },
             {
               "stack": {
                 "id": "tacz:ammo",
@@ -174,6 +226,32 @@
               },
               "minCount": 24,
               "maxCount": 48
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:9mm"
+                  }
+                }
+              },
+              "minCount": 24,
+              "maxCount": 48
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:9mm"
+                  }
+                }
+              },
+              "minCount": 24,
+              "maxCount": 48
             }
           ]
         },
@@ -194,6 +272,32 @@
           "minCount": 1,
           "maxCount": 1,
           "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:50ae"
+                  }
+                }
+              },
+              "minCount": 7,
+              "maxCount": 21
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:50ae"
+                  }
+                }
+              },
+              "minCount": 7,
+              "maxCount": 21
+            },
             {
               "stack": {
                 "id": "tacz:ammo",
@@ -264,6 +368,32 @@
               },
               "minCount": 12,
               "maxCount": 24
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:357mag"
+                  }
+                }
+              },
+              "minCount": 12,
+              "maxCount": 24
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:357mag"
+                  }
+                }
+              },
+              "minCount": 12,
+              "maxCount": 24
             }
           ]
         },
@@ -284,6 +414,32 @@
           "minCount": 1,
           "maxCount": 1,
           "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:9mm"
+                  }
+                }
+              },
+              "minCount": 24,
+              "maxCount": 48
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:9mm"
+                  }
+                }
+              },
+              "minCount": 24,
+              "maxCount": 48
+            },
             {
               "stack": {
                 "id": "tacz:ammo",
@@ -354,6 +510,32 @@
               },
               "minCount": 20,
               "maxCount": 40
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:45acp"
+                  }
+                }
+              },
+              "minCount": 20,
+              "maxCount": 40
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:45acp"
+                  }
+                }
+              },
+              "minCount": 20,
+              "maxCount": 40
             }
           ]
         },
@@ -374,6 +556,32 @@
           "minCount": 1,
           "maxCount": 1,
           "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:9mm"
+                  }
+                }
+              },
+              "minCount": 24,
+              "maxCount": 48
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:9mm"
+                  }
+                }
+              },
+              "minCount": 24,
+              "maxCount": 48
+            },
             {
               "stack": {
                 "id": "tacz:ammo",
@@ -444,6 +652,32 @@
               },
               "minCount": 20,
               "maxCount": 40
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:45acp"
+                  }
+                }
+              },
+              "minCount": 20,
+              "maxCount": 40
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:45acp"
+                  }
+                }
+              },
+              "minCount": 20,
+              "maxCount": 40
             }
           ]
         },
@@ -464,6 +698,32 @@
           "minCount": 1,
           "maxCount": 1,
           "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:57x28"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:57x28"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
             {
               "stack": {
                 "id": "tacz:ammo",
@@ -534,6 +794,32 @@
               },
               "minCount": 30,
               "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:762x39"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:762x39"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
             }
           ]
         },
@@ -554,6 +840,32 @@
           "minCount": 1,
           "maxCount": 1,
           "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
             {
               "stack": {
                 "id": "tacz:ammo",
@@ -624,6 +936,32 @@
               },
               "minCount": 30,
               "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
             }
           ]
         },
@@ -644,6 +982,32 @@
           "minCount": 1,
           "maxCount": 1,
           "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
             {
               "stack": {
                 "id": "tacz:ammo",
@@ -714,6 +1078,32 @@
               },
               "minCount": 30,
               "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
             }
           ]
         },
@@ -734,6 +1124,32 @@
           "minCount": 1,
           "maxCount": 1,
           "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
             {
               "stack": {
                 "id": "tacz:ammo",
@@ -804,6 +1220,32 @@
               },
               "minCount": 20,
               "maxCount": 40
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:308"
+                  }
+                }
+              },
+              "minCount": 20,
+              "maxCount": 40
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:308"
+                  }
+                }
+              },
+              "minCount": 20,
+              "maxCount": 40
             }
           ]
         },
@@ -824,6 +1266,32 @@
           "minCount": 1,
           "maxCount": 1,
           "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:58x42"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:58x42"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
             {
               "stack": {
                 "id": "tacz:ammo",
@@ -894,6 +1362,32 @@
               },
               "minCount": 8,
               "maxCount": 16
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:12g"
+                  }
+                }
+              },
+              "minCount": 8,
+              "maxCount": 16
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:12g"
+                  }
+                }
+              },
+              "minCount": 8,
+              "maxCount": 16
             }
           ]
         },
@@ -914,6 +1408,32 @@
           "minCount": 1,
           "maxCount": 1,
           "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:12g"
+                  }
+                }
+              },
+              "minCount": 8,
+              "maxCount": 16
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:12g"
+                  }
+                }
+              },
+              "minCount": 8,
+              "maxCount": 16
+            },
             {
               "stack": {
                 "id": "tacz:ammo",
@@ -984,6 +1504,32 @@
               },
               "minCount": 8,
               "maxCount": 16
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:12g"
+                  }
+                }
+              },
+              "minCount": 8,
+              "maxCount": 16
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:12g"
+                  }
+                }
+              },
+              "minCount": 8,
+              "maxCount": 16
             }
           ]
         },
@@ -1004,6 +1550,32 @@
           "minCount": 1,
           "maxCount": 1,
           "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:12g"
+                  }
+                }
+              },
+              "minCount": 8,
+              "maxCount": 16
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:12g"
+                  }
+                }
+              },
+              "minCount": 8,
+              "maxCount": 16
+            },
             {
               "stack": {
                 "id": "tacz:ammo",
@@ -1074,6 +1646,32 @@
               },
               "minCount": 30,
               "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:762x39"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:762x39"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
             }
           ]
         },
@@ -1094,6 +1692,32 @@
           "minCount": 1,
           "maxCount": 1,
           "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:308"
+                  }
+                }
+              },
+              "minCount": 20,
+              "maxCount": 40
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:308"
+                  }
+                }
+              },
+              "minCount": 20,
+              "maxCount": 40
+            },
             {
               "stack": {
                 "id": "tacz:ammo",
@@ -1164,6 +1788,32 @@
               },
               "minCount": 8,
               "maxCount": 16
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:792x57"
+                  }
+                }
+              },
+              "minCount": 8,
+              "maxCount": 16
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:792x57"
+                  }
+                }
+              },
+              "minCount": 8,
+              "maxCount": 16
             }
           ]
         },
@@ -1184,6 +1834,32 @@
           "minCount": 1,
           "maxCount": 1,
           "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:30_06"
+                  }
+                }
+              },
+              "minCount": 10,
+              "maxCount": 20
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:30_06"
+                  }
+                }
+              },
+              "minCount": 10,
+              "maxCount": 20
+            },
             {
               "stack": {
                 "id": "tacz:ammo",
@@ -1254,6 +1930,32 @@
               },
               "minCount": 30,
               "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:556x45"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
             }
           ]
         },
@@ -1274,6 +1976,32 @@
           "minCount": 1,
           "maxCount": 1,
           "companions": [
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:762x39"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
+            {
+              "stack": {
+                "id": "tacz:ammo",
+                "count": 1,
+                "components": {
+                  "minecraft:custom_data": {
+                    "AmmoId": "tacz:762x39"
+                  }
+                }
+              },
+              "minCount": 30,
+              "maxCount": 60
+            },
             {
               "stack": {
                 "id": "tacz:ammo",
