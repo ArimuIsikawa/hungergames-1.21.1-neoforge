@@ -10,6 +10,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.items.wrapper.InvWrapper;
+import net.neoforged.neoforge.items.wrapper.RangedWrapper;
 import ru.studhub.hungergames.config.ConfigManager;
 
 public final class RewardService {
@@ -26,14 +29,29 @@ public final class RewardService {
         return encoded;
     }
 
-    public static void give(ServerPlayer player, JsonArray reward) {
-        if (reward == null) return;
-        for (JsonElement element : reward) {
-            ItemStack stack = ItemStack.CODEC.parse(player.registryAccess().createSerializationContext(JsonOps.INSTANCE), element).getOrThrow();
-            if (!player.getInventory().add(stack) && !stack.isEmpty()) {
-                throw new IllegalStateException("Не удалось поместить награду в инвентарь " + player.getGameProfile().getName());
+    public static void give(ServerPlayer player, JsonArray... groups) {
+        List<ItemStack> stacks = new java.util.ArrayList<>();
+        for (JsonArray group : groups) {
+            if (group == null) continue;
+            for (JsonElement element : group) {
+                stacks.add(ItemStack.CODEC.parse(player.registryAccess().createSerializationContext(JsonOps.INSTANCE), element).getOrThrow());
+            }
+        }
+        var inventory = new RangedWrapper(new InvWrapper(player.getInventory()), 0, player.getInventory().items.size());
+        boolean overflow = false;
+        for (ItemStack stack : stacks) {
+            // Inventory.add may consume overflow in creative mode or report success for a partial insertion.
+            ItemStack remaining = ItemHandlerHelper.insertItemStacked(inventory, stack, false);
+            if (!remaining.isEmpty()) {
+                var dropped = player.drop(remaining, false, false);
+                if (dropped == null) throw new IllegalStateException("Не удалось вернуть предметы " + player.getGameProfile().getName());
+                dropped.setTarget(player.getUUID());
+                dropped.setNoPickUpDelay();
+                overflow = true;
             }
         }
         player.inventoryMenu.broadcastChanges();
+        if (overflow) player.sendSystemMessage(net.minecraft.network.chat.Component.literal(
+                "[HG] Инвентарь заполнен. Часть возвращённых предметов лежит рядом с вами."));
     }
 }

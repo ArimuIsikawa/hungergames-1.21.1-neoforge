@@ -20,6 +20,9 @@ public final class ConfigManager {
         createIfMissing("chest_loot.json", LootPool.emptyExample(3, 7));
         createIfMissing("rewards.json", LootPool.emptyExample(1, 1));
         HgSettings settings = JsonFiles.read(directory.resolve("settings.json"), HgSettings.class);
+        if (("Уважаемые игроки, скоро начнётся королевская битва за награды! "
+                + "Освободите инвентарь, броню и аксессуары и напишите /hg invite. Набор открыт на 15 минут, мест: {max_players}.")
+                .equals(settings.announcement)) settings.announcement = new HgSettings().announcement;
         try {
             settings.validate();
             if (!BuiltInRegistries.ITEM.containsKey(ResourceLocation.parse(settings.bonus.item))

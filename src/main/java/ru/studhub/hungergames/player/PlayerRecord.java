@@ -26,6 +26,7 @@ public final class PlayerRecord {
     public boolean enteredBattle;
     public JsonArray reward = new JsonArray();
     public JsonObject inventory;
+    public JsonArray lobbyItems;
     public JsonArray effects = new JsonArray();
 
     public static PlayerRecord capture(ServerPlayer player, boolean participant) {
@@ -43,7 +44,7 @@ public final class PlayerRecord {
         record.participant = participant;
         for (MobEffectInstance effect : player.getActiveEffects()) record.effects.add(MobEffectInstance.CODEC
                 .encodeStart(player.registryAccess().createSerializationContext(JsonOps.INSTANCE), effect).getOrThrow());
-        if (!participant) record.inventory = PlayerInventory.snapshot(player);
+        record.inventory = PlayerInventory.snapshot(player);
         record.role = participant ? Role.QUEUED : Role.OBSERVER;
         return record;
     }

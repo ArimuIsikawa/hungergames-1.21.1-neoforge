@@ -23,6 +23,7 @@ import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 import ru.studhub.hungergames.HungerGames;
 import ru.studhub.hungergames.arena.ArenaService;
+import ru.studhub.hungergames.arena.ArenaEnvironment.Weather;
 import ru.studhub.hungergames.config.HgSettings;
 import ru.studhub.hungergames.event.EventController;
 import ru.studhub.hungergames.player.Position;
@@ -63,6 +64,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.vehicle.MinecartChest;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.network.protocol.game.ServerboundInteractPacket;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 
@@ -75,6 +77,30 @@ public final class EventGameTests {
     private static final BlockPos CRAFTING = new BlockPos(0, 80, 9);
     private static MinecartChest cart;
     private static final BlockPos CONVERTED = new BlockPos(8, 80, 8);
+
+    @GameTest(template = "empty", timeoutTicks = 40)
+    public static void partialRewardOverflow(GameTestHelper helper) {
+        ServerPlayer player = player(helper);
+        try {
+            for (GameType mode : List.of(GameType.SURVIVAL, GameType.CREATIVE)) {
+                player.setGameMode(mode);
+                for (int slot = 0; slot < 36; slot++) player.getInventory().setItem(slot, new ItemStack(Items.DIRT, 64));
+                player.getInventory().setItem(0, new ItemStack(Items.DIAMOND, 60));
+                var reward = new com.google.gson.JsonArray();
+                reward.add(ItemStack.CODEC.encodeStart(player.registryAccess().createSerializationContext(
+                        com.mojang.serialization.JsonOps.INSTANCE), new ItemStack(Items.DIAMOND, 10)).getOrThrow());
+                ru.studhub.hungergames.reward.RewardService.give(player, reward);
+                helper.assertTrue(player.getInventory().countItem(Items.DIAMOND) == 64, "Reward did not fill the partial stack in " + mode);
+                var overflow = helper.getLevel().getEntitiesOfClass(ItemEntity.class, player.getBoundingBox().inflate(4),
+                        item -> item.getItem().is(Items.DIAMOND) && player.getUUID().equals(item.getTarget()));
+                helper.assertTrue(overflow.stream().mapToInt(item -> item.getItem().getCount()).sum() == 6,
+                        "Partial reward overflow was lost or duplicated in " + mode);
+                helper.assertTrue(player.getInventory().countItem(Items.DIRT) == 35 * 64, "Reward replaced personal items");
+                overflow.forEach(ItemEntity::discard);
+            }
+            helper.succeed();
+        } finally { player.server.getPlayerList().remove(player); }
+    }
 
     @GameTest(template = "empty", timeoutTicks = 2200)
     public static void eventLifecycle(GameTestHelper helper) throws Exception {
@@ -193,6 +219,8 @@ public final class EventGameTests {
             helper.assertTrue(admin.getYRot() == 135 && admin.getXRot() == 25, "Center teleport changed looking direction");
             verifyZonaCommands(helper, controller, admin, arena);
             verifyEventLimitCommands(helper, controller, admin);
+            verifyWeatherCommands(helper, controller, admin, arena);
+            verifyInventoryEntry(helper, controller, arena);
             new Position("hungergames:arena", 9.5, 80, 9.5, 135, 25).teleport(admin);
             dispatcher.execute("hg tp_center", admin.createCommandSourceStack().withPermission(2));
             assertAtCenter(helper, controller, admin, arena);
@@ -225,6 +253,112 @@ public final class EventGameTests {
                                            String command, net.minecraft.commands.CommandSourceStack source) {
         try { return dispatcher.execute(command, source) == 0; }
         catch (com.mojang.brigadier.exceptions.CommandSyntaxException expected) { return true; }
+    }
+
+    private static void verifyInventoryEntry(GameTestHelper helper, EventController controller, ServerLevel arena) throws Exception {
+        ServerPlayer participant = player(helper);
+        try {
+            ItemStack personal = new ItemStack(Items.EMERALD, 17);
+            personal.set(DataComponents.CUSTOM_NAME, net.minecraft.network.chat.Component.literal("Личные вещи"));
+            participant.getInventory().setItem(7, personal.copy());
+            participant.getInventory().selected = 7;
+            ItemStack helmet = new ItemStack(Items.DIAMOND_HELMET);
+            helmet.setDamageValue(23);
+            participant.getInventory().setItem(39, helmet);
+            participant.getInventory().setItem(40, new ItemStack(Items.SHIELD));
+            participant.inventoryMenu.getSlot(1).set(new ItemStack(Items.GOLD_INGOT, 3));
+            participant.inventoryMenu.setCarried(new ItemStack(Items.AMETHYST_SHARD, 5));
+            controller.open(false);
+            helper.assertTrue(participant.server.getCommands().getDispatcher().execute("hg invite", participant.createCommandSourceStack()) == 1,
+                    "Player could not join with personal items");
+            helper.assertTrue(participant.serverLevel() == arena && PlayerInventory.empty(participant), "Personal items remained accessible in the event");
+            var expected = controller.record(participant).inventory.deepCopy();
+            var journalPath = participant.server.getWorldPath(net.minecraft.world.level.storage.LevelResource.ROOT).resolve("data/hungergames/event.json");
+            var stored = JsonFiles.read(journalPath, EventJournal.Data.class).players.get(participant.getStringUUID());
+            helper.assertTrue(stored != null && expected.equals(stored.inventory), "Inventory was not committed to the journal before entering");
+            controller.leave(participant);
+            helper.assertTrue(expected.equals(PlayerInventory.snapshot(participant)), "Leaving recruitment did not restore inventory slots and selected slot");
+            helper.assertTrue(ItemStack.matches(participant.getInventory().getItem(7), personal), "Item components were lost");
+            helper.assertTrue(participant.getInventory().countItem(Items.GOLD_INGOT) == 3
+                    && participant.getInventory().countItem(Items.AMETHYST_SHARD) == 5, "Crafting or cursor items were lost");
+            controller.restore(participant);
+            helper.assertTrue(expected.equals(PlayerInventory.snapshot(participant)), "Repeated recovery duplicated personal items");
+            controller.cancel(null);
+
+            controller.open(false);
+            controller.invite(participant);
+            participant.getInventory().setItem(0, new ItemStack(Items.BOOK));
+            controller.cancel(null);
+            helper.assertTrue(ItemStack.matches(participant.getInventory().getItem(7), personal)
+                    && participant.getInventory().countItem(Items.BOOK) == 1, "Cancellation lost personal items or a gift received in the lobby");
+
+            var beforeDisconnect = PlayerInventory.snapshot(participant);
+            controller.open(false);
+            controller.invite(participant);
+            var profile = participant.getGameProfile();
+            participant.server.getPlayerList().remove(participant);
+            participant = reconnect(helper, profile);
+            helper.assertTrue(beforeDisconnect.equals(PlayerInventory.snapshot(participant)) && controller.record(participant) == null,
+                    "Disconnect from recruitment lost or duplicated personal inventory");
+            controller.cancel(null);
+        } finally {
+            if (controller.phase() != EventController.Phase.IDLE) controller.cancel(null);
+            participant.server.getPlayerList().remove(participant);
+        }
+    }
+
+    private static void verifyWeatherCommands(GameTestHelper helper, EventController controller, ServerPlayer admin,
+                                               ServerLevel arena) throws Exception {
+        var dispatcher = admin.server.getCommands().getDispatcher();
+        var console = admin.server.createCommandSourceStack();
+        var settingsFile = FMLPaths.CONFIGDIR.get().resolve("hungergames/settings.json");
+        String originalSettings = java.nio.file.Files.readString(settingsFile);
+        try {
+            for (String command : List.of("hg create_event rain", "hg create_event 2 3 thunder", "hg start_event clear")) {
+                helper.assertTrue(commandRejected(dispatcher, command, admin.createCommandSourceStack().withPermission(1)),
+                        "Non-operator selected event weather");
+            }
+            for (String command : List.of("hg create_event snow", "hg create_event 2 3 snow", "hg start_event snow")) {
+                helper.assertTrue(commandRejected(dispatcher, command, console) && controller.phase() == EventController.Phase.IDLE,
+                        "Unknown weather changed event state");
+            }
+            for (Weather weather : Weather.values()) {
+                for (String prefix : List.of("hg create_event ", "hg create_event 2 3 ", "hg start_event ")) {
+                    helper.assertTrue(dispatcher.execute(prefix + weather.argument(), console) == 1,
+                            "Weather command rejected: " + prefix + weather.argument());
+                    assertWeather(helper, arena, weather);
+                    long time = arena.getDayTime();
+                    if (!prefix.equals("hg start_event ")) {
+                        helper.assertTrue(dispatcher.execute("hg start_event", console) == 1, "Could not start event with selected weather");
+                        helper.assertTrue(arena.getDayTime() == time, "Start rerolled the selected sky time");
+                        assertWeather(helper, arena, weather);
+                    }
+                    helper.assertTrue(commandRejected(dispatcher, "hg start_event rain", console), "Repeated start with weather was accepted");
+                    helper.assertTrue(arena.getDayTime() == time, "Rejected start changed sky time");
+                    assertWeather(helper, arena, weather);
+                    controller.cancel(null);
+                    helper.assertTrue(!arena.isRaining() && !arena.isThundering() && arena.getDayTime() == 6000,
+                            "Cancellation did not restore clear noon");
+                }
+            }
+            dispatcher.execute("hg create_event clear", console);
+            dispatcher.execute("hg start_event thunder", console);
+            assertWeather(helper, arena, Weather.THUNDER);
+            controller.cancel(null);
+            helper.assertTrue(originalSettings.equals(java.nio.file.Files.readString(settingsFile)), "Weather selection changed settings.json");
+        } finally {
+            if (controller.phase() != EventController.Phase.IDLE) controller.cancel(null);
+        }
+    }
+
+    private static void assertWeather(GameTestHelper helper, ServerLevel arena, Weather weather) {
+        helper.assertTrue(arena.isRaining() == (weather != Weather.CLEAR)
+                && arena.isThundering() == (weather == Weather.THUNDER), "Wrong arena weather for " + weather);
+        helper.assertTrue(!arena.getGameRules().getBoolean(GameRules.RULE_DAYLIGHT)
+                && !arena.getGameRules().getBoolean(GameRules.RULE_WEATHER_CYCLE), "Arena time or weather cycle is enabled");
+        helper.assertTrue(weather == Weather.CLEAR
+                        ? List.of(0L, 6000L, 12000L, 18000L, 114000L).contains(arena.getDayTime()) : arena.getDayTime() == 6000,
+                "Unexpected fixed time for selected weather");
     }
 
     private static void verifyEventLimitCommands(GameTestHelper helper, EventController controller, ServerPlayer admin) throws Exception {
@@ -392,13 +526,13 @@ public final class EventGameTests {
     private static void solo(GameTestHelper helper, EventController controller, ServerLevel arena) {
         ServerPlayer player = player(helper);
         Position origin = Position.of(player);
-        player.getInventory().setItem(0, new ItemStack(Items.DIRT));
+        for (int slot = 0; slot < 36; slot++) player.getInventory().setItem(slot, new ItemStack(Items.DIRT, 64));
+        player.getInventory().setItem(39, new ItemStack(Items.DIAMOND_HELMET));
+        player.getInventory().setItem(40, new ItemStack(Items.SHIELD));
+        var personalInventory = PlayerInventory.snapshot(player);
         controller.open(false);
-        boolean rejected = false;
-        try { controller.invite(player); } catch (IllegalStateException e) { rejected = true; }
-        helper.assertTrue(rejected, "Nonempty inventory was admitted");
-        player.getInventory().clearContent();
         controller.invite(player);
+        helper.assertTrue(PlayerInventory.empty(player), "Full personal inventory was not stored on entry");
         verifyLobbyTimer(helper, controller, player);
         controller.start(true);
         prepared(helper, controller, EventController.Phase.WARMUP, () -> {
@@ -417,9 +551,17 @@ public final class EventGameTests {
         prepared(helper, controller, EventController.Phase.IDLE, () -> {
             helper.assertTrue(controller.phase() == EventController.Phase.IDLE, "Solo forced match did not finish");
             helper.assertTrue(player.level().dimension().location().toString().equals(origin.dimension()), "Winner not returned");
-            helper.assertTrue(player.getInventory().countItem(Items.DIAMOND) == 1, "Winner did not receive main reward exactly once");
+            helper.assertTrue(personalInventory.equals(PlayerInventory.snapshot(player)), "Winner's full original inventory was not restored");
+            var rewards = helper.getLevel().getEntitiesOfClass(ItemEntity.class, player.getBoundingBox().inflate(4),
+                    item -> item.getItem().is(Items.DIAMOND) && player.getUUID().equals(item.getTarget()));
+            helper.assertTrue(rewards.stream().mapToInt(item -> item.getItem().getCount()).sum() == 1, "Full-inventory winner did not receive one owned reward drop");
             controller.restore(player);
-            helper.assertTrue(player.getInventory().countItem(Items.DIAMOND) == 1, "Reward duplicated on repeated recovery");
+            helper.assertTrue(personalInventory.equals(PlayerInventory.snapshot(player)) && rewards.size() == 1,
+                    "Repeated recovery changed personal inventory");
+            helper.assertTrue(helper.getLevel().getEntitiesOfClass(ItemEntity.class, player.getBoundingBox().inflate(4),
+                    item -> item.getItem().is(Items.DIAMOND) && player.getUUID().equals(item.getTarget())).size() == 1,
+                    "Repeated recovery duplicated the overflow reward");
+            rewards.forEach(ItemEntity::discard);
             helper.getLevel().getServer().getPlayerList().remove(player);
             multiple(helper, controller, arena, 2);
         });
@@ -431,6 +573,7 @@ public final class EventGameTests {
         for (int i = 0; i < count; i++) {
             ServerPlayer player = player(helper);
             players.add(player);
+            player.getInventory().setItem(8, new ItemStack(Items.EMERALD, 7 + i));
             controller.invite(player);
         }
         double overworldBorder = helper.getLevel().getWorldBorder().getSize();
@@ -479,12 +622,18 @@ public final class EventGameTests {
                 if (count == 2) {
                     helper.assertTrue(controller.phase() == EventController.Phase.IDLE, "Disconnect did not eliminate participant");
                     helper.assertTrue(players.get(1).getInventory().countItem(Items.DIAMOND) == 1, "Disconnect survivor not rewarded");
+                    ServerPlayer returned = reconnect(helper, players.getFirst().getGameProfile());
+                    helper.assertTrue(returned.getInventory().countItem(Items.EMERALD) == 7
+                            && returned.getInventory().countItem(Items.GOLD_INGOT) == 0, "Battle disconnect lost personal items or kept event loot");
+                    returned.server.getPlayerList().remove(returned);
                 } else {
                     helper.assertTrue(controller.phase() == EventController.Phase.BATTLE, "Leave ended match with two survivors");
                     controller.cancel(null);
                 }
                 for (ServerPlayer player : players) if (helper.getLevel().getServer().getPlayerList().getPlayer(player.getUUID()) != null) {
                     helper.assertTrue(player.serverLevel() == helper.getLevel(), "Participant not returned after match");
+                    helper.assertTrue(player.getInventory().countItem(Items.EMERALD) == 7 + players.indexOf(player),
+                            "Personal inventory was not restored after battle cancellation or victory");
                     helper.getLevel().getServer().getPlayerList().remove(player);
                 }
                 if (count == 2) multiple(helper, controller, arena, 3);
@@ -495,7 +644,9 @@ public final class EventGameTests {
 
     private static void verifyEnvironment(GameTestHelper helper, ServerLevel arena) {
         helper.assertTrue(arena.getDifficulty() == Difficulty.PEACEFUL, "Arena difficulty is not peaceful");
-        helper.assertTrue(arena.getDayTime() == 6000 && !arena.getGameRules().getBoolean(GameRules.RULE_DAYLIGHT), "Arena sun is not frozen at noon");
+        helper.assertTrue(List.of(0L, 6000L, 12000L, 18000L, 114000L).contains(arena.getDayTime())
+                && !arena.getGameRules().getBoolean(GameRules.RULE_DAYLIGHT), "Arena time is not fixed at an event sky time");
+        helper.assertTrue(!arena.getGameRules().getBoolean(GameRules.RULE_WEATHER_CYCLE), "Arena weather cycle is enabled");
         helper.assertTrue(!arena.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING), "Arena mob spawning is enabled");
         helper.assertTrue(arena.getGameRules() != helper.getLevel().getGameRules(), "Arena shares mutable game rules with overworld");
         helper.assertTrue(helper.getLevel().getGameRules().getBoolean(GameRules.RULE_DAYLIGHT), "Overworld daylight cycle was disabled");
@@ -622,10 +773,10 @@ public final class EventGameTests {
                 IItemHandlerModifiable cosmetic = handlers.get("hg_test:cosmetic");
                 helper.assertTrue(cosmetic != null && cosmetic.getSlots() > 0, "Curios test slot was not loaded");
                 cosmetic.setStackInSlot(0, new ItemStack(Items.DIRT));
-                helper.assertFalse(PlayerInventory.empty(player), "Cosmetic accessory bypassed empty-inventory check");
-                cosmetic.setStackInSlot(0, ItemStack.EMPTY);
+                handlers.get("hg_test:equipped").setStackInSlot(0, new ItemStack(Items.IRON_INGOT));
             }
             controller.invite(player);
+            helper.assertTrue(PlayerInventory.empty(player), "Personal Curios items remained equipped in the event");
             if (i == 14) helper.assertTrue(controller.phase() == EventController.Phase.RECRUITING, "Fifteen players started countdown");
             if (i == 15) {
                 helper.assertTrue(controller.phase() == EventController.Phase.COUNTDOWN, "Sixteen players did not start countdown");
@@ -651,6 +802,12 @@ public final class EventGameTests {
                 helper.assertTrue(dead != null && dead.gameMode.getGameModeForPlayer() == GameType.SPECTATOR, "Death did not respawn player as spectator");
                 helper.assertTrue(controller.phase() == EventController.Phase.BATTLE, "Death prematurely ended thirty-two-player match");
                 controller.leave(dead);
+                if (ModList.get().isLoaded("curios")) {
+                    Map<String, IItemHandlerModifiable> restored = new LinkedHashMap<>();
+                    CuriosInventory.visitNamed(dead, restored::put);
+                    helper.assertTrue(restored.get("hg_test:equipped").getStackInSlot(0).is(Items.IRON_INGOT)
+                            && restored.get("hg_test:cosmetic").getStackInSlot(0).is(Items.DIRT), "Death and respawn lost personal Curios items");
+                }
                 for (int i = 1; i < 31; i++) controller.leave(players.get(i));
                 prepared(helper, controller, EventController.Phase.IDLE, () -> {
                     ServerPlayer winner = players.get(31);
@@ -675,9 +832,22 @@ public final class EventGameTests {
             saved.role = PlayerRecord.Role.OBSERVER;
             EventJournal.Data data = new EventJournal.Data();
             data.players.put(saved.uuid, saved);
+            ServerPlayer participant = player(helper);
+            participant.getInventory().setItem(5, new ItemStack(Items.EMERALD, 19));
+            PlayerRecord participantRecord = PlayerRecord.capture(participant, true);
+            participantRecord.enteredBattle = true;
+            participantRecord.role = PlayerRecord.Role.ALIVE;
+            data.players.put(participantRecord.uuid, participantRecord);
+            ServerPlayer interrupted = player(helper);
+            interrupted.getInventory().setItem(0, new ItemStack(Items.GOLD_INGOT, 13));
+            PlayerRecord interruptedRecord = PlayerRecord.capture(interrupted, true);
+            data.players.put(interruptedRecord.uuid, interruptedRecord);
             var path = helper.getLevel().getServer().getWorldPath(net.minecraft.world.level.storage.LevelResource.ROOT).resolve("data/hungergames/event.json");
             JsonFiles.write(path, data);
             PlayerInventory.clear(observer);
+            PlayerInventory.clear(participant);
+            participant.getInventory().setItem(0, new ItemStack(Items.DIRT, 9));
+            new Position("hungergames:arena", 3.5, 80, .5, 0, 0).teleport(participant);
             observer.setGameMode(GameType.SPECTATOR);
             new Position("hungergames:arena", 2.5, 80, .5, 0, 0).teleport(observer);
             HungerGames.start(helper.getLevel().getServer());
@@ -687,13 +857,22 @@ public final class EventGameTests {
             restarted.restore(observer);
             helper.assertTrue(observer.serverLevel() == helper.getLevel(), "Journal recovery left player in arena");
             helper.assertTrue(observer.getInventory().countItem(Items.EMERALD) == 23, "Journal recovery lost or duplicated spectator items");
+            restarted.login(participant);
+            restarted.restore(participant);
+            helper.assertTrue(participantRecord.inventory.equals(PlayerInventory.snapshot(participant)), "Restart lost personal inventory or returned event loot");
+            restarted.login(interrupted);
+            restarted.restore(interrupted);
+            helper.assertTrue(interruptedRecord.inventory.equals(PlayerInventory.snapshot(interrupted)), "Crash before entry duplicated the original inventory");
             helper.getLevel().getServer().getPlayerList().remove(observer);
+            helper.getLevel().getServer().getPlayerList().remove(participant);
+            helper.getLevel().getServer().getPlayerList().remove(interrupted);
             reconnectWinner(helper, restarted, arena);
         } catch (Exception e) { throw new RuntimeException(e); }
     }
 
     private static void reconnectWinner(GameTestHelper helper, EventController controller, ServerLevel arena) {
         ServerPlayer winner = player(helper);
+        winner.getInventory().setItem(4, new ItemStack(Items.EMERALD, 12));
         controller.open(false);
         controller.invite(winner);
         controller.start(true);
@@ -705,6 +884,7 @@ public final class EventGameTests {
             helper.assertTrue(reconnected.serverLevel() == helper.getLevel(), "Reconnecting winner remained in arena until the delay ended");
             helper.assertTrue(reconnected.getInventory().countItem(Items.DIAMOND) == 1 && controller.record(reconnected) == null,
                     "Winner login lost or duplicated reward");
+            helper.assertTrue(reconnected.getInventory().countItem(Items.EMERALD) == 12, "Reconnecting winner lost personal inventory");
             controller.cancel(null);
             helper.getLevel().getServer().getPlayerList().remove(reconnected);
             helper.succeed();

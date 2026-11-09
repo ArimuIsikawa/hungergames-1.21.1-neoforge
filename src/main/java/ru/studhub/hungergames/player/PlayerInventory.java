@@ -10,6 +10,7 @@ import com.google.gson.JsonElement;
 import com.mojang.serialization.JsonOps;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.network.protocol.game.ClientboundSetCarriedItemPacket;
 import net.minecraft.world.item.ItemStack;
 import ru.studhub.hungergames.compat.CuriosInventory;
 
@@ -38,6 +39,7 @@ public final class PlayerInventory {
                     player.getInventory().getItem(i)).getOrThrow());
         }
         snapshot.add("vanilla", vanilla);
+        snapshot.addProperty("selected", player.getInventory().selected);
         JsonObject curios = new JsonObject();
         CuriosInventory.visitNamed(player, (name, handler) -> {
             JsonArray items = new JsonArray();
@@ -50,7 +52,7 @@ public final class PlayerInventory {
     }
 
     public static void restoreSnapshot(ServerPlayer player, JsonObject snapshot) {
-        if (snapshot == null) throw new IllegalStateException("Нет снимка вещей наблюдателя; журнал сохранён.");
+        if (snapshot == null) throw new IllegalStateException("Нет снимка вещей игрока; журнал сохранён.");
         Map<String, IItemHandlerModifiable> handlers = new LinkedHashMap<>();
         CuriosInventory.visitNamed(player, handlers::put);
         List<ItemStack> vanilla = decode(player, snapshot.getAsJsonArray("vanilla"));
@@ -62,13 +64,34 @@ public final class PlayerInventory {
                 if (items.stream().anyMatch(stack -> !stack.isEmpty())) throw new IllegalStateException("Изменились слоты Curios: " + entry.getKey());
             } else accessories.put(entry.getKey(), items);
         }
-        if (vanilla.size() != player.getInventory().getContainerSize()) throw new IllegalStateException("Изменился размер инвентаря наблюдателя");
+        if (vanilla.size() != player.getInventory().getContainerSize()) throw new IllegalStateException("Изменился размер инвентаря игрока");
+        int selected = snapshot.has("selected") ? snapshot.get("selected").getAsInt() : player.getInventory().selected;
+        if (selected < 0 || selected > 8) throw new IllegalStateException("Некорректный выбранный слот инвентаря");
         clear(player);
         for (int slot = 0; slot < vanilla.size(); slot++) player.getInventory().setItem(slot, vanilla.get(slot));
+        player.getInventory().selected = selected;
         accessories.forEach((name, items) -> {
             for (int slot = 0; slot < items.size(); slot++) handlers.get(name).setStackInSlot(slot, items.get(slot));
         });
         player.inventoryMenu.broadcastChanges();
+        player.connection.send(new ClientboundSetCarriedItemPacket(selected));
+    }
+
+    /** Items received while queued are returned in addition to the original inventory. */
+    public static JsonArray contents(ServerPlayer player) {
+        JsonArray items = new JsonArray();
+        for (int slot = 0; slot < player.getInventory().getContainerSize(); slot++) {
+            addItem(player, items, player.getInventory().getItem(slot));
+        }
+        CuriosInventory.visit(player, handler -> {
+            for (int slot = 0; slot < handler.getSlots(); slot++) addItem(player, items, handler.getStackInSlot(slot));
+        });
+        return items;
+    }
+
+    private static void addItem(ServerPlayer player, JsonArray items, ItemStack stack) {
+        if (!stack.isEmpty()) items.add(ItemStack.CODEC.encodeStart(
+                player.registryAccess().createSerializationContext(JsonOps.INSTANCE), stack).getOrThrow());
     }
 
     private static List<ItemStack> decode(ServerPlayer player, JsonArray items) {

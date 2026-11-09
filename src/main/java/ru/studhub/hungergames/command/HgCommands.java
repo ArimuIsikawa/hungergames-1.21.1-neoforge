@@ -4,12 +4,14 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import java.util.function.Consumer;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import ru.studhub.hungergames.HungerGames;
+import ru.studhub.hungergames.arena.ArenaEnvironment.Weather;
 import ru.studhub.hungergames.config.HgSettings;
 import ru.studhub.hungergames.event.EventController;
 import ru.studhub.hungergames.player.Position;
@@ -47,19 +49,8 @@ public final class HgCommands {
                         .executes(action((ctx, c) -> c.teleportCenter(ctx.getSource().getPlayerOrException()))))
                 .then(Commands.literal("tp_world").requires(source -> source.hasPermission(2))
                         .executes(action((ctx, c) -> c.teleportWorld(ctx.getSource().getPlayerOrException()))))
-                .then(Commands.literal("create_event").requires(source -> source.hasPermission(2))
-                        .executes(action((ctx, c) -> c.open(false)))
-                        .then(Commands.argument("min", IntegerArgumentType.integer(2, HgSettings.PLAYER_LIMIT))
-                                .then(Commands.argument("max", IntegerArgumentType.integer(2, HgSettings.PLAYER_LIMIT))
-                                        .executes(action((ctx, c) -> {
-                                            int minimum = IntegerArgumentType.getInteger(ctx, "min");
-                                            int maximum = IntegerArgumentType.getInteger(ctx, "max");
-                                            c.open(minimum, maximum);
-                                            ctx.getSource().sendSuccess(() -> EventController.message(
-                                                    "Набор открыт: от " + minimum + " до " + maximum + " участников."), true);
-                                        })))))
-                .then(Commands.literal("start_event").requires(source -> source.hasPermission(2))
-                        .executes(action((ctx, c) -> c.start(true))))
+                .then(createEventCommand())
+                .then(startEventCommand())
                 .then(Commands.literal("cancel").requires(source -> source.hasPermission(2))
                         .executes(action((ctx, c) -> c.cancel(null))))
                 .then(Commands.literal("reload").requires(source -> source.hasPermission(2))
@@ -124,6 +115,35 @@ public final class HgCommands {
                                                     ctx.getSource().sendSuccess(() -> EventController.message(
                                                             "Начальный размер зоны сохранён: " + size + " × " + size + " блоков."), true);
                                                 })))))));
+    }
+
+    private static LiteralArgumentBuilder<CommandSourceStack> createEventCommand() {
+        var command = Commands.literal("create_event").requires(source -> source.hasPermission(2))
+                .executes(action((ctx, c) -> c.open(false)));
+        var maximum = Commands.argument("max", IntegerArgumentType.integer(2, HgSettings.PLAYER_LIMIT))
+                .executes(action((ctx, c) -> openWithLimits(ctx, c, null)));
+        for (Weather weather : Weather.values()) {
+            command.then(Commands.literal(weather.argument()).executes(action((ctx, c) -> c.open(weather))));
+            maximum.then(Commands.literal(weather.argument()).executes(action((ctx, c) -> openWithLimits(ctx, c, weather))));
+        }
+        return command.then(Commands.argument("min", IntegerArgumentType.integer(2, HgSettings.PLAYER_LIMIT)).then(maximum));
+    }
+
+    private static void openWithLimits(CommandContext<CommandSourceStack> context, EventController controller, Weather weather) {
+        int minimum = IntegerArgumentType.getInteger(context, "min");
+        int maximum = IntegerArgumentType.getInteger(context, "max");
+        controller.open(minimum, maximum, weather);
+        context.getSource().sendSuccess(() -> EventController.message(
+                "Набор открыт: от " + minimum + " до " + maximum + " участников."), true);
+    }
+
+    private static LiteralArgumentBuilder<CommandSourceStack> startEventCommand() {
+        var command = Commands.literal("start_event").requires(source -> source.hasPermission(2))
+                .executes(action((ctx, c) -> c.start(true)));
+        for (Weather weather : Weather.values()) {
+            command.then(Commands.literal(weather.argument()).executes(action((ctx, c) -> c.start(true, weather))));
+        }
+        return command;
     }
 
     private static void saveBorder(EventController controller, Consumer<HgSettings.Border> edit) throws Exception {

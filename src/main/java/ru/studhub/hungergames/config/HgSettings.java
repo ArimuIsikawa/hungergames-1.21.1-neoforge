@@ -33,7 +33,7 @@ public final class HgSettings {
     public List<String> containerBlocks = new ArrayList<>(List.of("minecraft:chest", "minecraft:trapped_chest", "minecraft:barrel", "ironchest:*"));
     public Bonus bonus = new Bonus();
     public String announcement = "Уважаемые игроки, скоро начнётся королевская битва за награды! "
-            + "Освободите инвентарь, броню и аксессуары и напишите /hg invite. Набор открыт на 15 минут, мест: {max_players}.";
+            + "Напишите /hg invite: ваши вещи будут сохранены до выхода. Набор открыт на 15 минут, мест: {max_players}.";
     public String battleMessage = "Бой начался! Последний выживший получит награду.";
     public String winnerMessage = "Поздравляем! Победитель: {player}!";
 

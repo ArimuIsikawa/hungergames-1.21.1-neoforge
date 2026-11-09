@@ -33,6 +33,7 @@ import ru.studhub.hungergames.HungerGames;
 import ru.studhub.hungergames.arena.ArenaService;
 import ru.studhub.hungergames.arena.LazyArenaLoot;
 import ru.studhub.hungergames.arena.ArenaEnvironment;
+import ru.studhub.hungergames.arena.ArenaEnvironment.Weather;
 import ru.studhub.hungergames.arena.BorderService;
 import ru.studhub.hungergames.config.ConfigManager;
 import ru.studhub.hungergames.config.HgSettings;
@@ -125,10 +126,18 @@ public final class EventController {
     }
 
     public void open(boolean scheduled) {
-        open(configs.snapshot());
+        open(configs.snapshot(), null);
+    }
+
+    public void open(Weather weather) {
+        open(configs.snapshot(), weather);
     }
 
     public void open(int minimum, int maximum) {
+        open(minimum, maximum, null);
+    }
+
+    public void open(int minimum, int maximum, Weather weather) {
         if (minimum < 2 || maximum < minimum || maximum > HgSettings.PLAYER_LIMIT) {
             throw new IllegalArgumentException("Лимиты участников: 2 ≤ min ≤ max ≤ " + HgSettings.PLAYER_LIMIT + ".");
         }
@@ -136,20 +145,22 @@ public final class EventController {
         HgSettings settings = JsonFiles.GSON.fromJson(JsonFiles.GSON.toJsonTree(defaults.settings()), HgSettings.class);
         settings.minPlayers = minimum;
         settings.maxPlayers = maximum;
-        open(new ConfigManager.Snapshot(settings, defaults.chests(), defaults.rewards()));
+        open(new ConfigManager.Snapshot(settings, defaults.chests(), defaults.rewards()), weather);
     }
 
-    private void open(ConfigManager.Snapshot next) {
+    private void open(ConfigManager.Snapshot next, Weather weather) {
         requireIdle();
         arena.validate(next.settings(), 0);
         active = next;
         journal.data.eventId = UUID.randomUUID().toString();
         journal.data.startingPlayers = 0;
         journal.save();
+        environment.setEventWeather(weather, random);
         registrationDeadline = seconds + settings().registrationSeconds;
         countdownDeadline = -1;
         phase = Phase.RECRUITING;
         broadcast(settings().announcement.replace("{max_players}", Integer.toString(settings().maxPlayers)));
+        broadcast("Погода на арене: " + environment.weatherDescription() + ". Время остановлено.");
     }
 
     public void invite(ServerPlayer player) {
@@ -160,14 +171,15 @@ public final class EventController {
         if (queued().size() >= settings().maxPlayers) throw new IllegalStateException("Все места заняты.");
         if (arenaLevel(player.level())) throw new IllegalStateException("Для участия вернитесь из измерения арены.");
         if (!player.isAlive()) throw new IllegalStateException("Сначала возродитесь.");
-        if (!PlayerInventory.empty(player)) throw new IllegalStateException("Ваш инвентарь не пустой. Освободите также броню, вторую руку и аксессуары.");
+        // Return cursor/crafting items before capturing the inventory that will be stored in the journal.
+        player.closeContainer();
         PlayerRecord record = PlayerRecord.capture(player, true);
         journal.data.players.put(record.uuid, record);
         journal.save();
-        player.closeContainer();
+        PlayerInventory.clear(player);
         player.setGameMode(GameType.ADVENTURE);
         settings().lobby.teleport(player);
-        player.sendSystemMessage(message("Вы в очереди. Выйти: /hg leave"));
+        player.sendSystemMessage(message("Вы в очереди. Ваши вещи сохранены и вернутся после выхода. Выйти: /hg leave"));
         announceCount();
         updateCountdown();
         updateLobbyTimer();
@@ -188,6 +200,10 @@ public final class EventController {
     }
 
     public void start(boolean forced) {
+        start(forced, null);
+    }
+
+    public void start(boolean forced, Weather weather) {
         ConfigManager.Snapshot candidate = active;
         if (phase == Phase.IDLE && forced) {
             requireIdle();
@@ -211,9 +227,11 @@ public final class EventController {
         active = candidate;
         journal.data.startingPlayers = count;
         journal.save();
+        if (phase == Phase.IDLE || weather != null) environment.setEventWeather(weather, random);
         forcedStart = forced;
         phase = Phase.PREPARING;
         broadcast("Подготовка арены. Участников: " + count + (forced ? " (принудительный старт)." : "."));
+        broadcast("Погода на арене: " + environment.weatherDescription() + ". Время остановлено.");
         loot.begin(arena.level(settings()), settings(), active.chests(), journal.data.eventId, random);
     }
 
@@ -451,6 +469,7 @@ public final class EventController {
         phase = Phase.IDLE;
         active = null;
         countdownDeadline = -1;
+        environment.resetWeather();
     }
 
     public void restore(ServerPlayer player) {
@@ -469,7 +488,15 @@ public final class EventController {
                     destination.x() + .3, destination.y() + 1.8, destination.z() + .3))) {
                 destination = worldSpawn(player);
             }
-            if (record.participant) {
+            if (record.inventory != null) {
+                if (record.participant && !record.enteredBattle && record.lobbyItems == null && arenaLevel(player.level())) {
+                    player.closeContainer();
+                    record.lobbyItems = PlayerInventory.contents(player);
+                    journal.save();
+                }
+                PlayerInventory.restoreSnapshot(player, record.inventory);
+            } else if (record.participant) {
+                // Older journals only accepted participants with empty inventories.
                 if (record.enteredBattle) PlayerInventory.clear(player);
             } else PlayerInventory.restoreSnapshot(player, record.inventory);
             destination.teleport(player);
@@ -487,7 +514,7 @@ public final class EventController {
                 player.totalExperience = record.totalExperience;
                 player.setExperienceLevels(record.experienceLevel);
                 player.setExperiencePoints((int) (record.experienceProgress * player.getXpNeededForNextLevel()));
-                RewardService.give(player, record.reward);
+                RewardService.give(player, record.lobbyItems, record.reward);
             }
             player.getPersistentData().putString(RECEIPT, record.token);
         }
@@ -629,6 +656,7 @@ public final class EventController {
             } catch (RuntimeException e) { readiness = e.getMessage(); }
         } else readiness = configError;
         return "Состояние: " + phase + "; в очереди: " + queued().size() + "; живых: " + alive().size()
+                + "; погода: " + environment.weatherDescription()
                 + "; сундуков: " + arena.chestCount() + "; ожидают возврата: "
                 + journal.data.players.values().stream().filter(r -> r.role == Role.RETURNING).count()
                 + "; готовность: " + readiness;

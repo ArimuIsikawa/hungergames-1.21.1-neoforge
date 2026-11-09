@@ -22,7 +22,20 @@
       "generator": {
         "type": "minecraft:flat",
         "settings": {
-          "biome": "minecraft:the_void",
+          "biome": "minecraft:plains",
+          "layers": [],
+          "lakes": false,
+          "features": false,
+          "structure_overrides": []
+        }
+      }
+    },
+    "hungergames:weather_test": {
+      "type": "minecraft:overworld",
+      "generator": {
+        "type": "minecraft:flat",
+        "settings": {
+          "biome": "minecraft:plains",
           "layers": [],
           "lakes": false,
           "features": false,
